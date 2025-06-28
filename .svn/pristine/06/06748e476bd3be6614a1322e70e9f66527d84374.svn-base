@@ -1,0 +1,26 @@
+package com.cbs.snb.di.builder;
+
+import com.cbs.snb.ui.checkout.CheckOutActivity;
+import dagger.Binds;
+import dagger.Module;
+import dagger.Subcomponent;
+import dagger.android.AndroidInjector;
+import dagger.multibindings.ClassKey;
+import dagger.multibindings.IntoMap;
+
+@Module(subcomponents = ActivityBuilder_CheckOutActivity.CheckOutActivitySubcomponent.class)
+public abstract class ActivityBuilder_CheckOutActivity {
+  private ActivityBuilder_CheckOutActivity() {}
+
+  @Binds
+  @IntoMap
+  @ClassKey(CheckOutActivity.class)
+  abstract AndroidInjector.Factory<?> bindAndroidInjectorFactory(
+      CheckOutActivitySubcomponent.Factory builder);
+
+  @Subcomponent
+  public interface CheckOutActivitySubcomponent extends AndroidInjector<CheckOutActivity> {
+    @Subcomponent.Factory
+    interface Factory extends AndroidInjector.Factory<CheckOutActivity> {}
+  }
+}

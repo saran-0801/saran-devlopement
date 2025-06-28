@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="invoice"
+            type="com.cbs.snb.data.network.models.get.PaymentInvoiceModel" />
+    </data>
+
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/invoiceCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginTop="@dimen/dimen1dp"
+            android:layout_marginBottom="@dimen/dimen1dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="2dp"
+            app:cardElevation="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/invoiceNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dimen5dp"
+                    tools:text="invoice num"
+                    style="@style/TextStyle.Heading"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/cardCodeTxt"
+                        style="@style/TextAppearance.Text.Regular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.4"
+                        android:paddingStart="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="2dp"
+                        android:textColor="@color/gray_dark"
+                        android:text="@string/customer_code" />
+
+                    <TextView
+                        android:id="@+id/space2"
+                        style="@style/TextStyle.Title.Sub"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:text="@string/space"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/grey_text" />
+
+                    <TextView
+                        android:id="@+id/cardCode"
+                        style="@style/TextAppearance.Text.Regular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingStart="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="2dp"
+                        android:textColor="@color/gray_dark"
+                        tools:text="Card Code"
+                        android:visibility="visible"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/invoiceAmtTxt"
+                        style="@style/TextAppearance.Text.Regular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.4"
+                        android:paddingStart="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="2dp"
+                        android:paddingHorizontal="@dimen/dimen5dp"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/gray_dark"
+                        android:text="@string/outstanding"/>
+
+                    <TextView
+                        android:id="@+id/space"
+                        style="@style/TextStyle.Title.Sub"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:text="@string/space"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/grey_text" />
+
+                    <TextView
+                        android:id="@+id/invoiceAmt"
+                        style="@style/TextAppearance.Text.Regular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingStart="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="2dp"
+                        android:paddingHorizontal="@dimen/dimen5dp"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/gray_dark"
+                        tools:text="invoice amt" />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/companyNameTxt"
+                        style="@style/TextAppearance.Text.Regular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.4"
+                        android:paddingStart="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="2dp"
+                        android:textColor="@color/gray_dark"
+                        android:text="@string/payment_terms" />
+
+                    <TextView
+                        android:id="@+id/space1"
+                        style="@style/TextStyle.Title.Sub"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:text="@string/space"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/grey_text" />
+
+                    <TextView
+                        android:id="@+id/paymentGroup"
+                        style="@style/TextAppearance.Text.Regular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingStart="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="2dp"
+                        android:textColor="@color/gray_dark"
+                        tools:text="payment Group"
+                        android:visibility="visible"/>
+
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dimen5dp"
+                    android:textColor="@color/gray"
+                    tools:text="address"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+</layout>

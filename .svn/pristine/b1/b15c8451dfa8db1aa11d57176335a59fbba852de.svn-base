@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.demoNo:AutoScrollViewPager:v1.0.2@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0594a8e71daad3b622301daffc7ecd21/jetified-AutoScrollViewPager-v1.0.2/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0594a8e71daad3b622301daffc7ecd21/jetified-AutoScrollViewPager-v1.0.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0594a8e71daad3b622301daffc7ecd21/jetified-AutoScrollViewPager-v1.0.2/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c54e2ceb0eb25acbbfa1ef76a9730249/jetified-AutoScrollViewPager-v1.0.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c54e2ceb0eb25acbbfa1ef76a9730249/jetified-AutoScrollViewPager-v1.0.2/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c54e2ceb0eb25acbbfa1ef76a9730249/jetified-AutoScrollViewPager-v1.0.2/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.demoNo/AutoScrollViewPager/v1.0.2/24d843ecfee52fb3f589bcc00619fd960d1687cf/AutoScrollViewPager-v1.0.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

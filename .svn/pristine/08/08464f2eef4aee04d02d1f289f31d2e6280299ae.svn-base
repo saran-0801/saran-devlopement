@@ -1,0 +1,130 @@
+package com.cbs.snb.ui.pdf_viwer.report_list;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.cbs.snb.BR;
+import com.cbs.snb.R;
+import com.cbs.snb.data.network.models.get.ReportListModel;
+import com.cbs.snb.databinding.FragmentReportListBinding;
+import com.cbs.snb.ui.base.BaseFragment;
+import com.cbs.snb.utils.DateUtils;
+
+import java.util.List;
+
+public class ReportListFragment extends BaseFragment<ReportListViewModel, FragmentReportListBinding> implements ReportListNavigator {
+
+    ReportListAdapter mAdapter;
+
+    public static ReportListFragment newInstance() {
+        ReportListFragment fragment = new ReportListFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public int getBindingVariable() {
+        return BR.reportListViewModel;
+    }
+
+    @Override
+    public int getLayoutRes() {
+        return R.layout.fragment_report_list;
+    }
+
+    @Override
+    protected Class<ReportListViewModel> getViewModel() {
+        return ReportListViewModel.class;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        setHasOptionsMenu(true);
+        viewModel.setNavigator(this);
+        setUp();
+        return dataBinding.getRoot();
+    }
+
+    public void setUp(){
+
+        dataBinding.etFromDate.setOnClickListener(v -> viewModel.fromDate(getActivity()));
+
+        dataBinding.etToDate.setOnClickListener(v -> {
+            viewModel.toDate(getActivity());
+
+                });
+
+        getData(dataBinding.etFromDate.getText().toString(),dataBinding.etToDate.getText().toString());
+
+    }
+
+    private void getData(String fromDate,String toDate){
+        if (isNetworkConnected()){
+            viewModel.isLoading().observe(getViewLifecycleOwner(),aBoolean -> {
+                if (aBoolean){
+                    showLoading();
+                }else{
+                    hideLoading();
+                }
+            });
+
+            viewModel.getReportList()
+                    .observe(getViewLifecycleOwner(),reportListModelResource -> {
+                        switch (reportListModelResource.status){
+                            case LOADING:
+                                showLoading();
+                                break;
+                            case SUCCESS:
+                                hideLoading();
+                                setOrders(reportListModelResource.data.getResponseObject());
+                                break;
+                            case ERROR:
+                                hideLoading();
+                                showSnackBar(reportListModelResource.getMessage(),getResources().getColor(R.color.red));
+                                break;
+                            default:
+                                break;
+                        }
+                    });
+        }else {
+            showSnackBar(getActivity().getResources().getString(R.string.no_internet),getResources().getColor(R.color.black_effective));
+        }
+
+    }
+
+    private void setOrders(List<ReportListModel.ResponseObject> orders){
+        dataBinding.reportListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        dataBinding.reportListRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        if(mAdapter != null) {
+            mAdapter.clearList();
+        }
+
+        mAdapter = new ReportListAdapter(orders,getContext());
+        dataBinding.reportListRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void fromDate(String fromDate) {
+        dataBinding.etFromDate.setText(fromDate);
+    }
+
+    @Override
+    public void toDate(String toDate) {
+        dataBinding.etToDate.setText(toDate);
+        getData(DateUtils.convertDateFormat10(dataBinding.etFromDate.getText().toString()),
+                DateUtils.convertDateFormat10(dataBinding.etToDate.getText().toString()));
+    }
+}

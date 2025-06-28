@@ -1,0 +1,182 @@
+package com.cbs.snb.ui.login;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+
+import androidx.lifecycle.ViewModelProvider;
+
+import com.cbs.snb.BR;
+import com.cbs.snb.R;
+import com.cbs.snb.data.network.models.get.LoginModel;
+import com.cbs.snb.data.network.models.get.UserTypeModel;
+import com.cbs.snb.databinding.ActivityLoginBinding;
+import com.cbs.snb.ui.ViewModelProviderFactory;
+import com.cbs.snb.ui.activity.DealersAdapter;
+import com.cbs.snb.ui.attendance.checkin.CheckInActivity;
+import com.cbs.snb.ui.base.BaseActivity;
+import com.cbs.snb.ui.forgotpassword.ForgotPasswordActivity;
+import com.cbs.snb.ui.main.MainActivity;
+
+import org.angmarch.views.NiceSpinner;
+import org.angmarch.views.OnSpinnerItemSelectedListener;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+/**
+ * Created by Venkatesh on 11-07-2020.
+ */
+public class LoginActivity extends BaseActivity<LoginViewModel, ActivityLoginBinding>
+        implements LoginNavigator {
+
+    @Inject
+    ViewModelProviderFactory factory;
+
+//    @Inject
+//    PreferenceHelper preferenceHelper;
+
+    private LoginViewModel mLoginViewModel;
+    private String typeCode,typeName;
+
+    @Override
+    public int getBindingVariable() {
+        return BR.loginViewModel;
+    }
+
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.activity_login;
+    }
+
+    public static Intent newIntent(Context context) {
+        return new Intent(context, LoginActivity.class);
+
+    }
+
+    @Override
+    public LoginViewModel getViewModel() {
+        mLoginViewModel = new ViewModelProvider(this, factory).get(LoginViewModel.class);
+        return mLoginViewModel;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mLoginViewModel.setNavigator(this);
+        initObservables();
+
+    }
+
+    public void initObservables() {
+
+        mLoginViewModel.error.observe(this, this::showSnackBar);
+
+        mLoginViewModel.progressBar.observe(this, aBoolean -> {
+            if (aBoolean) {
+               showLoading();
+            } else {
+               hideLoading();
+            }
+        });
+
+        mLoginViewModel.getUserType().observe(this,userTypeModelResource -> {
+            switch (userTypeModelResource.status) {
+                case LOADING:
+                    showLoading();
+                    break;
+                case SUCCESS:
+                    hideLoading();
+                    assert userTypeModelResource.data != null;
+                    setTypeResponse(userTypeModelResource.data.getResponseObject());
+                    break;
+                case ERROR:
+                    hideLoading();
+                    showSnackBar(getString(R.string.type_code));
+                    break;
+                default:
+                    break;
+            }
+        });
+
+
+        mLoginViewModel.getLogin().observe(this, loginModelResource -> {
+            switch (loginModelResource.status) {
+                case LOADING:
+                    showLoading();
+                    break;
+                case SUCCESS:
+                    hideLoading();
+                    assert loginModelResource.data != null;
+                    setLoginResponse(loginModelResource.data.getResponseObject());
+                    break;
+                case ERROR:
+                    hideLoading();
+                    showSnackBar(getString(R.string.invalid_email_password));
+                    break;
+                default:
+                    break;
+            }
+        });
+
+    }
+
+
+    public void setTypeResponse(List<UserTypeModel.ResponseObject> typeResponse) {
+        ArrayAdapter<UserTypeModel.ResponseObject> adapter = new ArrayAdapter<UserTypeModel.ResponseObject>(this,
+                android.R.layout.simple_spinner_item, typeResponse);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        dataBinding.spType.setAdapter(adapter);
+
+        dataBinding.spType.setOnSpinnerItemSelectedListener((parent, view, position, id) -> {
+            typeCode = typeResponse.get(position).getCode();
+            typeName = typeResponse.get(position).getName();
+            mLoginViewModel.setTypeCode(typeCode);
+        });
+    }
+
+
+    public void setLoginResponse(List<LoginModel.ResponseObject> loginResponse) {
+        mLoginViewModel.saveDetails(loginResponse, LoginActivity.this);
+        for (LoginModel.ResponseObject responseObject:loginResponse){
+            if (responseObject.getTypeCode().equalsIgnoreCase("SE")){
+                Intent intent = CheckInActivity.newIntent(LoginActivity.this);
+               // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }else if (responseObject.getTypeCode().equalsIgnoreCase("AG")){
+                Intent intent = CheckInActivity.newIntent(LoginActivity.this);
+                // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            } else{
+                Intent intent = MainActivity.newIntent(LoginActivity.this);
+              //  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            }
+        }
+
+    }
+
+
+
+    @Override
+    public void showLoading() {
+        super.showLoading();
+    }
+
+    @Override
+    public void hideLoading() {
+        super.hideLoading();
+    }
+
+    @Override
+    public void openForgotPassword() {
+        startActivity(ForgotPasswordActivity.newIntent(LoginActivity.this));
+    }
+}

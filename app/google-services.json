@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "660903383143",
+    "project_id": "vnc-sales",
+    "storage_bucket": "vnc-sales.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:660903383143:android:a435936f7fdc997b3604c2",
+        "android_client_info": {
+          "package_name": "com.cbs.vnc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "660903383143-oss7602kumab8me5lvq1bsje9raf6hmh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cbs.vnc",
+            "certificate_hash": "ea01a2046d16ddc3313734fe437e2601cc79660f"
+          }
+        },
+        {
+          "client_id": "660903383143-2qiefra3m0bf9jb8ovn2sjljt7d4cjup.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwdem3KC05tOmZc63Lb83evaTE9lnz6sw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "660903383143-2qiefra3m0bf9jb8ovn2sjljt7d4cjup.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

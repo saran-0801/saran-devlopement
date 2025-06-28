@@ -1,0 +1,7 @@
+package com.cbs.snb.ui.settings;
+
+/**
+ * Created by Venkatesh on 21-08-2020.
+ */
+public interface SettingsNavigator {
+}

@@ -1,0 +1,26 @@
+package com.cbs.snb.di.builder;
+
+import com.cbs.snb.ui.cart.CartActivity;
+import dagger.Binds;
+import dagger.Module;
+import dagger.Subcomponent;
+import dagger.android.AndroidInjector;
+import dagger.multibindings.ClassKey;
+import dagger.multibindings.IntoMap;
+
+@Module(subcomponents = ActivityBuilder_CartActivity.CartActivitySubcomponent.class)
+public abstract class ActivityBuilder_CartActivity {
+  private ActivityBuilder_CartActivity() {}
+
+  @Binds
+  @IntoMap
+  @ClassKey(CartActivity.class)
+  abstract AndroidInjector.Factory<?> bindAndroidInjectorFactory(
+      CartActivitySubcomponent.Factory builder);
+
+  @Subcomponent
+  public interface CartActivitySubcomponent extends AndroidInjector<CartActivity> {
+    @Subcomponent.Factory
+    interface Factory extends AndroidInjector.Factory<CartActivity> {}
+  }
+}

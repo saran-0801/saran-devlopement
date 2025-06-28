@@ -1,0 +1,656 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="createActivityViewModel"
+            type="com.cbs.snb.ui.activity.CreateActivityViewModel" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lightGray">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ui.activity.CreateActivityFragment">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    app:cardCornerRadius="2dp"
+                    app:cardElevation="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/dimen20dp"
+                            android:layout_marginTop="@dimen/dimen10dp"
+                            android:text="@string/customer_type" />
+
+                        <RadioGroup
+                            android:id="@+id/radioGroup"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:id="@+id/rdPrimary"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/dimen20dp"
+                                android:layout_marginTop="@dimen/dimen10dp"
+                                android:layout_weight="1"
+                                android:checked="true"
+                                android:text="@string/primary" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:id="@+id/rdSecondary"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/dimen20dp"
+                                android:layout_marginTop="@dimen/dimen10dp"
+                                android:layout_weight="1"
+                                android:text="@string/secondary" />
+                        </RadioGroup>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/dimen20dp"
+                            android:layout_marginTop="@dimen/dimen10dp"
+                            android:text="@string/dealer_name" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/dimen20dp"
+                            android:layout_marginBottom="-5dp"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <RelativeLayout
+                                android:id="@+id/dealerLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dimen45dp"
+                                android:layout_marginTop="@dimen/dimen5dp"
+                                android:background="@drawable/spinner_bg"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvGroupText">
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:contentDescription="@string/drop_down_menu"
+                                    android:src="@drawable/ic_drop_down" />
+
+                                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                                    android:id="@+id/dealerSp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:background="@android:color/transparent"
+                                    android:gravity="center"
+                                    android:spinnerMode="dropdown"
+                                    tools:layout_editor_absoluteX="0dp"
+                                    tools:layout_editor_absoluteY="75dp" />
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/dimen20dp"
+                            android:layout_marginTop="@dimen/dimen10dp"
+                            android:text="@string/type" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/typeLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/dimen20dp"
+                            android:layout_marginTop="@dimen/dimen5dp"
+                            android:layout_marginBottom="-5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/spinner_bg"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvGroupText">
+
+
+                            <org.angmarch.views.NiceSpinner
+                                android:id="@+id/spType"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_marginBottom="5dp"
+                                android:background="@android:color/transparent"
+                                android:gravity="center"
+                                android:spinnerMode="dropdown"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/dimen20dp"
+                            android:layout_marginTop="@dimen/dimen10dp"
+                            android:text="@string/date" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/etDateLayout"
+                            style="@style/TextInputLayoutStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/dimen2dp"
+                            android:layout_marginBottom="-5dp"
+                            android:paddingStart="@dimen/dimen15dp"
+                            android:paddingEnd="@dimen/dimen15dp"
+                            app:boxStrokeColor="?attr/colorPrimary"
+                            app:boxStrokeWidth="1dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvDealerNameText">
+
+                            <EditText
+                                android:id="@+id/etDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dimen45dp"
+                                android:layout_margin="@dimen/dimen5dp"
+                                android:focusable="false"
+                                android:hint="@string/date"
+                                android:imeOptions="actionUnspecified"
+                                android:inputType="date"
+                                android:maxLines="1"
+                                android:padding="@dimen/dimen5dp"
+                                android:paddingStart="@dimen/dimen10dp"
+                                android:paddingEnd="@dimen/dimen10dp"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/dimen20dp"
+                            android:layout_marginTop="@dimen/dimen10dp"
+                            android:text="@string/time" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/etTimeLayout"
+                            style="@style/TextInputLayoutStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/dimen2dp"
+                            android:layout_marginBottom="-5dp"
+                            android:paddingStart="@dimen/dimen15dp"
+                            android:paddingEnd="@dimen/dimen15dp"
+                            app:boxStrokeColor="?attr/colorPrimary"
+                            app:boxStrokeWidth="1dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvDealerNameText">
+
+                            <EditText
+                                android:id="@+id/etTime"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dimen45dp"
+                                android:layout_margin="@dimen/dimen5dp"
+                                android:focusable="false"
+                                android:hint="@string/time"
+                                android:imeOptions="actionUnspecified"
+                                android:inputType="time"
+                                android:maxLines="1"
+                                android:padding="@dimen/dimen5dp"
+                                android:paddingStart="@dimen/dimen10dp"
+                                android:paddingEnd="@dimen/dimen10dp"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/dimen20dp"
+                            android:layout_marginTop="@dimen/dimen10dp"
+                            android:text="@string/meeting_location" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/etLocationLayout"
+                            style="@style/TextInputLayoutStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/dimen2dp"
+                            android:layout_marginBottom="-5dp"
+                            android:paddingStart="@dimen/dimen15dp"
+                            android:paddingEnd="@dimen/dimen15dp"
+                            app:boxStrokeColor="?attr/colorPrimary"
+                            app:boxStrokeWidth="1dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvDealerNameText">
+
+                            <EditText
+                                android:id="@+id/etMeetingLocation"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dimen45dp"
+                                android:layout_margin="@dimen/dimen5dp"
+                                android:focusable="false"
+                                android:hint="@string/meeting_location"
+                                android:imeOptions="actionUnspecified"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:padding="@dimen/dimen5dp"
+                                android:paddingStart="@dimen/dimen10dp"
+                                android:paddingEnd="@dimen/dimen10dp"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/dimen20dp"
+                            android:layout_marginTop="@dimen/dimen10dp"
+                            android:text="@string/contact_person" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/etContactPersonLayout"
+                            style="@style/TextInputLayoutStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/dimen2dp"
+                            android:layout_marginBottom="-5dp"
+                            android:paddingStart="@dimen/dimen15dp"
+                            android:paddingEnd="@dimen/dimen15dp"
+                            app:boxStrokeColor="?attr/colorPrimary"
+                            app:boxStrokeWidth="1dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvDealerNameText">
+
+                            <EditText
+                                android:id="@+id/etContactPerson"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dimen45dp"
+                                android:layout_margin="@dimen/dimen5dp"
+                                android:focusable="true"
+                                android:hint="@string/contact_person"
+                                android:imeOptions="actionUnspecified"
+                                android:inputType="textPersonName"
+                                android:maxLines="1"
+                                android:padding="@dimen/dimen5dp"
+                                android:paddingStart="@dimen/dimen10dp"
+                                android:paddingEnd="@dimen/dimen10dp"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/dimen20dp"
+                            android:layout_marginTop="@dimen/dimen10dp"
+                            android:text="@string/mobile_no" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/etMobileNoLayout"
+                            style="@style/TextInputLayoutStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/dimen2dp"
+                            android:layout_marginBottom="-5dp"
+                            android:paddingStart="@dimen/dimen15dp"
+                            android:paddingEnd="@dimen/dimen15dp"
+                            app:boxStrokeColor="?attr/colorPrimary"
+                            app:boxStrokeWidth="1dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvDealerNameText">
+
+                            <EditText
+                                android:id="@+id/etMobileNo"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dimen45dp"
+                                android:layout_margin="@dimen/dimen5dp"
+                                android:focusable="true"
+                                android:hint="@string/mobile_no"
+                                android:imeOptions="actionUnspecified"
+                                android:inputType="phone"
+                                android:maxLength="10"
+                                android:maxLines="1"
+                                android:padding="@dimen/dimen5dp"
+                                android:paddingStart="@dimen/dimen10dp"
+                                android:paddingEnd="@dimen/dimen10dp"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/dimen20dp"
+                            android:layout_marginTop="@dimen/dimen10dp"
+                            android:text="@string/email_id" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/etEmailIdLayout"
+                            style="@style/TextInputLayoutStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/dimen2dp"
+                            android:layout_marginBottom="-5dp"
+                            android:paddingStart="@dimen/dimen15dp"
+                            android:paddingEnd="@dimen/dimen15dp"
+                            app:boxStrokeColor="?attr/colorPrimary"
+                            app:boxStrokeWidth="1dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvDealerNameText">
+
+                            <EditText
+                                android:id="@+id/etEmailId"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dimen45dp"
+                                android:layout_margin="@dimen/dimen5dp"
+                                android:focusable="true"
+                                android:hint="@string/email_id"
+                                android:imeOptions="actionUnspecified"
+                                android:inputType="textEmailAddress"
+                                android:maxLines="1"
+                                android:padding="@dimen/dimen5dp"
+                                android:paddingStart="@dimen/dimen10dp"
+                                android:paddingEnd="@dimen/dimen10dp"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/dimen20dp"
+                            android:layout_marginTop="@dimen/dimen10dp"
+                            android:text="@string/next_date" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/etNextVisitDateLayout"
+                            style="@style/TextInputLayoutStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/dimen2dp"
+                            android:layout_marginBottom="-5dp"
+                            android:paddingStart="@dimen/dimen15dp"
+                            android:paddingEnd="@dimen/dimen15dp"
+                            app:boxStrokeColor="?attr/colorPrimary"
+                            app:boxStrokeWidth="1dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvDealerNameText">
+
+                            <EditText
+                                android:id="@+id/etNextVisitDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dimen45dp"
+                                android:layout_margin="@dimen/dimen5dp"
+                                android:focusable="false"
+                                android:hint="@string/next_date"
+                                android:imeOptions="actionUnspecified"
+                                android:inputType="date"
+                                android:maxLines="1"
+                                android:onClick="@{() -> createActivityViewModel.nextVisitDate()}"
+                                android:padding="@dimen/dimen5dp"
+                                android:paddingStart="@dimen/dimen10dp"
+                                android:paddingEnd="@dimen/dimen10dp"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/dimen20dp"
+                            android:layout_marginTop="@dimen/dimen10dp"
+                            android:text="@string/next_time" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/etNextTimeLayout"
+                            style="@style/TextInputLayoutStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/dimen2dp"
+                            android:layout_marginBottom="-5dp"
+                            android:paddingStart="@dimen/dimen15dp"
+                            android:paddingEnd="@dimen/dimen15dp"
+                            app:boxStrokeColor="?attr/colorPrimary"
+                            app:boxStrokeWidth="1dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvDealerNameText">
+
+                            <EditText
+                                android:id="@+id/etNextVisitTime"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dimen45dp"
+                                android:layout_margin="@dimen/dimen5dp"
+                                android:focusable="false"
+                                android:hint="@string/next_time"
+                                android:imeOptions="actionUnspecified"
+                                android:inputType="time"
+                                android:maxLines="1"
+                                android:onClick="@{() -> createActivityViewModel.nextVisitTime()}"
+                                android:padding="@dimen/dimen5dp"
+                                android:paddingStart="@dimen/dimen10dp"
+                                android:paddingEnd="@dimen/dimen10dp"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/dimen20dp"
+                            android:layout_marginTop="@dimen/dimen10dp"
+                            android:text="@string/priority" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/priorityLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/dimen20dp"
+                            android:layout_marginTop="@dimen/dimen5dp"
+                            android:layout_marginBottom="-5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/spinner_bg"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvGroupText">
+
+                            <org.angmarch.views.NiceSpinner
+                                android:id="@+id/spPriority"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_marginBottom="5dp"
+                                android:background="@android:color/transparent"
+                                android:gravity="center"
+                                android:spinnerMode="dropdown"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/dimen20dp"
+                            android:layout_marginTop="@dimen/dimen10dp"
+                            android:text="@string/remarks" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/etRemarksLayout"
+                            style="@style/TextInputLayoutStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/dimen2dp"
+                            android:layout_marginBottom="5dp"
+                            android:paddingStart="@dimen/dimen15dp"
+                            android:paddingEnd="@dimen/dimen15dp"
+                            app:boxStrokeColor="?attr/colorPrimary"
+                            app:boxStrokeWidth="1dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvDealerNameText">
+
+                            <EditText
+                                android:id="@+id/etRemarksCode"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dimen45dp"
+                                android:layout_margin="@dimen/dimen5dp"
+                                android:hint="@string/remarks"
+                                android:imeOptions="actionUnspecified"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:padding="@dimen/dimen5dp"
+                                android:paddingStart="@dimen/dimen10dp"
+                                android:paddingEnd="@dimen/dimen10dp"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvAttachmentText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/dimen15dp"
+                            android:text="@string/attachment"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/etRemarksLayout" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toBottomOf="@+id/tvAttachmentText">
+
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/imageView"
+                                android:layout_width="0dp"
+                                android:layout_height="150dp"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="@dimen/dimen5dp"
+                                android:layout_marginEnd="8dp"
+                                android:layout_weight="1.5"
+                                android:background="@color/white"
+                                android:paddingStart="@dimen/dimen15dp"
+                                android:paddingEnd="@dimen/dimen15dp"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/add_image"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvAttachmentText" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/addImage"
+                                android:layout_width="0dp"
+                                android:layout_height="50dp"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="@dimen/dimen5dp"
+                                android:layout_marginEnd="8dp"
+                                android:layout_weight="0.3"
+                                android:paddingStart="@dimen/dimen15dp"
+                                android:paddingEnd="@dimen/dimen15dp"
+                                android:src="@drawable/ic_add_image"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvAttachmentText" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/addActivityBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dimen20dp"
+                    android:layout_marginTop="@dimen/dimen20dp"
+                    android:layout_marginBottom="@dimen/dimen20dp"
+                    android:background="?attr/btnBackground"
+                    android:text="@string/add_activity"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ratingOfProduct" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</layout>

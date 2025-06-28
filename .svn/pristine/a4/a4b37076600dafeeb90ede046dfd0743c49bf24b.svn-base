@@ -1,0 +1,140 @@
+package com.cbs.snb.data.database.entities;
+
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+/**
+ * Created by Venkatesh on 03-09-2020.
+ */
+@Entity
+public class ProductDetails {
+
+    @PrimaryKey
+    @SerializedName("ItemName")
+    @Expose
+    @NonNull
+    private String itemName;
+
+    @SerializedName("ItemCode")
+    @Expose
+    private String itemCode;
+
+    @SerializedName("Price")
+    @Expose
+    private Double price;
+
+    @SerializedName("InStock")
+    @Expose
+    private Double inStock;
+
+    @SerializedName("image_url")
+    @Expose
+    private String imageUrl;
+
+    @SerializedName("InvntryUom")
+    @Expose
+    private String invntryUom;
+
+    @SerializedName("Quantity")
+    @Expose
+    private Integer qty = 0;
+
+    @SerializedName("TotalQty")
+    @Expose
+    private Integer totalQty = 0;
+
+    @SerializedName("TotalPrice")
+    @Expose
+    private Double totalPrice;
+
+
+    public ProductDetails(@NonNull String itemName, String itemCode, Double price, Double inStock,
+                          String imageUrl, String invntryUom, Integer qty, Integer totalQty, Double totalPrice) {
+        this.itemName = itemName;
+        this.itemCode = itemCode;
+        this.price = price;
+        this.inStock = inStock;
+        this.imageUrl = imageUrl;
+        this.invntryUom = invntryUom;
+        this.qty = qty;
+        this.totalQty = totalQty;
+        this.totalPrice = totalPrice;
+    }
+
+    @NonNull
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(@NonNull String name) {
+        this.itemName = name;
+    }
+
+    public String getItemCode() {
+        return itemCode;
+    }
+
+    public void setItemCode(String itemCode) {
+        this.itemCode = itemCode;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Double getInStock() {
+        return inStock;
+    }
+
+    public void setInStock(Double inStock) {
+        this.inStock = inStock;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getInvntryUom() {
+        return invntryUom;
+    }
+
+    public void setInvntryUom(String invntryUom) {
+        this.invntryUom = invntryUom;
+    }
+
+    public Integer getQty() {
+        return qty;
+    }
+
+    public void setQty(Integer qty) {
+        this.qty = qty;
+    }
+
+    public Integer getTotalQty() {
+        return totalQty;
+    }
+
+    public void setTotalQty(Integer totalQty) {
+        this.totalQty = totalQty;
+    }
+
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+}

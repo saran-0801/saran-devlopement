@@ -1,0 +1,824 @@
+package com.cbs.snb;
+
+import android.util.SparseArray;
+import android.util.SparseIntArray;
+import android.view.View;
+import androidx.databinding.DataBinderMapper;
+import androidx.databinding.DataBindingComponent;
+import androidx.databinding.ViewDataBinding;
+import com.cbs.snb.databinding.ActivityAddCustomerBindingImpl;
+import com.cbs.snb.databinding.ActivityCartLayoutBindingImpl;
+import com.cbs.snb.databinding.ActivityCheckInBindingImpl;
+import com.cbs.snb.databinding.ActivityCheckOutBindingImpl;
+import com.cbs.snb.databinding.ActivityCompaintsReportBindingImpl;
+import com.cbs.snb.databinding.ActivityCustomerOutstandingBindingImpl;
+import com.cbs.snb.databinding.ActivityExpenseReportBindingImpl;
+import com.cbs.snb.databinding.ActivityForgotPasswordBindingImpl;
+import com.cbs.snb.databinding.ActivityInventoryReportBindingImpl;
+import com.cbs.snb.databinding.ActivityInvoiceListBindingImpl;
+import com.cbs.snb.databinding.ActivityItemDetailsBindingImpl;
+import com.cbs.snb.databinding.ActivityListAdapterBindingImpl;
+import com.cbs.snb.databinding.ActivityLoginBindingImpl;
+import com.cbs.snb.databinding.ActivityMainBindingImpl;
+import com.cbs.snb.databinding.ActivityNotificationBindingImpl;
+import com.cbs.snb.databinding.ActivityOrderItemListBindingImpl;
+import com.cbs.snb.databinding.ActivityProductsBindingImpl;
+import com.cbs.snb.databinding.ActivityProductsListBindingImpl;
+import com.cbs.snb.databinding.ActivityRegionBindingImpl;
+import com.cbs.snb.databinding.ActivityReportBindingImpl;
+import com.cbs.snb.databinding.ActivitySalesAnalysisBindingImpl;
+import com.cbs.snb.databinding.ActivitySplashScreenBindingImpl;
+import com.cbs.snb.databinding.CartAdapterLayoutBindingImpl;
+import com.cbs.snb.databinding.ComplaintsListAdapterBindingImpl;
+import com.cbs.snb.databinding.CustomerAdapterLayoutBindingImpl;
+import com.cbs.snb.databinding.CustomerHistoryAdapterLayoutBindingImpl;
+import com.cbs.snb.databinding.CustomerListAdapterLayoutBindingImpl;
+import com.cbs.snb.databinding.CustomersHomeAdapterLayoutBindingImpl;
+import com.cbs.snb.databinding.EmptyAdapterBindingImpl;
+import com.cbs.snb.databinding.ExpenseReportAdapterBindingImpl;
+import com.cbs.snb.databinding.FragmentAddressDetailsBindingImpl;
+import com.cbs.snb.databinding.FragmentChangePasswordBindingImpl;
+import com.cbs.snb.databinding.FragmentComplaintBindingImpl;
+import com.cbs.snb.databinding.FragmentCreateActivityBindingImpl;
+import com.cbs.snb.databinding.FragmentCustomerDetailsBindingImpl;
+import com.cbs.snb.databinding.FragmentCustomerHistoryBindingImpl;
+import com.cbs.snb.databinding.FragmentCustomersBindingImpl;
+import com.cbs.snb.databinding.FragmentExpenseBindingImpl;
+import com.cbs.snb.databinding.FragmentFeedbackBindingImpl;
+import com.cbs.snb.databinding.FragmentHomeBindingImpl;
+import com.cbs.snb.databinding.FragmentInventoryBindingImpl;
+import com.cbs.snb.databinding.FragmentLeadBindingImpl;
+import com.cbs.snb.databinding.FragmentMyOrdersBindingImpl;
+import com.cbs.snb.databinding.FragmentOwnerDetailsBindingImpl;
+import com.cbs.snb.databinding.FragmentPaymentBindingImpl;
+import com.cbs.snb.databinding.FragmentPurchaseManagerBindingImpl;
+import com.cbs.snb.databinding.FragmentReportListBindingImpl;
+import com.cbs.snb.databinding.FragmentUserCheckoutBindingImpl;
+import com.cbs.snb.databinding.InventoryListAdapterBindingImpl;
+import com.cbs.snb.databinding.InvoiceListAdapterLayoutBindingImpl;
+import com.cbs.snb.databinding.ItemsAdapterLayoutBindingImpl;
+import com.cbs.snb.databinding.LayoutBottomSheetPaymentBindingImpl;
+import com.cbs.snb.databinding.MyOrdersAdapterLayoutBindingImpl;
+import com.cbs.snb.databinding.OrderListAdapterLayoutBindingImpl;
+import com.cbs.snb.databinding.OrdersItemListAdapterLayoutBindingImpl;
+import com.cbs.snb.databinding.PaymentOutstandingAdapterLayoutBindingImpl;
+import com.cbs.snb.databinding.ProductsAdapterLayoutBindingImpl;
+import com.cbs.snb.databinding.ProductsListAdapterLayoutBindingImpl;
+import com.cbs.snb.databinding.SalesAnalysisReportAdapterLayoutBindingImpl;
+import com.cbs.snb.databinding.SettingsActivityBindingImpl;
+import java.lang.IllegalArgumentException;
+import java.lang.Integer;
+import java.lang.Object;
+import java.lang.Override;
+import java.lang.RuntimeException;
+import java.lang.String;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+public class DataBinderMapperImpl extends DataBinderMapper {
+  private static final int LAYOUT_ACTIVITYADDCUSTOMER = 1;
+
+  private static final int LAYOUT_ACTIVITYCARTLAYOUT = 2;
+
+  private static final int LAYOUT_ACTIVITYCHECKIN = 3;
+
+  private static final int LAYOUT_ACTIVITYCHECKOUT = 4;
+
+  private static final int LAYOUT_ACTIVITYCOMPAINTSREPORT = 5;
+
+  private static final int LAYOUT_ACTIVITYCUSTOMEROUTSTANDING = 6;
+
+  private static final int LAYOUT_ACTIVITYEXPENSEREPORT = 7;
+
+  private static final int LAYOUT_ACTIVITYFORGOTPASSWORD = 8;
+
+  private static final int LAYOUT_ACTIVITYINVENTORYREPORT = 9;
+
+  private static final int LAYOUT_ACTIVITYINVOICELIST = 10;
+
+  private static final int LAYOUT_ACTIVITYITEMDETAILS = 11;
+
+  private static final int LAYOUT_ACTIVITYLISTADAPTER = 12;
+
+  private static final int LAYOUT_ACTIVITYLOGIN = 13;
+
+  private static final int LAYOUT_ACTIVITYMAIN = 14;
+
+  private static final int LAYOUT_ACTIVITYNOTIFICATION = 15;
+
+  private static final int LAYOUT_ACTIVITYORDERITEMLIST = 16;
+
+  private static final int LAYOUT_ACTIVITYPRODUCTS = 17;
+
+  private static final int LAYOUT_ACTIVITYPRODUCTSLIST = 18;
+
+  private static final int LAYOUT_ACTIVITYREGION = 19;
+
+  private static final int LAYOUT_ACTIVITYREPORT = 20;
+
+  private static final int LAYOUT_ACTIVITYSALESANALYSIS = 21;
+
+  private static final int LAYOUT_ACTIVITYSPLASHSCREEN = 22;
+
+  private static final int LAYOUT_CARTADAPTERLAYOUT = 23;
+
+  private static final int LAYOUT_COMPLAINTSLISTADAPTER = 24;
+
+  private static final int LAYOUT_CUSTOMERADAPTERLAYOUT = 25;
+
+  private static final int LAYOUT_CUSTOMERHISTORYADAPTERLAYOUT = 26;
+
+  private static final int LAYOUT_CUSTOMERLISTADAPTERLAYOUT = 27;
+
+  private static final int LAYOUT_CUSTOMERSHOMEADAPTERLAYOUT = 28;
+
+  private static final int LAYOUT_EMPTYADAPTER = 29;
+
+  private static final int LAYOUT_EXPENSEREPORTADAPTER = 30;
+
+  private static final int LAYOUT_FRAGMENTADDRESSDETAILS = 31;
+
+  private static final int LAYOUT_FRAGMENTCHANGEPASSWORD = 32;
+
+  private static final int LAYOUT_FRAGMENTCOMPLAINT = 33;
+
+  private static final int LAYOUT_FRAGMENTCREATEACTIVITY = 34;
+
+  private static final int LAYOUT_FRAGMENTCUSTOMERDETAILS = 35;
+
+  private static final int LAYOUT_FRAGMENTCUSTOMERHISTORY = 36;
+
+  private static final int LAYOUT_FRAGMENTCUSTOMERS = 37;
+
+  private static final int LAYOUT_FRAGMENTEXPENSE = 38;
+
+  private static final int LAYOUT_FRAGMENTFEEDBACK = 39;
+
+  private static final int LAYOUT_FRAGMENTHOME = 40;
+
+  private static final int LAYOUT_FRAGMENTINVENTORY = 41;
+
+  private static final int LAYOUT_FRAGMENTLEAD = 42;
+
+  private static final int LAYOUT_FRAGMENTMYORDERS = 43;
+
+  private static final int LAYOUT_FRAGMENTOWNERDETAILS = 44;
+
+  private static final int LAYOUT_FRAGMENTPAYMENT = 45;
+
+  private static final int LAYOUT_FRAGMENTPURCHASEMANAGER = 46;
+
+  private static final int LAYOUT_FRAGMENTREPORTLIST = 47;
+
+  private static final int LAYOUT_FRAGMENTUSERCHECKOUT = 48;
+
+  private static final int LAYOUT_INVENTORYLISTADAPTER = 49;
+
+  private static final int LAYOUT_INVOICELISTADAPTERLAYOUT = 50;
+
+  private static final int LAYOUT_ITEMSADAPTERLAYOUT = 51;
+
+  private static final int LAYOUT_LAYOUTBOTTOMSHEETPAYMENT = 52;
+
+  private static final int LAYOUT_MYORDERSADAPTERLAYOUT = 53;
+
+  private static final int LAYOUT_ORDERLISTADAPTERLAYOUT = 54;
+
+  private static final int LAYOUT_ORDERSITEMLISTADAPTERLAYOUT = 55;
+
+  private static final int LAYOUT_PAYMENTOUTSTANDINGADAPTERLAYOUT = 56;
+
+  private static final int LAYOUT_PRODUCTSADAPTERLAYOUT = 57;
+
+  private static final int LAYOUT_PRODUCTSLISTADAPTERLAYOUT = 58;
+
+  private static final int LAYOUT_SALESANALYSISREPORTADAPTERLAYOUT = 59;
+
+  private static final int LAYOUT_SETTINGSACTIVITY = 60;
+
+  private static final SparseIntArray INTERNAL_LAYOUT_ID_LOOKUP = new SparseIntArray(60);
+
+  static {
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.activity_add_customer, LAYOUT_ACTIVITYADDCUSTOMER);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.activity_cart_layout, LAYOUT_ACTIVITYCARTLAYOUT);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.activity_check_in, LAYOUT_ACTIVITYCHECKIN);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.activity_check_out, LAYOUT_ACTIVITYCHECKOUT);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.activity_compaints_report, LAYOUT_ACTIVITYCOMPAINTSREPORT);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.activity_customer_outstanding, LAYOUT_ACTIVITYCUSTOMEROUTSTANDING);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.activity_expense_report, LAYOUT_ACTIVITYEXPENSEREPORT);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.activity_forgot_password, LAYOUT_ACTIVITYFORGOTPASSWORD);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.activity_inventory_report, LAYOUT_ACTIVITYINVENTORYREPORT);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.activity_invoice_list, LAYOUT_ACTIVITYINVOICELIST);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.activity_item_details, LAYOUT_ACTIVITYITEMDETAILS);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.activity_list_adapter, LAYOUT_ACTIVITYLISTADAPTER);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.activity_login, LAYOUT_ACTIVITYLOGIN);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.activity_main, LAYOUT_ACTIVITYMAIN);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.activity_notification, LAYOUT_ACTIVITYNOTIFICATION);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.activity_order_item_list, LAYOUT_ACTIVITYORDERITEMLIST);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.activity_products, LAYOUT_ACTIVITYPRODUCTS);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.activity_products_list, LAYOUT_ACTIVITYPRODUCTSLIST);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.activity_region, LAYOUT_ACTIVITYREGION);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.activity_report, LAYOUT_ACTIVITYREPORT);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.activity_sales_analysis, LAYOUT_ACTIVITYSALESANALYSIS);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.activity_splash_screen, LAYOUT_ACTIVITYSPLASHSCREEN);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.cart_adapter_layout, LAYOUT_CARTADAPTERLAYOUT);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.complaints_list_adapter, LAYOUT_COMPLAINTSLISTADAPTER);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.customer_adapter_layout, LAYOUT_CUSTOMERADAPTERLAYOUT);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.customer_history_adapter_layout, LAYOUT_CUSTOMERHISTORYADAPTERLAYOUT);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.customer_list_adapter_layout, LAYOUT_CUSTOMERLISTADAPTERLAYOUT);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.customers_home_adapter_layout, LAYOUT_CUSTOMERSHOMEADAPTERLAYOUT);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.empty_adapter, LAYOUT_EMPTYADAPTER);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.expense_report_adapter, LAYOUT_EXPENSEREPORTADAPTER);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.fragment_address_details, LAYOUT_FRAGMENTADDRESSDETAILS);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.fragment_change_password, LAYOUT_FRAGMENTCHANGEPASSWORD);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.fragment_complaint, LAYOUT_FRAGMENTCOMPLAINT);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.fragment_create_activity, LAYOUT_FRAGMENTCREATEACTIVITY);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.fragment_customer_details, LAYOUT_FRAGMENTCUSTOMERDETAILS);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.fragment_customer_history, LAYOUT_FRAGMENTCUSTOMERHISTORY);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.fragment_customers, LAYOUT_FRAGMENTCUSTOMERS);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.fragment_expense, LAYOUT_FRAGMENTEXPENSE);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.fragment_feedback, LAYOUT_FRAGMENTFEEDBACK);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.fragment_home, LAYOUT_FRAGMENTHOME);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.fragment_inventory, LAYOUT_FRAGMENTINVENTORY);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.fragment_lead, LAYOUT_FRAGMENTLEAD);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.fragment_my_orders, LAYOUT_FRAGMENTMYORDERS);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.fragment_owner_details, LAYOUT_FRAGMENTOWNERDETAILS);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.fragment_payment, LAYOUT_FRAGMENTPAYMENT);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.fragment_purchase_manager, LAYOUT_FRAGMENTPURCHASEMANAGER);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.fragment_report_list, LAYOUT_FRAGMENTREPORTLIST);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.fragment_user_checkout, LAYOUT_FRAGMENTUSERCHECKOUT);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.inventory_list_adapter, LAYOUT_INVENTORYLISTADAPTER);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.invoice_list_adapter_layout, LAYOUT_INVOICELISTADAPTERLAYOUT);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.items_adapter_layout, LAYOUT_ITEMSADAPTERLAYOUT);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.layout_bottom_sheet_payment, LAYOUT_LAYOUTBOTTOMSHEETPAYMENT);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.my_orders_adapter_layout, LAYOUT_MYORDERSADAPTERLAYOUT);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.order_list_adapter_layout, LAYOUT_ORDERLISTADAPTERLAYOUT);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.orders_item_list_adapter_layout, LAYOUT_ORDERSITEMLISTADAPTERLAYOUT);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.payment_outstanding_adapter_layout, LAYOUT_PAYMENTOUTSTANDINGADAPTERLAYOUT);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.products_adapter_layout, LAYOUT_PRODUCTSADAPTERLAYOUT);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.products_list_adapter_layout, LAYOUT_PRODUCTSLISTADAPTERLAYOUT);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.sales_analysis_report_adapter_layout, LAYOUT_SALESANALYSISREPORTADAPTERLAYOUT);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.cbs.snb.R.layout.settings_activity, LAYOUT_SETTINGSACTIVITY);
+  }
+
+  private final ViewDataBinding internalGetViewDataBinding0(DataBindingComponent component,
+      View view, int internalId, Object tag) {
+    switch(internalId) {
+      case  LAYOUT_ACTIVITYADDCUSTOMER: {
+        if ("layout/activity_add_customer_0".equals(tag)) {
+          return new ActivityAddCustomerBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for activity_add_customer is invalid. Received: " + tag);
+      }
+      case  LAYOUT_ACTIVITYCARTLAYOUT: {
+        if ("layout/activity_cart_layout_0".equals(tag)) {
+          return new ActivityCartLayoutBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for activity_cart_layout is invalid. Received: " + tag);
+      }
+      case  LAYOUT_ACTIVITYCHECKIN: {
+        if ("layout/activity_check_in_0".equals(tag)) {
+          return new ActivityCheckInBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for activity_check_in is invalid. Received: " + tag);
+      }
+      case  LAYOUT_ACTIVITYCHECKOUT: {
+        if ("layout/activity_check_out_0".equals(tag)) {
+          return new ActivityCheckOutBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for activity_check_out is invalid. Received: " + tag);
+      }
+      case  LAYOUT_ACTIVITYCOMPAINTSREPORT: {
+        if ("layout/activity_compaints_report_0".equals(tag)) {
+          return new ActivityCompaintsReportBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for activity_compaints_report is invalid. Received: " + tag);
+      }
+      case  LAYOUT_ACTIVITYCUSTOMEROUTSTANDING: {
+        if ("layout/activity_customer_outstanding_0".equals(tag)) {
+          return new ActivityCustomerOutstandingBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for activity_customer_outstanding is invalid. Received: " + tag);
+      }
+      case  LAYOUT_ACTIVITYEXPENSEREPORT: {
+        if ("layout/activity_expense_report_0".equals(tag)) {
+          return new ActivityExpenseReportBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for activity_expense_report is invalid. Received: " + tag);
+      }
+      case  LAYOUT_ACTIVITYFORGOTPASSWORD: {
+        if ("layout/activity_forgot_password_0".equals(tag)) {
+          return new ActivityForgotPasswordBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for activity_forgot_password is invalid. Received: " + tag);
+      }
+      case  LAYOUT_ACTIVITYINVENTORYREPORT: {
+        if ("layout/activity_inventory_report_0".equals(tag)) {
+          return new ActivityInventoryReportBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for activity_inventory_report is invalid. Received: " + tag);
+      }
+      case  LAYOUT_ACTIVITYINVOICELIST: {
+        if ("layout/activity_invoice_list_0".equals(tag)) {
+          return new ActivityInvoiceListBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for activity_invoice_list is invalid. Received: " + tag);
+      }
+      case  LAYOUT_ACTIVITYITEMDETAILS: {
+        if ("layout/activity_item_details_0".equals(tag)) {
+          return new ActivityItemDetailsBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for activity_item_details is invalid. Received: " + tag);
+      }
+      case  LAYOUT_ACTIVITYLISTADAPTER: {
+        if ("layout/activity_list_adapter_0".equals(tag)) {
+          return new ActivityListAdapterBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for activity_list_adapter is invalid. Received: " + tag);
+      }
+      case  LAYOUT_ACTIVITYLOGIN: {
+        if ("layout/activity_login_0".equals(tag)) {
+          return new ActivityLoginBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for activity_login is invalid. Received: " + tag);
+      }
+      case  LAYOUT_ACTIVITYMAIN: {
+        if ("layout/activity_main_0".equals(tag)) {
+          return new ActivityMainBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for activity_main is invalid. Received: " + tag);
+      }
+      case  LAYOUT_ACTIVITYNOTIFICATION: {
+        if ("layout/activity_notification_0".equals(tag)) {
+          return new ActivityNotificationBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for activity_notification is invalid. Received: " + tag);
+      }
+      case  LAYOUT_ACTIVITYORDERITEMLIST: {
+        if ("layout/activity_order_item_list_0".equals(tag)) {
+          return new ActivityOrderItemListBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for activity_order_item_list is invalid. Received: " + tag);
+      }
+      case  LAYOUT_ACTIVITYPRODUCTS: {
+        if ("layout/activity_products_0".equals(tag)) {
+          return new ActivityProductsBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for activity_products is invalid. Received: " + tag);
+      }
+      case  LAYOUT_ACTIVITYPRODUCTSLIST: {
+        if ("layout/activity_products_list_0".equals(tag)) {
+          return new ActivityProductsListBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for activity_products_list is invalid. Received: " + tag);
+      }
+      case  LAYOUT_ACTIVITYREGION: {
+        if ("layout/activity_region_0".equals(tag)) {
+          return new ActivityRegionBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for activity_region is invalid. Received: " + tag);
+      }
+      case  LAYOUT_ACTIVITYREPORT: {
+        if ("layout/activity_report_0".equals(tag)) {
+          return new ActivityReportBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for activity_report is invalid. Received: " + tag);
+      }
+      case  LAYOUT_ACTIVITYSALESANALYSIS: {
+        if ("layout/activity_sales_analysis_0".equals(tag)) {
+          return new ActivitySalesAnalysisBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for activity_sales_analysis is invalid. Received: " + tag);
+      }
+      case  LAYOUT_ACTIVITYSPLASHSCREEN: {
+        if ("layout/activity_splash_screen_0".equals(tag)) {
+          return new ActivitySplashScreenBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for activity_splash_screen is invalid. Received: " + tag);
+      }
+      case  LAYOUT_CARTADAPTERLAYOUT: {
+        if ("layout/cart_adapter_layout_0".equals(tag)) {
+          return new CartAdapterLayoutBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for cart_adapter_layout is invalid. Received: " + tag);
+      }
+      case  LAYOUT_COMPLAINTSLISTADAPTER: {
+        if ("layout/complaints_list_adapter_0".equals(tag)) {
+          return new ComplaintsListAdapterBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for complaints_list_adapter is invalid. Received: " + tag);
+      }
+      case  LAYOUT_CUSTOMERADAPTERLAYOUT: {
+        if ("layout/customer_adapter_layout_0".equals(tag)) {
+          return new CustomerAdapterLayoutBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for customer_adapter_layout is invalid. Received: " + tag);
+      }
+      case  LAYOUT_CUSTOMERHISTORYADAPTERLAYOUT: {
+        if ("layout/customer_history_adapter_layout_0".equals(tag)) {
+          return new CustomerHistoryAdapterLayoutBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for customer_history_adapter_layout is invalid. Received: " + tag);
+      }
+      case  LAYOUT_CUSTOMERLISTADAPTERLAYOUT: {
+        if ("layout/customer_list_adapter_layout_0".equals(tag)) {
+          return new CustomerListAdapterLayoutBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for customer_list_adapter_layout is invalid. Received: " + tag);
+      }
+      case  LAYOUT_CUSTOMERSHOMEADAPTERLAYOUT: {
+        if ("layout/customers_home_adapter_layout_0".equals(tag)) {
+          return new CustomersHomeAdapterLayoutBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for customers_home_adapter_layout is invalid. Received: " + tag);
+      }
+      case  LAYOUT_EMPTYADAPTER: {
+        if ("layout/empty_adapter_0".equals(tag)) {
+          return new EmptyAdapterBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for empty_adapter is invalid. Received: " + tag);
+      }
+      case  LAYOUT_EXPENSEREPORTADAPTER: {
+        if ("layout/expense_report_adapter_0".equals(tag)) {
+          return new ExpenseReportAdapterBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for expense_report_adapter is invalid. Received: " + tag);
+      }
+      case  LAYOUT_FRAGMENTADDRESSDETAILS: {
+        if ("layout/fragment_address_details_0".equals(tag)) {
+          return new FragmentAddressDetailsBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for fragment_address_details is invalid. Received: " + tag);
+      }
+      case  LAYOUT_FRAGMENTCHANGEPASSWORD: {
+        if ("layout/fragment_change_password_0".equals(tag)) {
+          return new FragmentChangePasswordBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for fragment_change_password is invalid. Received: " + tag);
+      }
+      case  LAYOUT_FRAGMENTCOMPLAINT: {
+        if ("layout/fragment_complaint_0".equals(tag)) {
+          return new FragmentComplaintBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for fragment_complaint is invalid. Received: " + tag);
+      }
+      case  LAYOUT_FRAGMENTCREATEACTIVITY: {
+        if ("layout/fragment_create_activity_0".equals(tag)) {
+          return new FragmentCreateActivityBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for fragment_create_activity is invalid. Received: " + tag);
+      }
+      case  LAYOUT_FRAGMENTCUSTOMERDETAILS: {
+        if ("layout/fragment_customer_details_0".equals(tag)) {
+          return new FragmentCustomerDetailsBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for fragment_customer_details is invalid. Received: " + tag);
+      }
+      case  LAYOUT_FRAGMENTCUSTOMERHISTORY: {
+        if ("layout/fragment_customer_history_0".equals(tag)) {
+          return new FragmentCustomerHistoryBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for fragment_customer_history is invalid. Received: " + tag);
+      }
+      case  LAYOUT_FRAGMENTCUSTOMERS: {
+        if ("layout/fragment_customers_0".equals(tag)) {
+          return new FragmentCustomersBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for fragment_customers is invalid. Received: " + tag);
+      }
+      case  LAYOUT_FRAGMENTEXPENSE: {
+        if ("layout/fragment_expense_0".equals(tag)) {
+          return new FragmentExpenseBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for fragment_expense is invalid. Received: " + tag);
+      }
+      case  LAYOUT_FRAGMENTFEEDBACK: {
+        if ("layout/fragment_feedback_0".equals(tag)) {
+          return new FragmentFeedbackBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for fragment_feedback is invalid. Received: " + tag);
+      }
+      case  LAYOUT_FRAGMENTHOME: {
+        if ("layout/fragment_home_0".equals(tag)) {
+          return new FragmentHomeBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for fragment_home is invalid. Received: " + tag);
+      }
+      case  LAYOUT_FRAGMENTINVENTORY: {
+        if ("layout/fragment_inventory_0".equals(tag)) {
+          return new FragmentInventoryBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for fragment_inventory is invalid. Received: " + tag);
+      }
+      case  LAYOUT_FRAGMENTLEAD: {
+        if ("layout/fragment_lead_0".equals(tag)) {
+          return new FragmentLeadBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for fragment_lead is invalid. Received: " + tag);
+      }
+      case  LAYOUT_FRAGMENTMYORDERS: {
+        if ("layout/fragment_my_orders_0".equals(tag)) {
+          return new FragmentMyOrdersBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for fragment_my_orders is invalid. Received: " + tag);
+      }
+      case  LAYOUT_FRAGMENTOWNERDETAILS: {
+        if ("layout/fragment_owner_details_0".equals(tag)) {
+          return new FragmentOwnerDetailsBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for fragment_owner_details is invalid. Received: " + tag);
+      }
+      case  LAYOUT_FRAGMENTPAYMENT: {
+        if ("layout/fragment_payment_0".equals(tag)) {
+          return new FragmentPaymentBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for fragment_payment is invalid. Received: " + tag);
+      }
+      case  LAYOUT_FRAGMENTPURCHASEMANAGER: {
+        if ("layout/fragment_purchase_manager_0".equals(tag)) {
+          return new FragmentPurchaseManagerBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for fragment_purchase_manager is invalid. Received: " + tag);
+      }
+      case  LAYOUT_FRAGMENTREPORTLIST: {
+        if ("layout/fragment_report_list_0".equals(tag)) {
+          return new FragmentReportListBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for fragment_report_list is invalid. Received: " + tag);
+      }
+      case  LAYOUT_FRAGMENTUSERCHECKOUT: {
+        if ("layout/fragment_user_checkout_0".equals(tag)) {
+          return new FragmentUserCheckoutBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for fragment_user_checkout is invalid. Received: " + tag);
+      }
+      case  LAYOUT_INVENTORYLISTADAPTER: {
+        if ("layout/inventory_list_adapter_0".equals(tag)) {
+          return new InventoryListAdapterBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for inventory_list_adapter is invalid. Received: " + tag);
+      }
+      case  LAYOUT_INVOICELISTADAPTERLAYOUT: {
+        if ("layout/invoice_list_adapter_layout_0".equals(tag)) {
+          return new InvoiceListAdapterLayoutBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for invoice_list_adapter_layout is invalid. Received: " + tag);
+      }
+    }
+    return null;
+  }
+
+  private final ViewDataBinding internalGetViewDataBinding1(DataBindingComponent component,
+      View view, int internalId, Object tag) {
+    switch(internalId) {
+      case  LAYOUT_ITEMSADAPTERLAYOUT: {
+        if ("layout/items_adapter_layout_0".equals(tag)) {
+          return new ItemsAdapterLayoutBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for items_adapter_layout is invalid. Received: " + tag);
+      }
+      case  LAYOUT_LAYOUTBOTTOMSHEETPAYMENT: {
+        if ("layout/layout_bottom_sheet_payment_0".equals(tag)) {
+          return new LayoutBottomSheetPaymentBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for layout_bottom_sheet_payment is invalid. Received: " + tag);
+      }
+      case  LAYOUT_MYORDERSADAPTERLAYOUT: {
+        if ("layout/my_orders_adapter_layout_0".equals(tag)) {
+          return new MyOrdersAdapterLayoutBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for my_orders_adapter_layout is invalid. Received: " + tag);
+      }
+      case  LAYOUT_ORDERLISTADAPTERLAYOUT: {
+        if ("layout/order_list_adapter_layout_0".equals(tag)) {
+          return new OrderListAdapterLayoutBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for order_list_adapter_layout is invalid. Received: " + tag);
+      }
+      case  LAYOUT_ORDERSITEMLISTADAPTERLAYOUT: {
+        if ("layout/orders_item_list_adapter_layout_0".equals(tag)) {
+          return new OrdersItemListAdapterLayoutBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for orders_item_list_adapter_layout is invalid. Received: " + tag);
+      }
+      case  LAYOUT_PAYMENTOUTSTANDINGADAPTERLAYOUT: {
+        if ("layout/payment_outstanding_adapter_layout_0".equals(tag)) {
+          return new PaymentOutstandingAdapterLayoutBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for payment_outstanding_adapter_layout is invalid. Received: " + tag);
+      }
+      case  LAYOUT_PRODUCTSADAPTERLAYOUT: {
+        if ("layout/products_adapter_layout_0".equals(tag)) {
+          return new ProductsAdapterLayoutBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for products_adapter_layout is invalid. Received: " + tag);
+      }
+      case  LAYOUT_PRODUCTSLISTADAPTERLAYOUT: {
+        if ("layout/products_list_adapter_layout_0".equals(tag)) {
+          return new ProductsListAdapterLayoutBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for products_list_adapter_layout is invalid. Received: " + tag);
+      }
+      case  LAYOUT_SALESANALYSISREPORTADAPTERLAYOUT: {
+        if ("layout/sales_analysis_report_adapter_layout_0".equals(tag)) {
+          return new SalesAnalysisReportAdapterLayoutBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for sales_analysis_report_adapter_layout is invalid. Received: " + tag);
+      }
+      case  LAYOUT_SETTINGSACTIVITY: {
+        if ("layout/settings_activity_0".equals(tag)) {
+          return new SettingsActivityBindingImpl(component, view);
+        }
+        throw new IllegalArgumentException("The tag for settings_activity is invalid. Received: " + tag);
+      }
+    }
+    return null;
+  }
+
+  @Override
+  public ViewDataBinding getDataBinder(DataBindingComponent component, View view, int layoutId) {
+    int localizedLayoutId = INTERNAL_LAYOUT_ID_LOOKUP.get(layoutId);
+    if(localizedLayoutId > 0) {
+      final Object tag = view.getTag();
+      if(tag == null) {
+        throw new RuntimeException("view must have a tag");
+      }
+      // find which method will have it. -1 is necessary becausefirst id starts with 1;
+      int methodIndex = (localizedLayoutId - 1) / 50;
+      switch(methodIndex) {
+        case 0: {
+          return internalGetViewDataBinding0(component, view, localizedLayoutId, tag);
+        }
+        case 1: {
+          return internalGetViewDataBinding1(component, view, localizedLayoutId, tag);
+        }
+      }
+    }
+    return null;
+  }
+
+  @Override
+  public ViewDataBinding getDataBinder(DataBindingComponent component, View[] views, int layoutId) {
+    if(views == null || views.length == 0) {
+      return null;
+    }
+    int localizedLayoutId = INTERNAL_LAYOUT_ID_LOOKUP.get(layoutId);
+    if(localizedLayoutId > 0) {
+      final Object tag = views[0].getTag();
+      if(tag == null) {
+        throw new RuntimeException("view must have a tag");
+      }
+      switch(localizedLayoutId) {
+      }
+    }
+    return null;
+  }
+
+  @Override
+  public int getLayoutId(String tag) {
+    if (tag == null) {
+      return 0;
+    }
+    Integer tmpVal = InnerLayoutIdLookup.sKeys.get(tag);
+    return tmpVal == null ? 0 : tmpVal;
+  }
+
+  @Override
+  public String convertBrIdToString(int localId) {
+    String tmpVal = InnerBrLookup.sKeys.get(localId);
+    return tmpVal;
+  }
+
+  @Override
+  public List<DataBinderMapper> collectDependencies() {
+    ArrayList<DataBinderMapper> result = new ArrayList<DataBinderMapper>(1);
+    result.add(new androidx.databinding.library.baseAdapters.DataBinderMapperImpl());
+    return result;
+  }
+
+  private static class InnerBrLookup {
+    static final SparseArray<String> sKeys = new SparseArray<String>(51);
+
+    static {
+      sKeys.put(1, "OrderItemList");
+      sKeys.put(0, "_all");
+      sKeys.put(2, "actViewModel");
+      sKeys.put(3, "activityReportViewModel");
+      sKeys.put(4, "addCustomerViewModel");
+      sKeys.put(5, "addressViewModel");
+      sKeys.put(6, "cartViewModel");
+      sKeys.put(7, "changePasswordViewModel");
+      sKeys.put(8, "checkOutViewModel");
+      sKeys.put(9, "complaintReportViewModel");
+      sKeys.put(10, "complaintsReportsViewModel");
+      sKeys.put(11, "complaintsViewModel");
+      sKeys.put(12, "createActivityViewModel");
+      sKeys.put(13, "customerHistoryViewModel");
+      sKeys.put(14, "customerList");
+      sKeys.put(15, "customerViewModel");
+      sKeys.put(16, "customers");
+      sKeys.put(17, "expenseViewModel");
+      sKeys.put(18, "feedbackViewModel");
+      sKeys.put(19, "forgotPasswordViewModel");
+      sKeys.put(20, "homeViewModel");
+      sKeys.put(21, "inventoryViewModel");
+      sKeys.put(22, "invoice");
+      sKeys.put(23, "invoiceListViewModel");
+      sKeys.put(24, "itemDetailsViewModel");
+      sKeys.put(25, "items");
+      sKeys.put(26, "leadsViewModel");
+      sKeys.put(27, "loginViewModel");
+      sKeys.put(28, "mainViewModel");
+      sKeys.put(29, "myOrders");
+      sKeys.put(30, "myOrdersViewModel");
+      sKeys.put(31, "notificationViewModel");
+      sKeys.put(32, "orderItemListViewModel");
+      sKeys.put(33, "outstandingAmt");
+      sKeys.put(34, "outstandingViewModel");
+      sKeys.put(35, "ownerViewModel");
+      sKeys.put(36, "paymentViewModel");
+      sKeys.put(37, "products");
+      sKeys.put(38, "productsListViewModel");
+      sKeys.put(39, "productsViewModel");
+      sKeys.put(40, "purchaseManagerViewModel");
+      sKeys.put(41, "regionViewModel");
+      sKeys.put(42, "reportList");
+      sKeys.put(43, "reportListViewModel");
+      sKeys.put(44, "salesAnalysisReports");
+      sKeys.put(45, "salesAnalysisViewModel");
+      sKeys.put(46, "settingsViewModel");
+      sKeys.put(47, "splashViewModel");
+      sKeys.put(48, "userCheckInViewModel");
+      sKeys.put(49, "userCheckOutViewModel");
+      sKeys.put(50, "viewModel");
+    }
+  }
+
+  private static class InnerLayoutIdLookup {
+    static final HashMap<String, Integer> sKeys = new HashMap<String, Integer>(60);
+
+    static {
+      sKeys.put("layout/activity_add_customer_0", com.cbs.snb.R.layout.activity_add_customer);
+      sKeys.put("layout/activity_cart_layout_0", com.cbs.snb.R.layout.activity_cart_layout);
+      sKeys.put("layout/activity_check_in_0", com.cbs.snb.R.layout.activity_check_in);
+      sKeys.put("layout/activity_check_out_0", com.cbs.snb.R.layout.activity_check_out);
+      sKeys.put("layout/activity_compaints_report_0", com.cbs.snb.R.layout.activity_compaints_report);
+      sKeys.put("layout/activity_customer_outstanding_0", com.cbs.snb.R.layout.activity_customer_outstanding);
+      sKeys.put("layout/activity_expense_report_0", com.cbs.snb.R.layout.activity_expense_report);
+      sKeys.put("layout/activity_forgot_password_0", com.cbs.snb.R.layout.activity_forgot_password);
+      sKeys.put("layout/activity_inventory_report_0", com.cbs.snb.R.layout.activity_inventory_report);
+      sKeys.put("layout/activity_invoice_list_0", com.cbs.snb.R.layout.activity_invoice_list);
+      sKeys.put("layout/activity_item_details_0", com.cbs.snb.R.layout.activity_item_details);
+      sKeys.put("layout/activity_list_adapter_0", com.cbs.snb.R.layout.activity_list_adapter);
+      sKeys.put("layout/activity_login_0", com.cbs.snb.R.layout.activity_login);
+      sKeys.put("layout/activity_main_0", com.cbs.snb.R.layout.activity_main);
+      sKeys.put("layout/activity_notification_0", com.cbs.snb.R.layout.activity_notification);
+      sKeys.put("layout/activity_order_item_list_0", com.cbs.snb.R.layout.activity_order_item_list);
+      sKeys.put("layout/activity_products_0", com.cbs.snb.R.layout.activity_products);
+      sKeys.put("layout/activity_products_list_0", com.cbs.snb.R.layout.activity_products_list);
+      sKeys.put("layout/activity_region_0", com.cbs.snb.R.layout.activity_region);
+      sKeys.put("layout/activity_report_0", com.cbs.snb.R.layout.activity_report);
+      sKeys.put("layout/activity_sales_analysis_0", com.cbs.snb.R.layout.activity_sales_analysis);
+      sKeys.put("layout/activity_splash_screen_0", com.cbs.snb.R.layout.activity_splash_screen);
+      sKeys.put("layout/cart_adapter_layout_0", com.cbs.snb.R.layout.cart_adapter_layout);
+      sKeys.put("layout/complaints_list_adapter_0", com.cbs.snb.R.layout.complaints_list_adapter);
+      sKeys.put("layout/customer_adapter_layout_0", com.cbs.snb.R.layout.customer_adapter_layout);
+      sKeys.put("layout/customer_history_adapter_layout_0", com.cbs.snb.R.layout.customer_history_adapter_layout);
+      sKeys.put("layout/customer_list_adapter_layout_0", com.cbs.snb.R.layout.customer_list_adapter_layout);
+      sKeys.put("layout/customers_home_adapter_layout_0", com.cbs.snb.R.layout.customers_home_adapter_layout);
+      sKeys.put("layout/empty_adapter_0", com.cbs.snb.R.layout.empty_adapter);
+      sKeys.put("layout/expense_report_adapter_0", com.cbs.snb.R.layout.expense_report_adapter);
+      sKeys.put("layout/fragment_address_details_0", com.cbs.snb.R.layout.fragment_address_details);
+      sKeys.put("layout/fragment_change_password_0", com.cbs.snb.R.layout.fragment_change_password);
+      sKeys.put("layout/fragment_complaint_0", com.cbs.snb.R.layout.fragment_complaint);
+      sKeys.put("layout/fragment_create_activity_0", com.cbs.snb.R.layout.fragment_create_activity);
+      sKeys.put("layout/fragment_customer_details_0", com.cbs.snb.R.layout.fragment_customer_details);
+      sKeys.put("layout/fragment_customer_history_0", com.cbs.snb.R.layout.fragment_customer_history);
+      sKeys.put("layout/fragment_customers_0", com.cbs.snb.R.layout.fragment_customers);
+      sKeys.put("layout/fragment_expense_0", com.cbs.snb.R.layout.fragment_expense);
+      sKeys.put("layout/fragment_feedback_0", com.cbs.snb.R.layout.fragment_feedback);
+      sKeys.put("layout/fragment_home_0", com.cbs.snb.R.layout.fragment_home);
+      sKeys.put("layout/fragment_inventory_0", com.cbs.snb.R.layout.fragment_inventory);
+      sKeys.put("layout/fragment_lead_0", com.cbs.snb.R.layout.fragment_lead);
+      sKeys.put("layout/fragment_my_orders_0", com.cbs.snb.R.layout.fragment_my_orders);
+      sKeys.put("layout/fragment_owner_details_0", com.cbs.snb.R.layout.fragment_owner_details);
+      sKeys.put("layout/fragment_payment_0", com.cbs.snb.R.layout.fragment_payment);
+      sKeys.put("layout/fragment_purchase_manager_0", com.cbs.snb.R.layout.fragment_purchase_manager);
+      sKeys.put("layout/fragment_report_list_0", com.cbs.snb.R.layout.fragment_report_list);
+      sKeys.put("layout/fragment_user_checkout_0", com.cbs.snb.R.layout.fragment_user_checkout);
+      sKeys.put("layout/inventory_list_adapter_0", com.cbs.snb.R.layout.inventory_list_adapter);
+      sKeys.put("layout/invoice_list_adapter_layout_0", com.cbs.snb.R.layout.invoice_list_adapter_layout);
+      sKeys.put("layout/items_adapter_layout_0", com.cbs.snb.R.layout.items_adapter_layout);
+      sKeys.put("layout/layout_bottom_sheet_payment_0", com.cbs.snb.R.layout.layout_bottom_sheet_payment);
+      sKeys.put("layout/my_orders_adapter_layout_0", com.cbs.snb.R.layout.my_orders_adapter_layout);
+      sKeys.put("layout/order_list_adapter_layout_0", com.cbs.snb.R.layout.order_list_adapter_layout);
+      sKeys.put("layout/orders_item_list_adapter_layout_0", com.cbs.snb.R.layout.orders_item_list_adapter_layout);
+      sKeys.put("layout/payment_outstanding_adapter_layout_0", com.cbs.snb.R.layout.payment_outstanding_adapter_layout);
+      sKeys.put("layout/products_adapter_layout_0", com.cbs.snb.R.layout.products_adapter_layout);
+      sKeys.put("layout/products_list_adapter_layout_0", com.cbs.snb.R.layout.products_list_adapter_layout);
+      sKeys.put("layout/sales_analysis_report_adapter_layout_0", com.cbs.snb.R.layout.sales_analysis_report_adapter_layout);
+      sKeys.put("layout/settings_activity_0", com.cbs.snb.R.layout.settings_activity);
+    }
+  }
+}

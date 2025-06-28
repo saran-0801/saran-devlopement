@@ -1,0 +1,71 @@
+package com.cbs.snb.ui.feedback;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.cbs.snb.BR;
+import com.cbs.snb.R;
+import com.cbs.snb.databinding.FragmentFeedbackBinding;
+import com.cbs.snb.ui.base.BaseFragment;
+
+public class FeedbackFragment extends BaseFragment<FeedbackViewModel, FragmentFeedbackBinding> implements FeedbackNavigator {
+
+    @Override
+    public int getBindingVariable() {
+        return BR.feedbackViewModel;
+    }
+
+    @Override
+    public int getLayoutRes() {
+        return R.layout.fragment_feedback;
+    }
+
+    @Override
+    protected Class<FeedbackViewModel> getViewModel() {
+        return FeedbackViewModel.class;
+    }
+
+    public static FeedbackFragment newInstance() {
+        Bundle args = new Bundle();
+        FeedbackFragment fragment = new FeedbackFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(false);
+    }
+
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        setHasOptionsMenu(true);
+        viewModel.setNavigator(this);
+        setUp();
+        return dataBinding.getRoot();
+    }
+
+    private void setUp(){
+
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        MenuItem item = menu.findItem(R.id.action_cart);
+
+        if (item != null)
+            item.setVisible(false);
+
+    }
+}

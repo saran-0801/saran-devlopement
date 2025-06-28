@@ -1,0 +1,181 @@
+package com.cbs.snb.ui.customerhistory.viewcustomer;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import com.cbs.snb.data.network.models.get.CustomerDetailsModel;
+import com.cbs.snb.databinding.CustomerAdapterLayoutBinding;
+import com.cbs.snb.databinding.CustomerHistoryAdapterLayoutBinding;
+import com.cbs.snb.databinding.EmptyAdapterBinding;
+import com.cbs.snb.ui.base.BaseViewHolder;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by Venkatesh on 03-09-2020.
+ */
+public class CustomerHistoryAdapter extends RecyclerView.Adapter<BaseViewHolder> implements Filterable {
+
+    public static final int VIEW_TYPE_EMPTY = 0;
+    public static final int VIEW_TYPE_NORMAL = 1;
+    private List<CustomerDetailsModel.ResponseObject> mOutstanding;
+    private List<CustomerDetailsModel.ResponseObject> mFilterdOutstanding;
+    private Context mContext;
+
+    private Callback mCallback;
+
+    public interface Callback {
+        void onClick(int position ,CustomerDetailsModel.ResponseObject models);
+
+    }
+
+    public CustomerHistoryAdapter(List<CustomerDetailsModel.ResponseObject> mOutstanding, Context mContext) {
+        this.mOutstanding = mOutstanding;
+        this.mContext = mContext;
+        this.mFilterdOutstanding = mOutstanding;
+    }
+
+    @NonNull
+    @Override
+    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        CustomerHistoryAdapterLayoutBinding binding = CustomerHistoryAdapterLayoutBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
+        return new CustomerViewHolder(binding);
+        /*  switch (viewType) {
+            case VIEW_TYPE_NORMAL:
+                CustomerAdapterLayoutBinding binding = CustomerAdapterLayoutBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
+                return new CustomerViewHolder(binding);
+            case VIEW_TYPE_EMPTY:
+            default:
+                EmptyAdapterBinding emptyViewBinding = EmptyAdapterBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+                return new EmptyViewHolder(emptyViewBinding);
+        }*/
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
+        holder.onBind(position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return mFilterdOutstanding.size();
+       /* if (mFilterdOutstanding != null && mFilterdOutstanding.size() > 0) {
+            return mFilterdOutstanding.size();
+        } else {
+            return 1;
+        }*/
+    }
+
+  /*  @Override
+    public int getItemViewType(int position) {
+        if (mFilterdOutstanding != null && !mFilterdOutstanding.isEmpty()) {
+            return VIEW_TYPE_NORMAL;
+        } else {
+            return VIEW_TYPE_EMPTY;
+        }
+    }*/
+
+    public void addData(List<CustomerDetailsModel.ResponseObject> list) {
+        mOutstanding.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public void clearList() {
+        mFilterdOutstanding.clear();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String charString = constraint.toString();
+                if (charString.isEmpty()) {
+                    mFilterdOutstanding = mOutstanding;
+                } else {
+                    List<CustomerDetailsModel.ResponseObject> filteredList = new ArrayList<>();
+                    for (CustomerDetailsModel.ResponseObject row : mOutstanding) {
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for Name or Mobile Number match
+                        if (row.getCardName().toLowerCase().contains(charString.toLowerCase()) ||
+                                row.getCardCode().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                            filteredList.add(row);
+                        }
+
+                       /* if (row.getCardCode().toLowerCase().contains(charString.toLowerCase())) {
+                            filteredList.add(row);
+                        }*/
+                    }
+                    mFilterdOutstanding = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mFilterdOutstanding;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                mFilterdOutstanding = (List<CustomerDetailsModel.ResponseObject>) results.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
+
+    public class CustomerViewHolder extends BaseViewHolder {
+
+        CustomerHistoryAdapterLayoutBinding binding;
+
+        public CustomerViewHolder(@NonNull CustomerHistoryAdapterLayoutBinding itemView) {
+            super(itemView.getRoot());
+            this.binding = itemView;
+        }
+
+        @Override
+        public void onBind(int position) {
+            CustomerDetailsModel.ResponseObject model = mFilterdOutstanding.get(position);
+            binding.customerName.setText(model.getCardName());
+            binding.customerCode.setText(model.getCardCode());
+            binding.gstRegnNo.setText(model.getGstRegnNo());
+            binding.mobileNo.setText(model.getCellular());
+            binding.phoneNo1.setText(model.getPhone1());
+            binding.phoneNo2.setText(model.getPhone2());
+            StringBuilder builder = new StringBuilder();
+            builder.append(model.getAddress());
+            builder.append(",");
+            builder.append(model.getStreet());
+            builder.append(",");
+            builder.append(model.getBlock());
+            builder.append(",");
+            builder.append(model.getZipCode());
+            binding.address.setText(builder);
+        }
+    }
+
+    public static class EmptyViewHolder extends BaseViewHolder{
+
+        private EmptyAdapterBinding mBinding;
+
+        public EmptyViewHolder(EmptyAdapterBinding binding) {
+            super(binding.getRoot());
+            this.mBinding = binding;
+        }
+
+        @Override
+        public void onBind(int position) {
+
+        }
+    }
+
+    public void setOnClick(Callback onClick) {
+        this.mCallback = onClick;
+    }
+}

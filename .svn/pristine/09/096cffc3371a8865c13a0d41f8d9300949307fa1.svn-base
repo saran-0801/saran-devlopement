@@ -1,0 +1,26 @@
+package com.cbs.snb.di.builder;
+
+import com.cbs.snb.ui.payment.invoices.InvoiceListActivity;
+import dagger.Binds;
+import dagger.Module;
+import dagger.Subcomponent;
+import dagger.android.AndroidInjector;
+import dagger.multibindings.ClassKey;
+import dagger.multibindings.IntoMap;
+
+@Module(subcomponents = ActivityBuilder_InvoiceListActivity.InvoiceListActivitySubcomponent.class)
+public abstract class ActivityBuilder_InvoiceListActivity {
+  private ActivityBuilder_InvoiceListActivity() {}
+
+  @Binds
+  @IntoMap
+  @ClassKey(InvoiceListActivity.class)
+  abstract AndroidInjector.Factory<?> bindAndroidInjectorFactory(
+      InvoiceListActivitySubcomponent.Factory builder);
+
+  @Subcomponent
+  public interface InvoiceListActivitySubcomponent extends AndroidInjector<InvoiceListActivity> {
+    @Subcomponent.Factory
+    interface Factory extends AndroidInjector.Factory<InvoiceListActivity> {}
+  }
+}

@@ -1,0 +1,31 @@
+package com.cbs.snb.data.network.models.get
+
+
+import android.annotation.SuppressLint
+import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
+import android.os.Parcelable
+
+@SuppressLint("ParcelCreator")
+@Parcelize
+data class BanksModel(
+        @SerializedName("responseObject")
+    val responseObject: List<ResponseObject>,
+        @SerializedName("statusCode")
+    val statusCode: Int, // 0
+        @SerializedName("statusMessage")
+    val statusMessage: String // Success
+) : Parcelable {
+    @SuppressLint("ParcelCreator")
+    @Parcelize
+    data class ResponseObject(
+        @SerializedName("BankCode")
+        val bankCode: String, // HDFC
+        @SerializedName("BankName")
+        val bankName: String // HDFC Bank
+    ) : Parcelable{
+        override fun toString(): String {
+            return bankName
+        }
+    }
+}

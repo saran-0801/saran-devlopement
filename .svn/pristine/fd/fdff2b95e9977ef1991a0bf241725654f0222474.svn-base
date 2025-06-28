@@ -1,0 +1,79 @@
+package com.cbs.snb.ui.activity;
+
+import android.app.DatePickerDialog;
+import android.content.Context;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import com.cbs.snb.R;
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.Resource;
+import com.cbs.snb.data.network.models.get.ActivityTypeModel;
+import com.cbs.snb.data.network.models.get.CustomerDetailsModel;
+import com.cbs.snb.data.network.models.post.BasePostResponse;
+import com.cbs.snb.data.network.models.post.CreateActivityModel;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+import com.cbs.snb.utils.DateUtils;
+
+import java.util.Calendar;
+
+import javax.inject.Inject;
+
+import okhttp3.MultipartBody;
+
+/**
+ * Created by Venkatesh on 19-08-2020.
+ */
+public class CreateActivityViewModel extends BaseViewModel<CreateActivityNavigator> {
+
+    private MutableLiveData<Resource<BasePostResponse>> baseResponse;
+    private MutableLiveData<Resource<CustomerDetailsModel>> customers;
+    private LiveData<Resource<ActivityTypeModel>> type;
+    private MediatorLiveData<Boolean> isBoolean;
+
+    @Inject
+    public CreateActivityViewModel(Repository repository, PreferenceHelper preferenceHelper, AppDatabase database) {
+        super(repository, preferenceHelper,database);
+        type = repository.getActivityType();
+        isBoolean = repository.getIsLoading();
+    }
+
+    public void dateSelection(Context context){
+        Calendar myCalendar = Calendar.getInstance();
+        DatePickerDialog.OnDateSetListener date = (view, year, month, dayOfMonth) -> {
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, month);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            getNavigator().setDate(DateUtils.dateFormat().format(myCalendar.getTime()));
+        };
+
+        DatePickerDialog datePicker = new DatePickerDialog(context, R.style.DialogTheme, date, myCalendar
+                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH));
+        datePicker.getDatePicker().setMinDate(System.currentTimeMillis());
+        datePicker.show();
+    }
+
+
+    public LiveData<Resource<ActivityTypeModel>> getType(){
+        return type;
+    }
+
+    public MediatorLiveData<Boolean> isLoading(){
+        return isBoolean;
+    }
+
+    public LiveData<Resource<CustomerDetailsModel>> getCustomers(String type){
+        customers = getRepository().getCustomer(type,getPreferenceHelper().getSalesEmpCode());
+        return customers;
+    }
+
+    public LiveData<Resource<BasePostResponse>> addActivity(CreateActivityModel createActivityModel, MultipartBody.Part mImageFile){
+        baseResponse = getRepository().addActivity(createActivityModel,mImageFile);
+        return baseResponse;
+    }
+}

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:weightSum="3"
+    android:paddingVertical="8dp">
+
+
+    <TextView
+        android:id="@+id/batch_list_item_layout_tv_sl_no"
+        android:layout_width="0dp"
+        android:layout_weight="0.75"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/poppins_medium"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:textColor="#181C32"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/batch_list_item_layout_tv_batch_no"
+        android:layout_width="0dp"
+        android:layout_weight="1.5"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:fontFamily="@font/poppins_medium"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:textColor="#181C32"
+        android:textSize="12sp" />
+
+    <ImageView
+        android:id="@+id/batch_list_item_layout_iv_delete"
+        android:layout_width="0dp"
+        android:layout_weight="0.75"
+        android:layout_height="match_parent"
+        android:src="@drawable/delete_outline_24px"
+        android:layout_marginStart="4dp"/>
+
+</LinearLayout>

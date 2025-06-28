@@ -1,0 +1,70 @@
+package com.cbs.snb.ui.changepassword;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.cbs.snb.BR;
+import com.cbs.snb.R;
+import com.cbs.snb.databinding.FragmentChangePasswordBinding;
+import com.cbs.snb.ui.base.BaseFragment;
+
+
+/**
+ * Created by Venkatesh on 13-07-2020.
+ */
+public class ChangePasswordFragment extends BaseFragment<ChangePasswordViewModel, FragmentChangePasswordBinding> implements ChangePasswordNavigator {
+
+    @Override
+    public int getBindingVariable() {
+        return BR.changePasswordViewModel;
+    }
+
+    @Override
+    public int getLayoutRes() {
+        return R.layout.fragment_change_password;
+    }
+
+    @Override
+    protected Class<ChangePasswordViewModel> getViewModel() {
+        return ChangePasswordViewModel.class;
+    }
+
+
+    public static ChangePasswordFragment newInstance() {
+        Bundle args = new Bundle();
+        ChangePasswordFragment fragment = new ChangePasswordFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        setHasOptionsMenu(true);
+        viewModel.setNavigator(this);
+        setUp();
+        return dataBinding.getRoot();
+    }
+
+
+    private void setUp(){
+
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        MenuItem item = menu.findItem(R.id.action_cart);
+        if (item != null)
+            item.setVisible(false);
+
+    }
+}

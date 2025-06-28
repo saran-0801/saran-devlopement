@@ -1,0 +1,33 @@
+package com.cbs.snb.data.network.models.get
+
+
+import android.annotation.SuppressLint
+import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
+import android.os.Parcelable
+
+@SuppressLint("ParcelCreator")
+@Parcelize
+data class InventoryModel(
+        @SerializedName("responseObject")
+    val responseObject: List<ResponseObject>,
+        @SerializedName("statusCode")
+    val statusCode: Int, // 0
+        @SerializedName("statusMessage")
+    val statusMessage: String // Success
+) : Parcelable {
+    @SuppressLint("ParcelCreator")
+    @Parcelize
+    data class ResponseObject(
+        @SerializedName("InStock")
+        val inStock: Double, // 0
+        @SerializedName("InvntryUom")
+        val invntryUom: String, // Tons
+        @SerializedName("ItemCode")
+        val itemCode: String, // 1012
+        @SerializedName("ItemName")
+        val itemName: String, // Refined Wheat Flour (Maida) (Narasu's) 50Kg
+        @SerializedName("WhsCode")
+        val whsCode: String // 01
+    ) : Parcelable
+}

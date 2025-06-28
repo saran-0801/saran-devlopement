@@ -1,0 +1,154 @@
+package com.cbs.snb.ui.customers;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.cbs.snb.BR;
+import com.cbs.snb.R;
+import com.cbs.snb.data.network.models.get.CustomerDetailsModel;
+import com.cbs.snb.databinding.FragmentCustomersBinding;
+import com.cbs.snb.ui.base.BaseFragment;
+import com.cbs.snb.ui.products.ProductsActivity;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+/**
+ * Created by Venkatesh on 09-07-2020.
+ */
+public class CustomerFragment extends BaseFragment<CustomerViewModel, FragmentCustomersBinding> implements CustomerNavigator, CustomerAdapter.Callback {
+
+    @Override
+    public int getBindingVariable() {
+        return BR.customerViewModel;
+    }
+
+    @Override
+    public int getLayoutRes() {
+        return R.layout.fragment_customers;
+    }
+
+    @Inject
+    CustomerAdapter mAdapter;
+
+    @Override
+    protected Class<CustomerViewModel> getViewModel() {
+        return CustomerViewModel.class;
+    }
+
+    private FragmentTransaction fragmentTransaction;
+    private FragmentManager mFragmentManager;
+    private Fragment fragment = null;
+
+    public static CustomerFragment newInstance() {
+        Bundle args = new Bundle();
+        CustomerFragment fragment = new CustomerFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        setHasOptionsMenu(true);
+        viewModel.setNavigator(this);
+        mAdapter.setOnClick(this);
+        setUp();
+        return dataBinding.getRoot();
+    }
+
+    private void setUp() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        dataBinding.customersRecyclerView.setLayoutManager(linearLayoutManager);
+        dataBinding.customersRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        dataBinding.customersRecyclerView.setAdapter(mAdapter);
+
+        if (isNetworkConnected()) {
+            viewModel.isLoading().observe(getViewLifecycleOwner(), aBoolean -> {
+                if (aBoolean) {
+                    showLoading();
+                } else {
+                    hideLoading();
+                }
+            });
+
+            viewModel.getCustomers("C").observe(getViewLifecycleOwner(), customerDetailsModelResource -> {
+                switch (customerDetailsModelResource.status) {
+                    case LOADING:
+                        showLoading();
+                        break;
+                    case SUCCESS:
+                        hideLoading();
+                        setCustomer(customerDetailsModelResource.data.getResponseObject());
+                        break;
+                    case ERROR:
+                        hideLoading();
+                        showSnackBar(customerDetailsModelResource.getMessage(), getResources().getColor(R.color.red));
+                        break;
+                    default:
+                        break;
+                }
+            });
+        } else {
+            showSnackBar(getActivity().getResources().getString(R.string.no_internet), getResources().getColor(R.color.black_effective));
+        }
+
+        dataBinding.searchCustomers.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mAdapter.getFilter().filter(newText);
+                return true;
+            }
+        });
+
+    }
+
+    private void setCustomer(List<CustomerDetailsModel.ResponseObject> products) {
+        if (mAdapter != null)
+            mAdapter.clearList();
+        mAdapter.addCustomer(products);
+        mAdapter.notifyDataSetChanged();
+    }
+
+   /* @Override
+    public void onProductClick(int position, ProductsModel.ResponseObject models) {
+        Bundle bundle = new Bundle();
+        bundle.putString("itemName", models.getItemName());
+        bundle.putDouble("price", models.getPrice());
+        bundle.putString("itemCode", models.getItemCode());
+        bundle.putDouble("inStock", models.getInStock());
+        bundle.putString("uom", models.getInvntryUom());
+        bundle.putString("remarks", models.getRemarks());
+        bundle.putString("url", models.getColumn1());
+        startActivity(ProductDetailsActivity.getStartIntent(getActivity(), bundle));
+    }*/
+
+
+    @Override
+    public void onClick(int position, CustomerDetailsModel.ResponseObject models) {
+        Bundle bundle = new Bundle();
+        bundle.putString("cardCode",models.getCardCode());
+        bundle.putString("cardName",models.getCardName());
+        startActivity(ProductsActivity.getStartIntent(getActivity(),bundle));
+    }
+
+}

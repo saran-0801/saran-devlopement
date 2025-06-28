@@ -1,0 +1,28 @@
+package com.cbs.snb.di.builder;
+
+import com.cbs.snb.ui.feedback.FeedbackFragment;
+import dagger.Binds;
+import dagger.Module;
+import dagger.Subcomponent;
+import dagger.android.AndroidInjector;
+import dagger.multibindings.ClassKey;
+import dagger.multibindings.IntoMap;
+
+@Module(
+  subcomponents = FragmentBuilder_ContributeFeedbackFragment.FeedbackFragmentSubcomponent.class
+)
+public abstract class FragmentBuilder_ContributeFeedbackFragment {
+  private FragmentBuilder_ContributeFeedbackFragment() {}
+
+  @Binds
+  @IntoMap
+  @ClassKey(FeedbackFragment.class)
+  abstract AndroidInjector.Factory<?> bindAndroidInjectorFactory(
+      FeedbackFragmentSubcomponent.Factory builder);
+
+  @Subcomponent
+  public interface FeedbackFragmentSubcomponent extends AndroidInjector<FeedbackFragment> {
+    @Subcomponent.Factory
+    interface Factory extends AndroidInjector.Factory<FeedbackFragment> {}
+  }
+}

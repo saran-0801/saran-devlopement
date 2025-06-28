@@ -1,0 +1,505 @@
+package com.cbs.snb.ui.pdf_viwer;
+
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.MutableLiveData;
+
+import com.cbs.snb.R;
+import com.cbs.snb.data.network.ApiService;
+import com.cbs.snb.data.network.Resource;
+import com.cbs.snb.data.network.models.get.CustomerDetailsModel;
+import com.cbs.snb.data.network.models.get.RegionCodeModel;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.utils.ApiClient;
+import com.cbs.snb.utils.CallerSOAP;
+import com.cbs.snb.utils.Constants;
+import com.cbs.snb.utils.NetworkUtils;
+import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.listener.OnDrawListener;
+import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
+import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
+import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
+import com.github.barteksc.pdfviewer.listener.OnRenderListener;
+import com.github.barteksc.pdfviewer.listener.OnTapListener;
+import com.google.android.material.snackbar.Snackbar;
+import com.krishna.fileloader.FileLoader;
+import com.krishna.fileloader.listener.FileRequestListener;
+import com.krishna.fileloader.pojo.FileResponse;
+import com.krishna.fileloader.request.FileLoadRequest;
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+
+
+public class PDFViewerActivity extends AppCompatActivity implements OnPageChangeListener, OnLoadCompleteListener {
+
+    private MutableLiveData<Resource<CustomerDetailsModel>> customers;
+    private PreferenceHelper mPreferenceHelper;
+    private Repository mRepository;
+    PDFView pdfView;
+    LinearLayout layDateInput;
+    ProgressBar progressBar;
+
+    private ApiService apiService;
+
+    Button btnLoadReport;
+    Spinner spEmpList;
+    Calendar date;
+    Context context;
+    EditText startDate, endDate;
+    SearchableSpinner customerCode, regionCode;
+    Boolean mIsNetConnected = false;
+
+    String stFromDate = "", stToDate = "";
+    String stEmpCode = "";
+    String stCardCode = "", stCardName;
+    String stRegionCode = "", stRegionName;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_pdf_viewer);
+
+        context = PDFViewerActivity.this;
+        pdfView = (PDFView) findViewById(R.id.pdfView);
+
+        //mPreferenceHelper = new PreferenceHelper();
+        startDate =  findViewById(R.id.etFromDate);
+        endDate =  findViewById(R.id.etToDate);
+
+        customerCode = findViewById(R.id.acCustomerCode);
+        regionCode = findViewById(R.id.acRegionCode);
+
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        Button load = (Button) findViewById(R.id.loadReport);
+        layDateInput = (LinearLayout) findViewById(R.id.layDateInput);
+
+        mIsNetConnected = NetworkUtils.isNetworkConnected(this);
+
+        startDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDateTimePicker(1);
+            }
+        });
+
+        endDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDateTimePicker(2);
+            }
+        });
+
+        SharedPreferences myprefs = context.getSharedPreferences(Constants.PREF_NAME, Context.MODE_PRIVATE);
+        stEmpCode = myprefs.getString("slpCode", null);
+
+        if (getIntent().getStringExtra("Parameter").equals("Y")) {
+            layDateInput.setVisibility(View.VISIBLE);
+            pdfView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
+
+            if (getIntent().getStringExtra("FromToDate").equals("Y")) {
+                findViewById(R.id.ilFromDate).setVisibility(View.VISIBLE);
+               // findViewById(R.id.ilToDate).setVisibility(View.VISIBLE);
+            }else{
+                findViewById(R.id.ilFromDate).setVisibility(View.GONE);
+                //findViewById(R.id.ilToDate).setVisibility(View.GONE);
+            }
+
+            if (getIntent().getStringExtra("ToDate").equals("Y")) {
+                //findViewById(R.id.ilFromDate).setVisibility(View.VISIBLE);
+                findViewById(R.id.ilToDate).setVisibility(View.VISIBLE);
+            }else{
+                //findViewById(R.id.ilFromDate).setVisibility(View.GONE);
+                findViewById(R.id.ilToDate).setVisibility(View.GONE);
+            }
+
+            if (getIntent().getStringExtra("CustomerCode").equals("Y")) {
+                findViewById(R.id.ilCustomerCode).setVisibility(View.VISIBLE);
+            }else{
+                findViewById(R.id.ilCustomerCode).setVisibility(View.GONE);
+            }
+
+            if (getIntent().getStringExtra("Region").equals("Y")) {
+                findViewById(R.id.ilRegionCode).setVisibility(View.VISIBLE);
+            }else{
+                findViewById(R.id.ilRegionCode).setVisibility(View.GONE);
+            }
+
+        } else {
+
+            layDateInput.setVisibility(View.GONE);
+            String stInfo = toCallAllTabReportWithParameter(getIntent().getStringExtra("ReportName"),
+                    getIntent().getStringExtra("SPName"), stFromDate, stToDate, stEmpCode, stCardCode, stRegionCode, "N");
+
+            if (stInfo.equals("Success")) {
+                    pdfView.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
+                  //  String fileName = SOAPUrl + "Reports/" + getIntent().getStringExtra("ReportName") + ".pdf";
+                  //  afterLoadPdfView(fileName);
+            } else {
+                showInformation(stInfo);
+            }
+        }
+
+        load.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(getIntent().getStringExtra("CustomerMen").equals("Y") && getIntent().getStringExtra("CustomerCode").equals("Y")){
+                    if(stCardCode.equals("")){
+                        snacMsg("Please select Customer");
+                        return;
+                    }
+                }
+
+                    new AsyncCallWS().execute();
+            }
+        });
+
+        try {
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat df2 = new SimpleDateFormat("yyyy/MM/dd");
+
+            stFromDate = df2.format(c.getTime());
+            stToDate = df2.format(c.getTime());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        getCustomerCode();
+
+        getRegionCode();
+
+    }
+
+
+    private class AsyncCallWS extends AsyncTask<String, String, String> {
+        @Override
+        protected String doInBackground(String... params) {
+
+            String stInfo = toCallAllTabReportWithParameter(getIntent().getStringExtra("ReportName"),
+                    getIntent().getStringExtra("SPName"), stFromDate, stToDate, stEmpCode, stCardCode, stRegionCode, "N");
+                Log.i("TAG", ""+stInfo);
+            return stInfo;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            Log.i("TAG", "onPostExecute"+result);
+            if (result.equals("Success")) {
+                    layDateInput.setVisibility(View.GONE);
+                    pdfView.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.VISIBLE);
+                  //  String fileName = SOAPUrl + "Reports/" + getIntent().getStringExtra("ReportName") + ".pdf";
+
+                   // afterLoadPdfView(fileName);
+            } else {
+                showInformation(result);
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            Log.i("TAG", "onPreExecute");
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            Log.i("TAG", "onProgressUpdate");
+        }
+    }
+
+    public void getCustomerCode(){
+
+            apiService = ApiClient.getClient(context).create(ApiService.class);
+            SharedPreferences myprefs = context.getSharedPreferences(Constants.PREF_NAME, Context.MODE_PRIVATE);
+            String username = myprefs.getString("name", null);
+            String slpCode = myprefs.getString("slpCode", null);
+            String typeCode = myprefs.getString("typeCode", null);
+
+        apiService.getCustomers("C",slpCode,typeCode).enqueue(new Callback<CustomerDetailsModel>() {
+            @Override
+            public void onResponse(@NotNull Call<CustomerDetailsModel> call, @NotNull Response<CustomerDetailsModel> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            //mutableCustomerDetailsModel.setValue(Resource.success(response.body()));
+                            getCustomerCode(response.body().getResponseObject());
+                        } else {
+                            Log.e("tracking", response.message());
+                        }
+                    }
+                } else {
+                    Log.e("tracking", response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<CustomerDetailsModel> call, @NotNull Throwable t) {
+                Log.e("tracking", t.getMessage());
+            }
+        });
+    }
+
+    private void getCustomerCode(List<CustomerDetailsModel.ResponseObject> customer) {
+
+        List<CustomerDetailsModel.ResponseObject> customer1 =  new ArrayList<>();
+        customer1.add(new CustomerDetailsModel.ResponseObject("", "All Customers", "","","", "", "","","","","","",""));
+        customer1.addAll(customer);
+        CustomerListAdapter adapter = new CustomerListAdapter(context, customer1);
+        customerCode.setAdapter(adapter);
+
+        customerCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                stCardCode = customer1.get(position).getCardCode();
+                stCardName = customer1.get(position).getCardName();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+
+    public void getRegionCode(){
+
+        apiService = ApiClient.getClient(context).create(ApiService.class);
+
+        apiService.getRegionList().enqueue(new Callback<RegionCodeModel>() {
+            @Override
+            public void onResponse(@NotNull Call<RegionCodeModel> call, @NotNull Response<RegionCodeModel> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            getRegionCode(response.body().getResponseObject());
+                        } else {
+                            Log.e("tracking", response.message());
+                        }
+                    }
+                } else {
+                    Log.e("tracking", response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<RegionCodeModel> call, @NotNull Throwable t) {
+                Log.e("tracking", t.getMessage());
+            }
+        });
+    }
+
+    private void getRegionCode(List<RegionCodeModel.ResponseObject> region) {
+
+        RegionListAdapter adapter = new RegionListAdapter(context, region);
+        regionCode.setAdapter(adapter);
+
+        regionCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                stRegionCode = region.get(position).getCode();
+                stRegionName = region.get(position).getName();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    @Override
+    public void loadComplete(int nbPages) {
+
+    }
+
+    @Override
+    public void onPageChanged(int page, int pageCount) {
+
+    }
+
+    public void afterLoadPdfView(String fileName) {
+
+        try {
+            FileLoader.deleteWith(this).fromDirectory("PDFFile", FileLoader.DEFAULT_DIR_TYPE).deleteFiles(fileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        FileLoader.with(this)
+            .load(fileName)
+            .fromDirectory("PDFFile", FileLoader.DEFAULT_DIR_TYPE)
+            .asFile(new FileRequestListener<File>() {
+                @Override
+                public void onLoad(FileLoadRequest request, FileResponse<File> response) {
+
+                    progressBar.setVisibility(View.GONE);
+
+                    pdfView.fromFile(response.getBody())
+                            .password(null)
+                            .defaultPage(0)
+                            .enableSwipe(true)
+                            .swipeHorizontal(false)
+                            .enableDoubletap(true)
+                            .onDraw(new OnDrawListener() {
+                                @Override
+                                public void onLayerDrawn(Canvas canvas, float pageWidth, float pageHeight, int displayedPage) {
+
+                                }
+                            }).onDrawAll(new OnDrawListener() {
+                        @Override
+                        public void onLayerDrawn(Canvas canvas, float pageWidth, float pageHeight, int displayedPage) {
+
+                        }
+                    }).onPageError(new OnPageErrorListener() {
+                        @Override
+                        public void onPageError(int page, Throwable t) {
+                            Toast.makeText(PDFViewerActivity.this, "Error", Toast.LENGTH_LONG).show();
+                        }
+                    }).onPageChange(new OnPageChangeListener() {
+                        @Override
+                        public void onPageChanged(int page, int pageCount) {
+
+                        }
+                    }).onTap(new OnTapListener() {
+                        @Override
+                        public boolean onTap(MotionEvent e) {
+                            return true;
+                        }
+                    }).onRender(new OnRenderListener() {
+                        @Override
+                        public void onInitiallyRendered(int nbPages, float pageWidth, float pageHeight) {
+                            pdfView.fitToWidth();
+                        }
+                    }).enableAnnotationRendering(true).invalidPageColor(Color.WHITE).load();
+                }
+
+                @Override
+                public void onError(FileLoadRequest request, Throwable t) {
+                    Toast.makeText(PDFViewerActivity.this, "No reports found", Toast.LENGTH_LONG).show();
+                    progressBar.setVisibility(View.GONE);
+                }
+            });
+
+    }
+
+    public void showInformation(String result) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+        builder.setMessage(result);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                arg0.dismiss();
+            }
+        });
+        builder.create().show();
+    }
+
+    public void showDateTimePicker(final int type) {
+
+        final Calendar currentDate = Calendar.getInstance();
+        date = Calendar.getInstance();
+
+        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+
+                date.set(Calendar.YEAR, year);
+                date.set(Calendar.MONTH, monthOfYear);
+                date.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                String myFormat = "dd-MM-yyyy"; // your format
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
+                String Format = "yyyy/MM/dd"; // your format
+                SimpleDateFormat sd = new SimpleDateFormat(Format, Locale.getDefault());
+                if (type == 1) {
+                    startDate.setText(sdf.format(date.getTime()));
+                    stFromDate = sd.format(date.getTime());
+                } else if (type == 2) {
+                    endDate.setText(sdf.format(date.getTime()));
+                    stToDate = sd.format(date.getTime());
+                }
+            }
+        };
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(PDFViewerActivity.this, dateSetListener, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis() + 1000);
+        datePickerDialog.show();
+    }
+
+
+    public String toCallAllTabReportWithParameter(String ReportName, String SPName, String sFromDate, String sToDate, String stEmpCode, String sCardCode, String stRegCode, String IsHana) {
+
+        String str = "";
+        try {
+            if (mIsNetConnected.equals(false)) {
+                return "[{'message':'No internet connection'}]";
+            }
+            String result = new CallerSOAP(context).TabReportWithParameterRequest(ReportName, SPName, sFromDate, sToDate, stEmpCode, sCardCode, stRegCode, IsHana);
+            String replace = result.replace("{", str);
+            String[] data1 = replace.replace("}", str).split(":");
+            if (data1.length > 1) {
+                return data1[1];
+            }
+            return data1[0];
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Report not found";
+        }
+    }
+
+    public void snacMsg(String message){
+
+        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content),message, Snackbar.LENGTH_SHORT);
+        View sbView = snackbar.getView();
+        sbView.setBackgroundColor(getResources().getColor(R.color.red));
+        TextView textView = sbView.findViewById(R.id.snackbar_text);
+        textView.setTextColor(ContextCompat.getColor(this, R.color.white));
+        snackbar.show();
+    }
+
+}
+

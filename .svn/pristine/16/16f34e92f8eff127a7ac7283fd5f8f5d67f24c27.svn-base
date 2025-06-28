@@ -1,0 +1,19 @@
+package com.cbs.snb.ui.leads.address;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+
+import javax.inject.Inject;
+
+/**
+ * Created by Venkatesh on 14-07-2020.
+ */
+public class AddressDetailsViewModel extends BaseViewModel<AddressDetailsNavigator> {
+
+    @Inject
+    public AddressDetailsViewModel(Repository repository, PreferenceHelper preferenceHelper, AppDatabase database) {
+        super(repository, preferenceHelper,database);
+    }
+}

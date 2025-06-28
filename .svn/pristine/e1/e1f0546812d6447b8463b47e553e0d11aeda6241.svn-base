@@ -1,0 +1,74 @@
+package com.cbs.snb.ui.customerhistory.addcustomer;
+
+import androidx.lifecycle.LiveData;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.Resource;
+import com.cbs.snb.data.network.models.get.CustomerDetailsModel;
+import com.cbs.snb.data.network.models.get.CustomerGroupModel;
+import com.cbs.snb.data.network.models.get.GstTypeModel;
+import com.cbs.snb.data.network.models.get.PaymentTermsModel;
+import com.cbs.snb.data.network.models.get.StateModel;
+import com.cbs.snb.data.network.models.post.BasePostResponse;
+import com.cbs.snb.data.network.models.post.CustomerCreationModel;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+
+import javax.inject.Inject;
+
+import okhttp3.MultipartBody;
+
+/**
+ * Created by Venkatesh on 15-07-2020.
+ */
+public class AddCustomerViewModel extends BaseViewModel<AddCustomerNavigator> {
+
+    LiveData<Resource<CustomerGroupModel>> customerModel;
+    LiveData<Resource<PaymentTermsModel>> paymentTerms;
+    LiveData<Resource<GstTypeModel>> gstType;
+    LiveData<Resource<CustomerCreationModel>> customerCreation;
+    LiveData<Resource<StateModel>> states;
+
+    @Inject
+    public AddCustomerViewModel(Repository repository, PreferenceHelper preferenceHelper, AppDatabase database) {
+        super(repository, preferenceHelper,database);
+        customerModel = repository.getCustomerGroup();
+        paymentTerms = repository.getPaymentTerms();
+        gstType = repository.getGstType();
+        states = repository.getState();
+    }
+
+    public LiveData<Resource<CustomerGroupModel>> getCustomerCode(){
+        return customerModel;
+    }
+
+    public LiveData<Resource<PaymentTermsModel>> getPaymentTerms(){
+        return paymentTerms;
+    }
+
+    public LiveData<Resource<GstTypeModel>> getGstType(){
+        return gstType;
+    }
+
+    public LiveData<Resource<CustomerDetailsModel>> getCustomers(String type){
+        return getRepository().getCustomer(type,getPreferenceHelper().getSalesEmpCode());
+    }
+
+    public LiveData<Resource<StateModel>> getState(){
+        return states;
+    }
+
+    public LiveData<Boolean> isLoading(){
+        return getRepository().getIsLoading();
+    }
+
+    public LiveData<Resource<BasePostResponse>> addCustomer(CustomerCreationModel customerCreationModel, MultipartBody.Part mImageFile){
+        return getRepository().addCustomers(customerCreationModel,mImageFile);
+    }
+
+    public String empCode(){
+        return getPreferenceHelper().getSalesEmpCode();
+    }
+
+}

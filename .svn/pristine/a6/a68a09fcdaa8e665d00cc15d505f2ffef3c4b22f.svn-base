@@ -1,0 +1,11 @@
+package com.cbs.snb.ui.reports.salesanalysis;
+
+/**
+ * Created by Venkatesh on 14-07-2020.
+ */
+public interface SalesAnalysisNavigator {
+    void fromDate(String fromDate);
+
+    void toDate(String toDate);
+
+}

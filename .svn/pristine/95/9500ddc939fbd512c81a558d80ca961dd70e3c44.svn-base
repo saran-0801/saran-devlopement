@@ -1,0 +1,71 @@
+package com.cbs.snb.ui.payment.invoices;
+
+import android.util.Log;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.ApiService;
+import com.cbs.snb.data.network.Resource;
+import com.cbs.snb.data.network.models.get.PaymentInvoiceModel;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+import com.cbs.snb.utils.rx.SchedulerProvider;
+
+import javax.inject.Inject;
+
+/**
+ * Created by Venkatesh on 04-09-2020.
+ */
+public class InvoiceViewModel extends BaseViewModel<InvoiceNavigator> {
+
+    public MutableLiveData<Resource<PaymentInvoiceModel>> paymentInvoice;
+    public MutableLiveData<Boolean> progressBar;
+    public MutableLiveData<String> customerCode;
+
+    @Inject
+    public InvoiceViewModel(Repository repository, SchedulerProvider schedulerProvider,
+                            PreferenceHelper preferenceHelper, AppDatabase database, ApiService service) {
+        super(repository, schedulerProvider, preferenceHelper, database, service);
+        paymentInvoice = new MutableLiveData<>();
+        progressBar = new MutableLiveData<>();
+        customerCode = new MutableLiveData<>();
+    }
+
+    public void setData(String code) {
+        customerCode.setValue(code);
+        Log.e("codesss",code);
+        init();
+    }
+
+    public void init() {
+        getInvoiceDetails();
+    }
+
+    public LiveData<Resource<PaymentInvoiceModel>> getInvoiceLiveData() {
+        return paymentInvoice;
+    }
+
+
+    private void getInvoiceDetails() {
+        progressBar.setValue(true);
+        getCompositeDisposable().add(getApiService()
+                .getPaymentInvoice(getPreferenceHelper().getSalesEmpCode(), customerCode.getValue())
+                .subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(paymentInvoiceModel -> {
+                    progressBar.setValue(false);
+                    if (paymentInvoiceModel.getStatusCode() == 0) {
+                        paymentInvoice.postValue(Resource.success(paymentInvoiceModel));
+                    } else {
+                        paymentInvoice.postValue(Resource.error(paymentInvoiceModel.getStatusMessage(), null));
+                    }
+                }, throwable -> {
+                    progressBar.setValue(false);
+                    paymentInvoice.postValue(Resource.error(throwable.toString(), null));
+                }));
+    }
+
+}

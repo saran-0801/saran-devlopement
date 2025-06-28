@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="customerViewModel"
+            type="com.cbs.snb.ui.leads.customer.CustomerDetailsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".ui.leads.customer.CustomerDetailsFragment">
+
+        <TextView
+            android:id="@+id/tvCustomerNameText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen5dp"
+            android:layout_marginStart="@dimen/dimen5dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="@dimen/dimen5dp"
+            android:text="@string/customer_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/etCustomerName"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen45dp"
+            android:layout_margin="@dimen/dimen5dp"
+            android:layout_marginStart="@dimen/dimen5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="@dimen/dimen5dp"
+            android:background="@drawable/remarks_et_bg"
+            android:hint="@string/enter_customer_name"
+            android:padding="@dimen/dimen5dp"
+            app:layout_constraintBottom_toTopOf="@+id/tvGroupText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCustomerNameText" />
+
+
+        <TextView
+            android:id="@+id/tvGroupText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="5dp"
+            android:text="@string/select_group"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etCustomerName" />
+
+
+        <RelativeLayout
+            android:id="@+id/GroupLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen45dp"
+            android:layout_margin="@dimen/dimen5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/spinner_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvGroupText">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/drop_down_menu"
+                android:src="@drawable/ic_drop_down" />
+
+            <Spinner
+                android:id="@+id/spGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:spinnerMode="dropdown"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="75dp" />
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/tvTypeText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="5dp"
+            android:text="@string/select_type"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/GroupLayout" />
+
+
+        <RelativeLayout
+            android:id="@+id/typeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen45dp"
+            android:layout_margin="@dimen/dimen5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/spinner_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTypeText">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/drop_down_menu"
+                android:src="@drawable/ic_drop_down" />
+
+            <Spinner
+                android:id="@+id/spType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:spinnerMode="dropdown"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="75dp" />
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/tvRegNoText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen5dp"
+            android:layout_marginStart="@dimen/dimen5dp"
+            android:layout_marginTop="@dimen/dimen28dp"
+            android:layout_marginEnd="@dimen/dimen5dp"
+            android:text="@string/reg_no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/typeLayout" />
+
+        <EditText
+            android:id="@+id/etRegNo"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen45dp"
+            android:layout_margin="@dimen/dimen5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="@dimen/dimen28dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/remarks_et_bg"
+            android:hint="@string/enter_reg_no"
+            android:padding="@dimen/dimen5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvRegNoText" />
+
+
+        <TextView
+            android:id="@+id/tvVatText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen5dp"
+            android:layout_marginStart="@dimen/dimen5dp"
+            android:layout_marginTop="@dimen/dimen28dp"
+            android:layout_marginEnd="@dimen/dimen5dp"
+            android:text="@string/vat_no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etRegNo" />
+
+        <EditText
+            android:id="@+id/etVatNo"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen45dp"
+            android:layout_margin="@dimen/dimen5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="@dimen/dimen28dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/remarks_et_bg"
+            android:hint="@string/enter_vat_no"
+            android:padding="@dimen/dimen5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvVatText" />
+
+
+        <TextView
+            android:id="@+id/tvPayTermsText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="5dp"
+            android:text="@string/select_terms"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etVatNo" />
+
+
+        <RelativeLayout
+            android:id="@+id/payTermsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen45dp"
+            android:layout_margin="@dimen/dimen5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/spinner_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvPayTermsText">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/drop_down_menu"
+                android:src="@drawable/ic_drop_down" />
+
+            <Spinner
+                android:id="@+id/spPayTerms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:spinnerMode="dropdown"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="75dp" />
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/tvCreditLimitText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen5dp"
+            android:layout_marginStart="@dimen/dimen5dp"
+            android:layout_marginTop="@dimen/dimen28dp"
+            android:layout_marginEnd="@dimen/dimen5dp"
+            android:text="@string/credit_limit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/payTermsLayout" />
+
+        <EditText
+            android:id="@+id/etCreditLimit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen45dp"
+            android:layout_margin="@dimen/dimen5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="@dimen/dimen28dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/remarks_et_bg"
+            android:hint="@string/enter_credit_limit"
+            android:padding="@dimen/dimen5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCreditLimitText" />
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

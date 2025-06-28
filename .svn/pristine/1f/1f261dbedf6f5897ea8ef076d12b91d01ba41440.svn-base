@@ -1,0 +1,26 @@
+package com.cbs.snb.di.builder;
+
+import com.cbs.snb.ui.leads.LeadFragment;
+import dagger.Binds;
+import dagger.Module;
+import dagger.Subcomponent;
+import dagger.android.AndroidInjector;
+import dagger.multibindings.ClassKey;
+import dagger.multibindings.IntoMap;
+
+@Module(subcomponents = FragmentBuilder_ContributeLeadFragment.LeadFragmentSubcomponent.class)
+public abstract class FragmentBuilder_ContributeLeadFragment {
+  private FragmentBuilder_ContributeLeadFragment() {}
+
+  @Binds
+  @IntoMap
+  @ClassKey(LeadFragment.class)
+  abstract AndroidInjector.Factory<?> bindAndroidInjectorFactory(
+      LeadFragmentSubcomponent.Factory builder);
+
+  @Subcomponent
+  public interface LeadFragmentSubcomponent extends AndroidInjector<LeadFragment> {
+    @Subcomponent.Factory
+    interface Factory extends AndroidInjector.Factory<LeadFragment> {}
+  }
+}

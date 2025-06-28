@@ -1,0 +1,11 @@
+package com.cbs.snb.ui.orders;
+
+/**
+ * Created by Venkatesh on 19-08-2020.
+ */
+public interface MyOrdersNavigator {
+
+    void fromDate(String fromDate);
+
+    void toDate(String toDate);
+}

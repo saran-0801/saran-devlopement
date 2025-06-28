@@ -1,0 +1,11 @@
+package com.cbs.snb.ui.pdf_viwer.report_list;
+
+/**
+ * Created by Venkatesh on 19-08-2020.
+ */
+public interface ReportListNavigator {
+
+    void fromDate(String fromDate);
+
+    void toDate(String toDate);
+}

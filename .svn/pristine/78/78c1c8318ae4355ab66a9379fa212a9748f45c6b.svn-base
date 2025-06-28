@@ -1,0 +1,7 @@
+package com.cbs.snb.ui.inventory;
+
+/**
+ * Created by Venkatesh on 14-07-2020.
+ */
+public interface InventoryNavigator {
+}

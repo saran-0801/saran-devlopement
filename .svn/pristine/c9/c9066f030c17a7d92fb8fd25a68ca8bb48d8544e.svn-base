@@ -1,0 +1,194 @@
+package com.cbs.snb.data.network;
+
+import com.cbs.snb.data.network.models.get.ActivityReportModel;
+import com.cbs.snb.data.network.models.get.ActivityTypeModel;
+import com.cbs.snb.data.network.models.get.BanksModel;
+import com.cbs.snb.data.network.models.get.ComplaintReportModel;
+import com.cbs.snb.data.network.models.get.ComplaintSubTypeModel;
+import com.cbs.snb.data.network.models.get.ComplaintTypeModel;
+import com.cbs.snb.data.network.models.get.CustomerDetailsModel;
+import com.cbs.snb.data.network.models.get.CustomerGroupModel;
+import com.cbs.snb.data.network.models.get.CustomerOutstandingModel;
+import com.cbs.snb.data.network.models.get.DealerNameModel;
+import com.cbs.snb.data.network.models.get.ExpenseReportModel;
+import com.cbs.snb.data.network.models.get.GstTypeModel;
+import com.cbs.snb.data.network.models.get.InventoryModel;
+import com.cbs.snb.data.network.models.get.LoginModel;
+import com.cbs.snb.data.network.models.get.MyOrdersModel;
+import com.cbs.snb.data.network.models.get.OrderItemListModel;
+import com.cbs.snb.data.network.models.get.PaymentDetailsModel;
+import com.cbs.snb.data.network.models.get.PaymentInvoiceModel;
+import com.cbs.snb.data.network.models.get.PaymentTermsModel;
+import com.cbs.snb.data.network.models.get.ProductsByCustomerModel;
+import com.cbs.snb.data.network.models.get.ProductsListModel;
+import com.cbs.snb.data.network.models.get.ProductsModel;
+import com.cbs.snb.data.network.models.get.RegionCodeModel;
+import com.cbs.snb.data.network.models.get.ReportListModel;
+import com.cbs.snb.data.network.models.get.SalesAnalysisReportModel;
+import com.cbs.snb.data.network.models.get.StateModel;
+import com.cbs.snb.data.network.models.get.WarehouseModel;
+import com.cbs.snb.data.network.models.post.BasePostResponse;
+import com.cbs.snb.data.network.models.post.CheckInOut;
+import com.cbs.snb.data.network.models.post.CreateActivityModel;
+import com.cbs.snb.data.network.models.post.CustomerComplaintModel;
+import com.cbs.snb.data.network.models.post.CustomerCreationModel;
+import com.cbs.snb.data.network.models.post.LeadCreationModel;
+import com.cbs.snb.data.network.models.post.LocationPost;
+import com.cbs.snb.data.network.models.post.PostExpense;
+import com.cbs.snb.data.network.models.post.PostPaymentModel;
+import com.cbs.snb.data.network.models.post.SalesOrderCreationModel;
+
+import okhttp3.MultipartBody;
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.Multipart;
+import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.Query;
+
+/**
+ * Created by Venkatesh on 09-07-2020.
+ */
+
+public interface ApiService {
+
+    @GET("api/login/validateLogin")
+    Call<LoginModel> login(@Query("username") String userName,
+                           @Query("password") String password);
+
+    @GET("api/Master/getItemAgaintsofCustomerCode")
+    Call<ProductsByCustomerModel> getProductsByCustomer(@Query("CardCode") String cardCode);
+
+    @GET("api/Master/getProducts")
+    Call<ProductsModel> getProducts(@Query("CardCode") String cardCode);
+
+    @GET("api/Master/getAllProducts")
+    Call<ProductsListModel> getAllProducts();
+
+    @GET("api/Master/Orders/getAllOpenOrder")
+    Call<MyOrdersModel> getOrders(@Query("SlpCode") String empCode,
+                                  @Query("FromDate") String fromDate,
+                                  @Query("ToDate") String toDate);
+
+    @GET("api/Master/getPDFReportList")
+    Call<ReportListModel> getReportList();
+
+    @GET("api/Master/getCustomerGroups")
+    Call<CustomerGroupModel> getCustomerGroup();
+
+    @GET("api/Master/getBusinessPartner")
+    Call<CustomerDetailsModel> getCustomer(@Query("CardType") String type,
+                                           @Query("SalesEmpCode") String sCode);
+
+    @GET("api/Master/getPaymentTerms")
+    Call<PaymentTermsModel> getPaymentTerms();
+
+    @GET("api/Master/getRegion")
+    Call<RegionCodeModel> getRegionList();
+
+    @GET("api/Master/getBankMaster")
+    Call<BanksModel> getBanks();
+
+    @GET("api/Master/getCustomerOutstanding")
+    Call<CustomerOutstandingModel> getCustomerOutstanding();
+
+    @GET("api/Master/ExpenseReport")
+    Call<ExpenseReportModel> getExpenseReport(@Query("SlpCode") String slpCode);
+
+    @GET("api/Master/getPaymentDetails")
+    Call<PaymentDetailsModel> getPaymentDetails();
+
+    @GET("api/Master/ActivityType")
+    Call<ActivityTypeModel> getActivityType();
+
+    @GET("api/Master/getWarehuse")
+    Call<WarehouseModel> getWareHouse(@Query("SlpCode") String slpCode);
+
+    @GET("api/Master/getInventoryWarehouse")
+    Call<WarehouseModel> getInventoryWareHouse(@Query("SlpCode") String slpCode);
+
+    @GET("api/Master/getState")
+    Call<StateModel> getState();
+
+    @GET("api/Master/InventoryDetails")
+    Call<InventoryModel> getInventory(@Query("SlpCode") String slpCode);
+
+    @GET("api/Master/InventoryWhsDetails")
+    Call<InventoryModel> getInventoryWhs(@Query("SlpCode") String slpCode, @Query("whsCode") String whsCode);
+
+    @GET("api/Master/ActivityHistory")
+    Call<ActivityReportModel> getActivityReport();
+
+    @GET("api/Master/getDealerName")
+    Call<DealerNameModel> getDealerName();
+
+    @GET("api/Master/getDealerNameBySlpCode")
+    Call<DealerNameModel> getDealerNameBySlpCode(@Query("SlpCode") String slpCode);
+
+    @GET("api/Master/getCustomerOutstanding")
+    Call<PaymentInvoiceModel> getPaymentInvoice(@Query("salesEmployeeCode") String empCode,
+                                                @Query("customerCode") String customerCode);
+
+    @GET("api/Master/OrderDetails")
+    Call<OrderItemListModel> getOrderDetails(@Query("OrderEntry") String OrderEntry);
+
+    @GET("api/Master/SalesAnalysis")
+    Call<SalesAnalysisReportModel> getSalesAnalysisReport(@Query("CardCode") String cardCode,
+                                                          @Query("FromDate") String fromDate,
+                                                          @Query("ToDate") String toDate);
+
+    @GET("api/Master/CustomerComplaintReport")
+    Call<ComplaintReportModel> getComplaintsReport(@Query("SlpCode") String salesEmp);
+
+    @GET("api/Master/getGSType")
+    Call<GstTypeModel> getGstType();
+
+    @GET("api/Master/getComplaintType")
+    Call<ComplaintTypeModel> getComplaintType();
+
+    @GET("api/Master/getComplaintSubType")
+    Call<ComplaintSubTypeModel> getComplaintSubType(@Query("ComplaintType") String salesEmp);
+
+    @Multipart
+    @POST("api/BPMaster/postLeadCreation")
+    Call<BasePostResponse> addCustomers(@Part("postLeadCreation") CustomerCreationModel customerCreationModel,
+                                        @Part MultipartBody.Part image);
+
+    @Multipart
+    @POST("api/Activity/postActivity")
+    Call<BasePostResponse> addActivity(@Part("postActivity") CreateActivityModel createActivityModel,
+                                       @Part MultipartBody.Part image);
+
+    @Multipart
+    @POST("api/BPMaster/postLeadCreation")
+    Call<BasePostResponse> addLeads(@Part("postLeadCreation") LeadCreationModel leadCreationModel,
+                                    @Part MultipartBody.Part image);
+
+    @Multipart
+    @POST("api/Expenses/PostExpenses")
+    Call<BasePostResponse> addExpenses(@Part("PostExpenses") PostExpense postExpense,
+                                       @Part MultipartBody.Part image1,
+                                       @Part MultipartBody.Part image2,
+                                       @Part MultipartBody.Part image3,
+                                       @Part MultipartBody.Part image4,
+                                       @Part MultipartBody.Part image5,
+                                       @Part MultipartBody.Part image6,
+                                       @Part MultipartBody.Part image7);
+
+    @POST("api/SalesOrder/postSalesOrder")
+    Call<BasePostResponse> addSalesOrder(@Body SalesOrderCreationModel salesOrderCreationModel);
+
+    @POST("api/payment/postIncomingPaymentByCustomer")
+    Call<BasePostResponse> doPayment(@Body PostPaymentModel postPaymentModel);
+
+    @POST("api/CustomerComplaint/PostCustomerComplaint")
+    Call<BasePostResponse> addComplaint(@Body CustomerComplaintModel customerComplaintModel);
+
+    @POST("api/CheckIn/PostCheckIn")
+    Call<BasePostResponse> checkInOut(@Body CheckInOut checkInOut);
+
+    @POST("api/CheckIn/PostLocation")
+    Call<BasePostResponse> postLocation(@Body LocationPost location);
+
+}

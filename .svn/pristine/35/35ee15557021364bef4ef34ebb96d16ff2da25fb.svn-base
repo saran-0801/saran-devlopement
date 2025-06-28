@@ -1,0 +1,12 @@
+package com.cbs.snb.ui.home.callbacks;
+
+import com.cbs.snb.data.network.models.get.ItemsModel;
+
+/**
+ * Created by Venkatesh on 11-07-2020.
+ */
+public interface OnItemClickCallback {
+
+    void onItemClicked(ItemsModel model);
+
+}

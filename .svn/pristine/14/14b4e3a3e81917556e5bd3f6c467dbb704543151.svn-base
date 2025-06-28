@@ -1,0 +1,9 @@
+package com.cbs.snb.ui.complaints;
+
+/**
+ * Created by Venkatesh on 13-07-2020.
+ */
+public interface ComplaintNavigator {
+
+    void setDate(String date);
+}

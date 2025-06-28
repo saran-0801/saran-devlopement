@@ -1,0 +1,61 @@
+package com.cbs.snb.ui.checkout;
+
+import androidx.lifecycle.LiveData;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.database.entities.CartItem;
+import com.cbs.snb.data.network.Resource;
+import com.cbs.snb.data.network.models.get.CustomerDetailsModel;
+import com.cbs.snb.data.network.models.get.WarehouseModel;
+import com.cbs.snb.data.network.models.post.BasePostResponse;
+import com.cbs.snb.data.network.models.post.SalesOrderCreationModel;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+/**
+ * Created by Venkatesh on 13-07-2020.
+ */
+public class CheckOutViewModel extends BaseViewModel<CheckOutNavigator> {
+
+    private LiveData<List<CartItem>> mediatorLiveData;
+
+    @Inject
+    public CheckOutViewModel(Repository repository, PreferenceHelper preferenceHelper, AppDatabase database) {
+        super(repository, preferenceHelper,database);
+        mediatorLiveData = repository.getCartData(database);
+    }
+
+    public LiveData<Resource<CustomerDetailsModel>> getCustomers(String type){
+        return getRepository().getCustomer(type,getPreferenceHelper().getSalesEmpCode());
+    }
+
+    public LiveData<Resource<WarehouseModel>> getWareHouseLiveData(){
+        return getRepository().getWarehouse(getPreferenceHelper().getSalesEmpCode());
+    }
+
+
+    public LiveData<Boolean> isLoading(){
+        return getRepository().getIsLoading();
+    }
+
+    public void delete(){
+        getRepository().delete(getDatabase());
+    }
+
+    public LiveData<List<CartItem>> getCartItemsLiveData() {
+        return mediatorLiveData;
+    }
+
+    public LiveData<Resource<BasePostResponse>> addSalesOrder(SalesOrderCreationModel salesOrderCreationModel){
+        return getRepository().addSalesOrder(salesOrderCreationModel);
+    }
+
+    public String empCode(){
+        return getPreferenceHelper().getSalesEmpCode();
+    }
+}

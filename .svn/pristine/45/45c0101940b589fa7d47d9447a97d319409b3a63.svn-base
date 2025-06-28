@@ -1,0 +1,120 @@
+package com.cbs.snb.ui.reports.complaints;
+
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+
+import com.cbs.snb.BR;
+import com.cbs.snb.R;
+import com.cbs.snb.data.network.models.get.ComplaintReportModel;
+import com.cbs.snb.databinding.ActivityCompaintsReportBinding;
+import com.cbs.snb.ui.ViewModelProviderFactory;
+import com.cbs.snb.ui.base.BaseActivity;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+public class ComplaintsReportActivity extends BaseActivity<ComplaintsReportViewModel, ActivityCompaintsReportBinding>
+        implements ComplaintsReportNavigator {
+
+    @Inject
+    ViewModelProviderFactory factory;
+
+    ComplaintsReportViewModel mViewModel;
+
+    public static Intent newIntent(Context context) {
+        Intent intent = new Intent(context, ComplaintsReportActivity.class);
+        return intent;
+    }
+
+    public static Intent getStartIntent(Context context, Bundle bundle) {
+        Intent intent = new Intent(context, ComplaintsReportActivity.class);
+        intent.putExtras(bundle);
+        return intent;
+    }
+
+
+
+    @Override
+    public int getBindingVariable() {
+        return BR.complaintsReportsViewModel;
+    }
+
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.activity_compaints_report;
+    }
+
+    @Override
+    protected ComplaintsReportViewModel getViewModel() {
+        mViewModel = new ViewModelProvider(this, factory).get(ComplaintsReportViewModel.class);
+        return mViewModel;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mViewModel.setNavigator(this);
+        setUp();
+    }
+
+    public void setUp() {
+        setSupportActionBar(dataBinding.toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Complaints");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        dataBinding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        dataBinding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
+        isLoading();
+        getComplaints();
+
+    }
+
+    private void isLoading(){
+        mViewModel.isLoading().observe(this,aBoolean -> {
+            if (aBoolean){
+                showLoading();
+            }else{
+                hideLoading();
+            }
+        });
+    }
+
+    private void getComplaints(){
+        mViewModel.getComplaintReport().observe(this,complaintReportModelResource -> {
+            switch (complaintReportModelResource.status){
+                case LOADING:
+                    showLoading();
+                    break;
+                case SUCCESS:
+                    hideLoading();
+                    setComplaintsReport(complaintReportModelResource.data.getResponseObject());
+                    break;
+                case ERROR:
+                    hideLoading();
+                    showSnackBar(complaintReportModelResource.getMessage(),getResources().getColor(R.color.red));
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
+
+    private void setComplaintsReport(List<ComplaintReportModel.ResponseObject> list){
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        dataBinding.complaintReportRecyclerView.setLayoutManager(linearLayoutManager);
+        dataBinding.complaintReportRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        dataBinding.complaintReportRecyclerView.setAdapter(new ComplaintsReportAdapter(list,this));
+    }
+
+}

@@ -1,0 +1,193 @@
+package com.cbs.snb.ui.login;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.text.TextUtils;
+import android.util.Log;
+
+import androidx.databinding.ObservableField;
+import androidx.lifecycle.MutableLiveData;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.ApiService;
+import com.cbs.snb.data.network.Resource;
+import com.cbs.snb.data.network.models.get.LoginModel;
+import com.cbs.snb.data.network.models.get.UserTypeModel;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+import com.cbs.snb.utils.Constants;
+import com.cbs.snb.utils.rx.SchedulerProvider;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+/**
+ * Created by Venkatesh on 11-07-2020.
+ */
+public class LoginViewModel extends BaseViewModel<LoginNavigator> {
+
+    public static final String TAG = "LoginViewModel";
+    public MutableLiveData<String> error;
+    public ObservableField<String> userName;
+    public ObservableField<String> password;
+    public ObservableField<String> type;
+    public MutableLiveData<String> typeCode;
+    public MutableLiveData<Boolean> progressBar;
+    public MutableLiveData<Resource<LoginModel>> userLogin;
+    public MutableLiveData<Resource<UserTypeModel>> userType;
+
+
+    @Inject
+    public LoginViewModel(Repository repository, SchedulerProvider schedulerProvider,
+                          PreferenceHelper preferenceHelper, AppDatabase database, ApiService service) {
+        super(repository, schedulerProvider, preferenceHelper, database, service);
+        type = new ObservableField<>("");
+        userName = new ObservableField<>("");
+        password = new ObservableField<>("");
+        progressBar = new MutableLiveData<>();
+        error = new MutableLiveData<>();
+        userLogin = new MutableLiveData<>();
+        userType = new MutableLiveData<>();
+        typeCode = new MutableLiveData<>();
+        init();
+    }
+
+    public void init() {
+        getDatabase().ProductDetailsDao().deleteAll();
+        userType();
+    }
+
+    public void setTypeCode(String code) {
+        typeCode.setValue(code);
+    }
+
+    public boolean isTypeValid() {
+        return TextUtils.isEmpty(type.get());
+    }
+
+    public boolean isEmailValid() {
+        return TextUtils.isEmpty(userName.get());
+    }
+
+    public boolean isPasswordValid() {
+        return TextUtils.isEmpty(password.get());
+    }
+
+    public MutableLiveData<Resource<UserTypeModel>> getUserType() {
+        return userType;
+    }
+
+    public MutableLiveData<Resource<LoginModel>> getLogin() {
+        return userLogin;
+    }
+
+
+    public void saveDetails(List<LoginModel.ResponseObject> loginModels, Context context) {
+        for (LoginModel.ResponseObject model : loginModels) {
+            getPreferenceHelper().setSalesEmpCode(String.valueOf(model.getSalesEmpCode()));
+            getPreferenceHelper().setFirstName(model.getFirstName());
+            getPreferenceHelper().setLastName(model.getLastName());
+            getPreferenceHelper().setEmpTypeCode(model.getTypeCode());
+            getPreferenceHelper().setEmpTypeName(model.getTypeName());
+
+            SharedPreferences myprefs = context.getSharedPreferences(Constants.PREF_NAME, Context.MODE_PRIVATE);
+            myprefs.edit().putString("name", model.getFirstName()).apply();
+            myprefs.edit().putString("slpCode", String.valueOf(model.getSalesEmpCode())).apply();
+            myprefs.edit().putString("typeCode", String.valueOf(model.getTypeCode())).apply();
+
+        }
+    }
+
+
+    public void forgotPassword() {
+        getNavigator().openForgotPassword();
+    }
+
+    public void userType() {
+        progressBar.setValue(true);
+        getCompositeDisposable().add(getApiService()
+                .getUserType()
+                .subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(userTypeModel -> {
+                    progressBar.setValue(false);
+                    if (userTypeModel.getStatusMessage().equalsIgnoreCase("Success")) {
+                        userType.postValue(Resource.success(userTypeModel));
+                    } else {
+                        userType.postValue(Resource.error(userTypeModel.getStatusMessage(), null));
+                    }
+
+                }, throwable -> {
+                    progressBar.setValue(false);
+                    Log.e(TAG, throwable.toString());
+                    userType.postValue(Resource.error(throwable.toString(), null));
+                }));
+
+
+    }
+
+    public void login() {
+        if (isTypeValid()) {
+            error.setValue("Please select user type");
+        } else if (isEmailValid()) {
+            error.setValue("Username should not be empty");
+        } else if (isPasswordValid()) {
+            error.setValue("Password should not be empty");
+        } else {
+            progressBar.setValue(true);
+            getCompositeDisposable().add(getApiService()
+                    .login(userName.get(), password.get(),typeCode.getValue())
+                    .subscribeOn(getSchedulerProvider().io())
+                    .observeOn(getSchedulerProvider().ui())
+                    .subscribe(loginModel -> {
+                        progressBar.setValue(false);
+                        if (loginModel.getStatusMessage().equalsIgnoreCase("Success")) {
+                            userLogin.postValue(Resource.success(loginModel));
+                        } else {
+                            userLogin.postValue(Resource.error(loginModel.getStatusMessage(), null));
+                        }
+
+                    }, throwable -> {
+                        progressBar.setValue(false);
+                        Log.e(TAG, throwable.toString());
+                        userLogin.postValue(Resource.error(throwable.toString(), null));
+                    }));
+        }
+
+    }
+
+  /*  public void login() {
+        if (isEmailValid()) {
+            error.setValue("Username should not be empty");
+        } else if (isPasswordValid()) {
+            error.setValue("Password should not be empty");
+        } else {
+            progressBar.setValue(true);
+            getCompositeDisposable().add(getApiService()
+                    .login(userName.get(), password.get())
+                    .subscribeOn(getSchedulerProvider().io())
+                    .observeOn(getSchedulerProvider().ui())
+                    .subscribe(loginModel -> {
+                        progressBar.setValue(false);
+                        if (loginModel.getStatusMessage().equalsIgnoreCase("Success")) {
+                            userLogin.postValue(Resource.success(loginModel));
+                        } else {
+                            userLogin.postValue(Resource.error(loginModel.getStatusMessage(), null));
+                        }
+
+                    }, throwable -> {
+                        progressBar.setValue(false);
+                        Log.e(TAG, throwable.toString());
+                        userLogin.postValue(Resource.error(throwable.toString(), null));
+                    }));
+        }
+
+    }*/
+
+}

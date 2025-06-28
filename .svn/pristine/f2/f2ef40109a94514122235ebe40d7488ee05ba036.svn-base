@@ -1,0 +1,144 @@
+package com.cbs.snb.ui.home.adapter;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.cbs.snb.R;
+import com.cbs.snb.data.network.models.get.CustomerDetailsModel;
+import com.cbs.snb.databinding.CustomersHomeAdapterLayoutBinding;
+import com.cbs.snb.ui.base.BaseViewHolder;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by Venkatesh on 16-10-2020.
+ */
+public class HomeCustomerAdapter extends RecyclerView.Adapter<BaseViewHolder> implements Filterable {
+
+    private Callback mCallback;
+    private List<CustomerDetailsModel.ResponseObject> customersList;
+    private List<CustomerDetailsModel.ResponseObject> mFilterdCustomersList;
+    private Context mContext;
+
+    public interface Callback {
+        void onCustomerClick(int position ,CustomerDetailsModel.ResponseObject models);
+    }
+
+    public HomeCustomerAdapter(List<CustomerDetailsModel.ResponseObject> customersList, Context context) {
+        this.customersList = customersList;
+        this.mContext = context;
+        this.mFilterdCustomersList = customersList;
+    }
+
+    @NonNull
+    @Override
+    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        CustomersHomeAdapterLayoutBinding customersHomeAdapterLayoutBinding = CustomersHomeAdapterLayoutBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new ViewHolder(customersHomeAdapterLayoutBinding);
+        //View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.items_adapter_layout, parent, false);
+        // return new ViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
+        holder.onBind(position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return mFilterdCustomersList.size();
+    }
+
+    public void addCustomers(List<CustomerDetailsModel.ResponseObject> list) {
+        customersList.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public void clearList() {
+        mFilterdCustomersList.clear();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String charString = constraint.toString();
+                if (charString.isEmpty()) {
+                    mFilterdCustomersList = customersList;
+                } else {
+                    List<CustomerDetailsModel.ResponseObject> filteredList = new ArrayList<>();
+                    for (CustomerDetailsModel.ResponseObject row : customersList) {
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for Name or Mobile Number match
+                        if (row.getCardName().toLowerCase().contains(charString.toLowerCase()) ||
+                                row.getCardCode().contains(constraint)) {
+                            filteredList.add(row);
+                        }
+                    }
+                    mFilterdCustomersList = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mFilterdCustomersList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                mFilterdCustomersList = (List<CustomerDetailsModel.ResponseObject>) results.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
+    public class ViewHolder extends BaseViewHolder {
+
+        CustomersHomeAdapterLayoutBinding mBinding;
+
+
+        public ViewHolder(CustomersHomeAdapterLayoutBinding binding) {
+            super(binding.getRoot());
+            this.mBinding = binding;
+        }
+
+        @Override
+        public void onBind(int position) {
+            CustomerDetailsModel.ResponseObject model = mFilterdCustomersList.get(position);
+
+            mBinding.customerName.setText(model.getCardName());
+            mBinding.customerCode.setText(model.getCardCode());
+            Glide.with(mContext).load(R.drawable.ic_business_partner)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(mBinding.customerPoster);
+
+            mBinding.gstNo.setText(model.getGstRegnNo());
+            StringBuilder builder = new StringBuilder();
+            builder.append(model.getAddress());
+            builder.append(",");
+            builder.append(model.getStreet());
+            builder.append(",");
+            builder.append(model.getBlock());
+            builder.append(",");
+            builder.append(model.getZipCode());
+            mBinding.address.setText(builder);
+
+            mBinding.customerCardView.setOnClickListener(v -> mCallback.onCustomerClick(position,model));
+        }
+
+    }
+
+    public void setOnClick(Callback onClick) {
+        this.mCallback = onClick;
+    }
+}

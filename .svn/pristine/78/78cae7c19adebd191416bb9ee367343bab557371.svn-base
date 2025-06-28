@@ -1,0 +1,153 @@
+package com.cbs.snb.utils;
+
+import android.content.Context;
+
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.PropertyInfo;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
+
+public class CallerSOAP {
+
+    public final String WSDL_TARGET_NAMESPACE = "http://tempuri.org/";
+    public String SOAP_ADDRESS;
+    private int TimeOut=120000;
+    //public static String SOAPUrl = "http://192.168.10.97/Tab/";//test
+    //public static String SOAPUrl = "http://clockwork.co.in/narasustab/";//test
+    public static String SOAPUrl = "http://103.219.207.155:8085/";//live
+
+    public CallerSOAP(Context context){
+        SOAP_ADDRESS = SOAPUrl+"HOtoBranch.asmx";
+    }
+
+    public String TabReportRequest(String ReportName) {
+
+        String SOAPMethodName = "TabReports";
+        try {
+            SoapObject request = new SoapObject(WSDL_TARGET_NAMESPACE, SOAPMethodName);
+            PropertyInfo pi = new PropertyInfo();
+            pi.setName("ReportName");
+            pi.setValue(ReportName);
+            pi.setType(String.class);
+            request.addProperty(pi);
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.setOutputSoapObject(request);
+            HttpTransportSE httpTransport = new HttpTransportSE(SOAP_ADDRESS, TimeOut);
+            httpTransport.call(WSDL_TARGET_NAMESPACE + SOAPMethodName, envelope);
+            return envelope.getResponse().toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "[{'message':'Unexpected error or Server not reachable'}]";
+        }
+    }
+
+    public String TabReportRequestCardCode(String ReportName, String CardCode) {
+
+        String SOAPMethodName = "TabReportsWithCardCode";
+        try {
+            SoapObject request = new SoapObject(WSDL_TARGET_NAMESPACE, SOAPMethodName);
+            PropertyInfo pi = new PropertyInfo();
+            pi.setName("ReportName");
+            pi.setValue(ReportName);
+            pi.setType(String.class);
+            request.addProperty(pi);
+
+            PropertyInfo Code = new PropertyInfo();
+            Code.setName("CardCode");
+            Code.setValue(CardCode);
+            Code.setType(String.class);
+            request.addProperty(Code);
+
+            PropertyInfo IsHana = new PropertyInfo();
+            IsHana.setName("IsHana");
+            IsHana.setValue("Y");
+            IsHana.setType(String.class);
+            request.addProperty(IsHana);
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.setOutputSoapObject(request);
+            HttpTransportSE httpTransport = new HttpTransportSE(SOAP_ADDRESS, TimeOut);
+            httpTransport.call(WSDL_TARGET_NAMESPACE + SOAPMethodName, envelope);
+            return envelope.getResponse().toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "[{'message':'Unexpected error or Server not reachable'}]";
+        }
+    }
+
+    public String TabReportWithParameterRequest(String ReportName, String SPName, String FromDate, String ToDate, String stEmpCode, String CardCode, String RegCode, String IsHana) {
+
+        String SOAPMethodName = "TabReportsWithParameter";
+        try {
+
+            SoapObject request = new SoapObject(WSDL_TARGET_NAMESPACE, SOAPMethodName);
+            PropertyInfo pi = new PropertyInfo();
+            pi.setName("ReportName");
+            pi.setValue(ReportName);
+            pi.setType(String.class);
+            request.addProperty(pi);
+
+            PropertyInfo sp = new PropertyInfo();
+            sp.setName("SPName");
+            sp.setValue(SPName);
+            sp.setType(String.class);
+            request.addProperty(sp);
+
+            PropertyInfo FDate = new PropertyInfo();
+            FDate.setName("FromDate");
+            FDate.setValue(FromDate);
+            FDate.setType(String.class);
+            request.addProperty(FDate);
+
+            PropertyInfo TDate = new PropertyInfo();
+            TDate.setName("ToDate");
+            TDate.setValue(ToDate);
+            TDate.setType(String.class);
+            request.addProperty(TDate);
+
+            PropertyInfo EmpCode = new PropertyInfo();
+            EmpCode.setName("SlpCode");
+            EmpCode.setValue(stEmpCode);
+            EmpCode.setType(String.class);
+            request.addProperty(EmpCode);
+
+            PropertyInfo TCardCode = new PropertyInfo();
+            TCardCode.setName("CustomerCode");
+            TCardCode.setValue(CardCode);
+            TCardCode.setType(String.class);
+            request.addProperty(TCardCode);
+
+            PropertyInfo TRegCode = new PropertyInfo();
+            TRegCode.setName("Region");
+            TRegCode.setValue(RegCode);
+            TRegCode.setType(String.class);
+            request.addProperty(TRegCode);
+
+            PropertyInfo IsData = new PropertyInfo();
+            IsData.setName("IsHana");
+            IsData.setValue(IsHana);
+            IsData.setType(String.class);
+            request.addProperty(IsData);
+
+           /* for (int i = 0; i < count; i++) {
+                userObj = new User(response.getProperty(1).toString(),
+                        Double.parseDouble(response.getProperty(2).toString()));
+            }*/
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.setOutputSoapObject(request);
+            HttpTransportSE httpTransport = new HttpTransportSE(SOAP_ADDRESS, TimeOut);
+            httpTransport.call(WSDL_TARGET_NAMESPACE + SOAPMethodName, envelope);
+
+            return envelope.getResponse().toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "[{'message':'Unexpected error or Server not reachable'}]";
+        }
+    }
+}

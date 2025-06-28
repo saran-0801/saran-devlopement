@@ -1,0 +1,126 @@
+package com.cbs.snb.ui.reports.activity;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import com.cbs.snb.data.network.models.get.ActivityReportModel;
+import com.cbs.snb.databinding.ActivityListAdapterBinding;
+import com.cbs.snb.databinding.EmptyAdapterBinding;
+import com.cbs.snb.ui.base.BaseViewHolder;
+import com.cbs.snb.ui.inventory.InventoryAdapter;
+import com.cbs.snb.utils.DateUtils;
+
+import java.util.List;
+
+/**
+ * Created by Venkatesh on 24-09-2020.
+ */
+public class ActivityReportAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+
+    private Callback mCallback;
+    public static final int VIEW_TYPE_EMPTY = 0;
+    public static final int VIEW_TYPE_NORMAL = 1;
+    private List<ActivityReportModel.ResponseObject> mInventoryModel;
+    private Context mContext;
+
+    public interface Callback {
+        void onClick(int position, ActivityReportModel.ResponseObject models);
+
+    }
+
+    public ActivityReportAdapter(List<ActivityReportModel.ResponseObject> mInventoryModel, Context mContext) {
+        this.mInventoryModel = mInventoryModel;
+        this.mContext = mContext;
+    }
+
+    @NonNull
+    @Override
+    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case VIEW_TYPE_NORMAL:
+                ActivityListAdapterBinding binding = ActivityListAdapterBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+                return new ActivityViewHolder(binding);
+            case VIEW_TYPE_EMPTY:
+            default:
+                EmptyAdapterBinding emptyViewBinding = EmptyAdapterBinding.inflate(LayoutInflater.from(parent.getContext()),
+                        parent, false);
+                return new InventoryAdapter.EmptyViewHolder(emptyViewBinding);
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
+        holder.onBind(position);
+    }
+
+    @Override
+    public int getItemCount() {
+        if (mInventoryModel != null && mInventoryModel.size() > 0) {
+            return mInventoryModel.size();
+        } else {
+            return 1;
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (mInventoryModel != null && !mInventoryModel.isEmpty()) {
+            return VIEW_TYPE_NORMAL;
+        } else {
+            return VIEW_TYPE_EMPTY;
+        }
+    }
+
+    public void addData(List<ActivityReportModel.ResponseObject> list) {
+        mInventoryModel.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public void clearList() {
+        mInventoryModel.clear();
+    }
+
+    public class ActivityViewHolder extends BaseViewHolder {
+
+        ActivityListAdapterBinding binding;
+
+        public ActivityViewHolder(@NonNull ActivityListAdapterBinding itemView) {
+            super(itemView.getRoot());
+            this.binding = itemView;
+
+        }
+
+        @Override
+        public void onBind(int position) {
+            ActivityReportModel.ResponseObject model = mInventoryModel.get(position);
+            binding.cardCode.setText(model.getCardCode());
+            binding.date.setText(DateUtils.convertDateFormat11(model.getActivityDate()));
+            binding.type.setText(String.valueOf(model.getActivityType()));
+            binding.location.setText(model.getLocation());
+            binding.notes.setText(model.getNotes());
+
+        }
+    }
+
+    public static class EmptyViewHolder extends BaseViewHolder {
+
+        private EmptyAdapterBinding mBinding;
+
+        public EmptyViewHolder(EmptyAdapterBinding binding) {
+            super(binding.getRoot());
+            this.mBinding = binding;
+        }
+
+        @Override
+        public void onBind(int position) {
+
+        }
+    }
+
+    public void setOnClick(Callback onClick) {
+        this.mCallback = onClick;
+    }
+}

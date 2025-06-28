@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- main theme color -->
+    <declare-styleable name="ButtonBarContainerTheme">
+        <attr name="metaButtonBarStyle" format="reference" />
+        <attr name="metaButtonBarButtonStyle" format="reference" />
+    </declare-styleable>
+
+    <attr name="themedMenuStoryDrawable" format="reference" />
+    <attr name="themedMenuCommentDrawable" format="reference" />
+
+    <attr name="primaryTextColor" format="reference"/>
+    <attr name="buttonNormalColor" format="reference"/>
+    <attr name="buttonHighlightColor" format="reference" />
+    <attr name="buttonTextColor" format="reference" />
+    <attr name="iconColor" format="reference" />
+    <attr name="colorFocusedHighlight" format="reference" />
+
+    <attr name="statusBarColor" format="reference" />
+    <attr name="textViewStyle" format="reference" />
+    <attr name="primaryButtonTheme" format="reference" />
+    <attr name="primaryEditTextTheme" format="reference" />
+    <attr name="activityBgTheme" format="reference" />
+    <attr name="primaryProgressBarTheme" format="reference" />
+    <attr name="actionBar" format="reference" />
+    <attr name="background" format="reference" />
+    <attr name="lightTextColor" format="reference" />
+    <attr name="startColor" format="reference" />
+    <attr name="centerColor" format="reference" />
+    <attr name="endColor" format="reference" />
+    <attr name="btnBackground" format="reference" />
+
+</resources>

@@ -1,0 +1,514 @@
+package com.cbs.snb.ui.complaints;
+
+import android.annotation.TargetApi;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.provider.MediaStore;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.LinearLayout;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.bumptech.glide.Glide;
+import com.cbs.snb.BR;
+import com.cbs.snb.R;
+import com.cbs.snb.data.network.models.get.ComplaintSubTypeModel;
+import com.cbs.snb.data.network.models.get.ComplaintTypeModel;
+import com.cbs.snb.data.network.models.get.DealerNameModel;
+import com.cbs.snb.data.network.models.get.ProductsByCustomerModel;
+import com.cbs.snb.data.network.models.post.CustomerComplaintModel;
+import com.cbs.snb.databinding.FragmentComplaintBinding;
+import com.cbs.snb.ui.base.BaseFragment;
+import com.cbs.snb.ui.complaints.adapter.ComplaintsSubTypeAdapter;
+import com.cbs.snb.ui.complaints.adapter.ComplaintsTypeAdapter;
+import com.cbs.snb.ui.complaints.adapter.DealerNameAdapter;
+import com.cbs.snb.ui.complaints.adapter.ProductsArrayAdapter;
+import com.cbs.snb.ui.home.HomeFragment;
+import com.cbs.snb.utils.DateUtils;
+import com.cbs.snb.utils.ImageInputHelper;
+import com.cbs.snb.utils.PhotoFullPopupWindow;
+import com.cbs.snb.utils.RealPathUtils;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
+
+public class ComplaintFragment extends BaseFragment<ComplaintViewModel, FragmentComplaintBinding>
+        implements ComplaintNavigator, ImageInputHelper.ImageActionListener {
+
+    @Override
+    public int getBindingVariable() {
+        return BR.complaintsViewModel;
+    }
+
+    @Override
+    public int getLayoutRes() {
+        return R.layout.fragment_complaint;
+    }
+
+    @Override
+    protected Class<ComplaintViewModel> getViewModel() {
+        return ComplaintViewModel.class;
+    }
+
+    private List<String> type;
+    private String selectedType, complaintType, itemCode, itemName,ctName,ctCode,subCode,subName,dealerCode,dealerName;
+    private String path;
+    private ImageInputHelper mImageInputHelper;
+    private static ComplaintFragment instance = null;
+
+    public static ComplaintFragment newInstance() {
+        Bundle args = new Bundle();
+        ComplaintFragment fragment = new ComplaintFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(false);
+        instance = this;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        setHasOptionsMenu(true);
+        viewModel.setNavigator(this);
+        setUp();
+        return dataBinding.getRoot();
+    }
+
+    private void setUp() {
+        dataBinding.etDate.setText(DateUtils.currentDate());
+        dataBinding.etDate.setOnClickListener(v -> viewModel.dateSelection(getActivity()));
+
+        isLoading();
+
+        getComplaintType();
+
+        //getComplaintSubType();
+
+        getDealers();
+
+        mImageInputHelper = new ImageInputHelper(instance);
+        mImageInputHelper.setImageActionListener(this);
+
+        dataBinding.addImage.setOnClickListener(v -> pickImage());
+
+        dataBinding.addComplaint.setOnClickListener(v -> {
+            if (dataBinding.spComplaintType.getSelectedItem() == null){
+                showSnackBar("Please select complaint type",getResources().getColor(R.color.red));
+            }else if (dataBinding.spType.getSelectedItem() == null){
+                showSnackBar("Please sub type",getResources().getColor(R.color.red));
+            }else if (dataBinding.spDealerName.getSelectedItem() == null){
+                showSnackBar("Please dealer name",getResources().getColor(R.color.red));
+            } else if (dataBinding.spProduct.getSelectedItem() == null){
+                showSnackBar("Please product name",getResources().getColor(R.color.red));
+            }else if (dataBinding.etComplaintTxt.getText().toString().isEmpty()){
+                showSnackBar("Please complaint description",getResources().getColor(R.color.red));
+            }/*else if (dataBinding.etShopName.getText().toString().isEmpty()){
+                showSnackBar("Please shop name",getResources().getColor(R.color.red));
+            } else if (dataBinding.etAddress.getText().toString().isEmpty()){
+                showSnackBar("Please shop address",getResources().getColor(R.color.red));
+            }*/else if (dataBinding.etMobileNo.getText().toString().isEmpty()){
+                showSnackBar("Please mobile number",getResources().getColor(R.color.red));
+            } else {
+                hideKeyboard();
+                addComplaint();
+            }
+
+        });
+    }
+
+    public void isLoading() {
+        viewModel.isLoading().observe(getViewLifecycleOwner(), aBoolean -> {
+            if (aBoolean) {
+                showLoading();
+            } else {
+                hideLoading();
+            }
+        });
+    }
+
+    @Override
+    public void setDate(String date) {
+        dataBinding.etDate.setText(date);
+    }
+
+    private void setComplaintType(List<ComplaintTypeModel.ResponseObject> type) {
+        dataBinding.spComplaintType.setTitle("Complaint type");
+        ComplaintsTypeAdapter adapter = new ComplaintsTypeAdapter(getActivity(), type);
+        dataBinding.spComplaintType.setAdapter(adapter);
+
+        dataBinding.spComplaintType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ctCode = type.get(position).getCode();
+                ctName = type.get(position).getName();
+                getComplaintSubType(ctCode);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+    }
+
+    private void setComplaintSubType(List<ComplaintSubTypeModel.ResponseObject> type) {
+        dataBinding.spType.setTitle("Complaint sub type");
+        ComplaintsSubTypeAdapter adapter = new ComplaintsSubTypeAdapter(getActivity(), type);
+        dataBinding.spType.setAdapter(adapter);
+
+        dataBinding.spType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                subCode = type.get(position).getCode();
+                subName = type.get(position).getName();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void getComplaintType() {
+        viewModel.getComplaintType().observe(getViewLifecycleOwner(), complaintTypeModelResource -> {
+            switch (complaintTypeModelResource.status) {
+                case LOADING:
+                    showLoading();
+                    break;
+                case SUCCESS:
+                    hideLoading();
+                    setComplaintType(complaintTypeModelResource.data.getResponseObject());
+                    break;
+                case ERROR:
+                    hideLoading();
+                    showSnackBar(complaintTypeModelResource.getMessage(), getResources().getColor(R.color.red));
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
+
+    private void getComplaintSubType(String ctCode) {
+        viewModel.getComplaintSubType(ctCode).observe(getViewLifecycleOwner(), complaintSubTypeModelResource -> {
+            switch (complaintSubTypeModelResource.status) {
+                case LOADING:
+                    showLoading();
+                    break;
+                case SUCCESS:
+                    hideLoading();
+                    setComplaintSubType(complaintSubTypeModelResource.data.getResponseObject());
+                    break;
+                case ERROR:
+                    hideLoading();
+                    showSnackBar(complaintSubTypeModelResource.getMessage(), getResources().getColor(R.color.red));
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
+
+    private void getProducts(String dealerCode) {
+        viewModel.getProducts(dealerCode).observe(getViewLifecycleOwner(), productsByCustomerModelResource -> {
+            switch (productsByCustomerModelResource.status) {
+                case LOADING:
+                    showLoading();
+                    break;
+                case SUCCESS:
+                    hideLoading();
+                    setData(productsByCustomerModelResource.data.getResponseObject());
+                    break;
+                case ERROR:
+                    hideLoading();
+                    //showSnackBar(productsByCustomerModelResource.getMessage(), getResources().getColor(R.color.red));
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
+
+    private void getDealers() {
+        viewModel.getDealers().observe(getViewLifecycleOwner(), dealerNameModelResource -> {
+            switch (dealerNameModelResource.status) {
+                case LOADING:
+                    showLoading();
+                    break;
+                case SUCCESS:
+                    hideLoading();
+                    setDealers(dealerNameModelResource.data.getResponseObject());
+                    break;
+                case ERROR:
+                    hideLoading();
+                    showSnackBar(dealerNameModelResource.getMessage(), getResources().getColor(R.color.red));
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
+
+
+    private void setData(List<ProductsByCustomerModel.ResponseObject> responseObjects) {
+        dataBinding.spProduct.setTitle("Products");
+        ProductsArrayAdapter adapter = new ProductsArrayAdapter(getActivity(), responseObjects);
+        dataBinding.spProduct.setAdapter(adapter);
+
+        dataBinding.spProduct.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                itemCode = responseObjects.get(position).getItemCode();
+                itemName = responseObjects.get(position).getDscription();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+
+    private void setDealers(List<DealerNameModel.ResponseObject> responseObjects) {
+        dataBinding.spDealerName.setTitle("Dealers");
+        DealerNameAdapter adapter = new DealerNameAdapter(getActivity(), responseObjects);
+        dataBinding.spDealerName.setAdapter(adapter);
+
+        dataBinding.spDealerName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                dealerCode = responseObjects.get(position).getCardCode();
+                dealerName = responseObjects.get(position).getCardName();
+                getProducts(dealerCode);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+
+    public void pickImage() {
+        BottomSheetDialog mBottomSheetDialog = new BottomSheetDialog(getActivity());
+        View sheetView = getActivity().getLayoutInflater().inflate(R.layout.layout_take_images, null);
+        mBottomSheetDialog.setContentView(sheetView);
+        mBottomSheetDialog.show();
+
+        LinearLayout camera = sheetView.findViewById(R.id.take_photo);
+        LinearLayout gallery = sheetView.findViewById(R.id.pick_gallery);
+
+        camera.setOnClickListener(v -> {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                mImageInputHelper.takePhotoWithCamera();
+            } else {
+                initCameraPermission();
+            }
+            mBottomSheetDialog.dismiss();
+        });
+
+        gallery.setOnClickListener(v -> {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                mImageInputHelper.selectImageFromGallery();
+            } else {
+                initGalleryPermission();
+            }
+            mBottomSheetDialog.dismiss();
+        });
+
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private void initCameraPermission() {
+        Dexter.withActivity(getActivity())
+                .withPermissions(CAMERA, WRITE_EXTERNAL_STORAGE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        if (report.areAllPermissionsGranted()) {
+                            mImageInputHelper.takePhotoWithCamera();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).check();
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private void initGalleryPermission() {
+        Dexter.withActivity(getActivity())
+                .withPermissions(WRITE_EXTERNAL_STORAGE,
+                        READ_EXTERNAL_STORAGE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        if (report.areAllPermissionsGranted()) {
+                            mImageInputHelper.selectImageFromGallery();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).check();
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mImageInputHelper.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onImageSelectedFromGallery(Uri uri, File imageFile) {
+        displayImage(uri);
+//        // cropping the selected image. crop intent will have aspect ratio 16/9 and result image
+//        // will have size 800x450
+        // mImageInputHelper.requestCropImage(uri, 800, 450, 16, 9);
+    }
+
+    @Override
+    public void onImageTakenFromCamera(Uri uri, File imageFile) {
+        displayImage(uri);
+        // mImageInputHelper.requestCropImage(uri, 800, 450, 16, 9);
+    }
+
+    @Override
+    public void onImageCropped(Uri uri, File imageFile) {
+        displayImage(uri);
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void displayImage(Uri uri) {
+        Bitmap bitmap = null;
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), uri);
+            path = RealPathUtils.getRealPathFromURI(getActivity(), bitmap);
+            dataBinding.imageView.setClipToOutline(true);
+            Glide.with(getActivity())
+                    .load(path)
+                    .into(dataBinding.imageView);
+            if (!path.equalsIgnoreCase("")) {
+                dataBinding.imageView.setOnClickListener(v -> {
+                    // Code to show image in full screen:
+                    new PhotoFullPopupWindow(getActivity(), R.layout.popup_photo_full, v, path, null);
+                });
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addComplaint() {
+        hideKeyboard();
+        CustomerComplaintModel customerComplaintModel = new CustomerComplaintModel(dataBinding.etAddress.getText().toString(), ctCode,
+                dataBinding.etComplaintTxt.getText().toString(), dataBinding.etContactPerson.getText().toString(),
+                dealerCode, DateUtils.convertDateFormat10(dataBinding.etDate.getText().toString()), dealerName, itemCode, dataBinding.etMobileNo.getText().toString(),
+                subCode,dataBinding.etShopName.getText().toString());
+
+        viewModel.addComplaint(customerComplaintModel).observe(getViewLifecycleOwner(), basePostResponseResource -> {
+            switch (basePostResponseResource.status) {
+                case LOADING:
+                    showLoading();
+                    break;
+                case SUCCESS:
+                    hideLoading();
+                    refresh();
+                    showSnackBar("Success", getResources().getColor(R.color.green));
+                    break;
+                case ERROR:
+                    hideLoading();
+                    showSnackBar(basePostResponseResource.getMessage(), getResources().getColor(R.color.red));
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
+
+
+    private void refresh(){
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(() ->   {
+            HomeFragment fragment = new HomeFragment();
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
+            fragmentTransaction.addToBackStack("Home");
+            fragmentTransaction.commit();
+            getActivity().overridePendingTransition(R.anim.slide_out_to_left, R.anim.slide_out_to_right);
+                }, 2000);
+
+       /* dataBinding.spType.setSelection(0);
+        dataBinding.spComplaintType.setSelection(0);
+        dataBinding.spProduct.setSelection(0);
+        dataBinding.etComplaintTxt.setText("");
+        dataBinding.etDate.setText("");
+        //dataBinding.etDealerName.setText("");
+       // dataBinding.etCustomerName.setText("");
+        dataBinding.etAddress.setText("");
+        dataBinding.etContactPerson.setText("");
+        dataBinding.etMobileNo.setText("");
+        dataBinding.imageView.setImageDrawable(getResources().getDrawable(R.drawable.add_image));*/
+    }
+
+
+
+    @Override
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        MenuItem item = menu.findItem(R.id.action_cart);
+
+        if (item != null)
+            item.setVisible(false);
+
+    }
+
+}

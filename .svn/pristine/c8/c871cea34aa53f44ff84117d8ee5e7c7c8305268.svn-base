@@ -1,0 +1,10 @@
+package com.cbs.snb.ui.region;
+
+/**
+ * Created by Venkatesh on 11-07-2020.
+ */
+public interface RegionNavigator {
+
+    void navigateMainActivity();
+
+}

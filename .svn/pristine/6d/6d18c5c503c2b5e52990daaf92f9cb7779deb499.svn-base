@@ -1,0 +1,71 @@
+package com.cbs.snb.ui.activity;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.cbs.snb.R;
+import com.cbs.snb.data.network.models.get.ActivityTypeModel;
+
+import java.util.List;
+
+import javax.security.auth.callback.Callback;
+
+/**
+ * Created by Venkatesh on 04-09-2020.
+ */
+public class TypeAdapter extends ArrayAdapter<ActivityTypeModel.ResponseObject> {
+    private Callback mCallback;
+
+    private List<ActivityTypeModel.ResponseObject> customerModel;
+    private Context mContext;
+
+    private OnItemClicked onClick;
+
+    public interface OnItemClicked {
+        void onItemClick(int position, ActivityTypeModel.ResponseObject model);
+    }
+
+
+    public TypeAdapter(@NonNull Context context, List<ActivityTypeModel.ResponseObject> wList) {
+        super(context, R.layout.custom_search,wList);
+        this.customerModel = wList;
+        this.mContext = context;
+    }
+
+    @NonNull
+    @Override
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        ViewHolder viewHolder;
+
+        if (convertView == null) {
+            LayoutInflater inflater = LayoutInflater.from(mContext);
+            convertView = inflater.inflate(R.layout.custom_search, null);
+            viewHolder = new ViewHolder();
+            viewHolder.items =  convertView.findViewById(R.id.tvCode);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+
+        ActivityTypeModel.ResponseObject myDataItem = getItem(position);
+        viewHolder.items.setText(myDataItem.getName());
+
+        return convertView;
+    }
+
+    public class ViewHolder {
+        TextView items;
+    }
+
+    public void setOnClick(OnItemClicked onClick) {
+        this.onClick=onClick;
+    }
+
+}

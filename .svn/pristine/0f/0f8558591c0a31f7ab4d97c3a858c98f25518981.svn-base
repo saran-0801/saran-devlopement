@@ -1,0 +1,28 @@
+package com.cbs.snb.di.builder;
+
+import com.cbs.snb.ui.orders.MyOrdersFragment;
+import dagger.Binds;
+import dagger.Module;
+import dagger.Subcomponent;
+import dagger.android.AndroidInjector;
+import dagger.multibindings.ClassKey;
+import dagger.multibindings.IntoMap;
+
+@Module(
+  subcomponents = FragmentBuilder_ContributeMyOrdersFragment.MyOrdersFragmentSubcomponent.class
+)
+public abstract class FragmentBuilder_ContributeMyOrdersFragment {
+  private FragmentBuilder_ContributeMyOrdersFragment() {}
+
+  @Binds
+  @IntoMap
+  @ClassKey(MyOrdersFragment.class)
+  abstract AndroidInjector.Factory<?> bindAndroidInjectorFactory(
+      MyOrdersFragmentSubcomponent.Factory builder);
+
+  @Subcomponent
+  public interface MyOrdersFragmentSubcomponent extends AndroidInjector<MyOrdersFragment> {
+    @Subcomponent.Factory
+    interface Factory extends AndroidInjector.Factory<MyOrdersFragment> {}
+  }
+}

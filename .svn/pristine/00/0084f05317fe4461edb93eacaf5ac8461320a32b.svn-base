@@ -1,0 +1,62 @@
+package com.cbs.snb.ui.customerhistory.viewcustomer;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.ApiService;
+import com.cbs.snb.data.network.Resource;
+import com.cbs.snb.data.network.models.get.CustomerDetailsModel;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+import com.cbs.snb.ui.home.HomeViewModel;
+import com.cbs.snb.utils.rx.SchedulerProvider;
+
+import javax.inject.Inject;
+
+/**
+ * Created by Venkatesh on 14-07-2020.
+ */
+public class CustomerHistoryViewModel extends BaseViewModel<CustomerHistoryNavigator> {
+
+    public static final String TAG = CustomerHistoryViewModel.class.getSimpleName();
+    public MutableLiveData<Boolean> progressBar;
+    public MutableLiveData<Resource<CustomerDetailsModel>> customerDetailsModel;
+
+    @Inject
+    public CustomerHistoryViewModel(Repository repository, SchedulerProvider schedulerProvider,
+                                    PreferenceHelper preferenceHelper, AppDatabase database, ApiService service) {
+        super(repository, schedulerProvider, preferenceHelper, database, service);
+        customerDetailsModel = new MutableLiveData<>();
+        progressBar = new MutableLiveData<>();
+        init();
+    }
+
+    public void init(){
+        getCustomersDetails();
+    }
+
+    public LiveData<Resource<CustomerDetailsModel>> getOutStanding() {
+        return customerDetailsModel;
+    }
+
+    private void getCustomersDetails() {
+        progressBar.setValue(true);
+        getCompositeDisposable().add(getApiService()
+                .getCustomer("C", getPreferenceHelper().getSalesEmpCode(),getPreferenceHelper().getEmpTypeCode())
+                .subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(customerDetailsModel1 -> {
+                    progressBar.setValue(false);
+                    if (customerDetailsModel1.getStatusCode() == 0){
+                        customerDetailsModel.postValue(Resource.success(customerDetailsModel1));
+                    }else {
+                        customerDetailsModel.postValue(Resource.error(customerDetailsModel1.getStatusMessage(),null));
+                    }
+                }, throwable -> {
+                    progressBar.setValue(false);
+                    customerDetailsModel.postValue(Resource.error(throwable.toString(),null));
+                }));
+    }
+}

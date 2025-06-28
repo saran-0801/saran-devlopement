@@ -1,0 +1,9 @@
+package com.cbs.snb.ui.activity;
+
+/**
+ * Created by Venkatesh on 19-08-2020.
+ */
+public interface CreateActivityNavigator {
+
+    void setDate(String date);
+}

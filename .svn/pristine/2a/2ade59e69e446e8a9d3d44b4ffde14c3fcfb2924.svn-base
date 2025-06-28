@@ -1,0 +1,307 @@
+package com.cbs.snb.di.module;
+
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.cbs.snb.di.ViewModelKey;
+import com.cbs.snb.ui.ViewModelProviderFactory;
+import com.cbs.snb.ui.activity.CreateActivityViewModel;
+import com.cbs.snb.ui.attendance.UserCheckOutViewModel;
+import com.cbs.snb.ui.attendance.checkin.CheckInViewModel;
+import com.cbs.snb.ui.cart.CartViewModel;
+import com.cbs.snb.ui.changepassword.ChangePasswordViewModel;
+import com.cbs.snb.ui.checkout.CheckOutViewModel;
+import com.cbs.snb.ui.complaints.ComplaintViewModel;
+import com.cbs.snb.ui.customerhistory.addcustomer.AddCustomerViewModel;
+import com.cbs.snb.ui.customerhistory.viewcustomer.CustomerHistoryViewModel;
+import com.cbs.snb.ui.customers.CustomerViewModel;
+import com.cbs.snb.ui.expense.ExpenseViewModel;
+import com.cbs.snb.ui.feedback.FeedbackViewModel;
+import com.cbs.snb.ui.forgotpassword.ForgotPasswordViewModel;
+import com.cbs.snb.ui.home.HomeViewModel;
+import com.cbs.snb.ui.inventory.InventoryViewModel;
+import com.cbs.snb.ui.orders.order_details.OrderItemViewModel;
+import com.cbs.snb.ui.pdf_viwer.report_list.ReportListViewModel;
+import com.cbs.snb.ui.product_list.ProductsListViewModel;
+import com.cbs.snb.ui.productdetails.ProductDetailsViewModel;
+import com.cbs.snb.ui.leads.LeadsViewModel;
+import com.cbs.snb.ui.leads.address.AddressDetailsViewModel;
+import com.cbs.snb.ui.leads.customer.CustomerDetailsViewModel;
+import com.cbs.snb.ui.leads.manager.PurchaseManagerViewModel;
+import com.cbs.snb.ui.leads.owner.OwnerDetailsViewModel;
+import com.cbs.snb.ui.login.LoginViewModel;
+import com.cbs.snb.ui.main.MainViewModel;
+import com.cbs.snb.ui.notification.NotificationViewModel;
+import com.cbs.snb.ui.orders.MyOrdersViewModel;
+import com.cbs.snb.ui.payment.PaymentViewModel;
+import com.cbs.snb.ui.payment.invoices.InvoiceViewModel;
+import com.cbs.snb.ui.products.ProductsViewModel;
+import com.cbs.snb.ui.region.RegionViewModel;
+import com.cbs.snb.ui.reports.activity.ActivityReportViewModel;
+import com.cbs.snb.ui.reports.complaints.ComplaintsReportViewModel;
+import com.cbs.snb.ui.reports.customeroutstanding.CustomerOutstandingViewModel;
+import com.cbs.snb.ui.reports.expense.ExpenseReportViewModel;
+import com.cbs.snb.ui.reports.inventory.InventoryReportViewModel;
+import com.cbs.snb.ui.reports.salesanalysis.SalesAnalysisViewModel;
+import com.cbs.snb.ui.settings.SettingsViewModel;
+import com.cbs.snb.ui.splash.SplashScreenViewModel;
+
+import dagger.Binds;
+import dagger.Module;
+import dagger.multibindings.IntoMap;
+
+/**
+ * Created by Venkatesh on 09-07-2020.
+ */
+@Module
+public abstract class ViewModelModule {
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SplashScreenViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsSplashScreenViewModel(SplashScreenViewModel splashScreenViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MainViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsMainViewModel(MainViewModel mainViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SettingsViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsSettingsViewModel(SettingsViewModel settingsViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ForgotPasswordViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsForgotPasswordViewModel(ForgotPasswordViewModel forgotPasswordViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(HomeViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsHomeViewModel(HomeViewModel homeViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CustomerViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsCustomerViewModel(CustomerViewModel customerViewModel);
+
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(LoginViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsLoginViewModel(LoginViewModel loginViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(RegionViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsRegionViewModel(RegionViewModel regionViewModel);
+
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ProductDetailsViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsItemDetailsViewModel(ProductDetailsViewModel itemDetailsViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ChangePasswordViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsChangePasswordViewModel(ChangePasswordViewModel changePasswordViewModel);
+
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CartViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsCartViewModel(CartViewModel cartViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CheckOutViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsCheckOutViewModel(CheckOutViewModel checkOutViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ComplaintViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsComplaintViewModel(ComplaintViewModel complaintViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FeedbackViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsFeedbackViewModel(FeedbackViewModel feedbackViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SalesAnalysisViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsSalesAnalysisViewModel(SalesAnalysisViewModel salesAnalysisViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(InventoryReportViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsInventoryReportViewModel(InventoryReportViewModel inventoryReportViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ExpenseReportViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsExpenseReportViewModel(ExpenseReportViewModel expenseReportViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ComplaintsReportViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsComplaintsReportViewModel(ComplaintsReportViewModel complaintsReportViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CustomerOutstandingViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsCustomerOutstandingViewModel(CustomerOutstandingViewModel customerOutstandingViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CustomerDetailsViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsCustomerDetailsViewModel(CustomerDetailsViewModel customerDetailsViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AddressDetailsViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsAddressDetailsViewModel(AddressDetailsViewModel addressDetailsViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PurchaseManagerViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsPurchaseManagerViewModel(PurchaseManagerViewModel purchaseManagerViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(OwnerDetailsViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsOwnerDetailsViewModel(OwnerDetailsViewModel ownerDetailsViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(LeadsViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsLeadsViewModel(LeadsViewModel leadsViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(InventoryViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsInventoryViewModel(InventoryViewModel inventoryViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CustomerHistoryViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsCustomerHistoryViewModel(CustomerHistoryViewModel customerHistoryViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AddCustomerViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsAddCustomerViewModel(AddCustomerViewModel addCustomerViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PaymentViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsPaymentViewModel(PaymentViewModel paymentViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ExpenseViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsExpenseViewModel(ExpenseViewModel expenseViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(UserCheckOutViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsUserCheckOutViewModel(UserCheckOutViewModel checkOutViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CheckInViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsCheckInViewModel(CheckInViewModel checkInViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(NotificationViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsNotificationViewModel(NotificationViewModel notificationViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ProductsViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsProductsViewModel(ProductsViewModel productsViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ProductsListViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsProductsListViewModel(ProductsListViewModel productsListViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(OrderItemViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsOrderViewModel(OrderItemViewModel orderItemViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MyOrdersViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsMyOrdersViewModel(MyOrdersViewModel myOrdersViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CreateActivityViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsCreateActivityViewModel(CreateActivityViewModel createActivityViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(InvoiceViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsInvoiceViewModel(InvoiceViewModel invoiceViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ActivityReportViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsActivityReportViewModel(ActivityReportViewModel activityReportViewModel);
+
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ReportListViewModel.class)
+    @SuppressWarnings("unused")
+    abstract ViewModel bindsReportListViewModel(ReportListViewModel reportListViewModel);
+
+
+    @Binds
+    @SuppressWarnings("unused")
+    abstract ViewModelProvider.Factory bindsViewModelFactory(ViewModelProviderFactory viewModelFactory);
+}

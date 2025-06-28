@@ -1,0 +1,78 @@
+package com.cbs.snb.data.network.models.post
+
+
+import android.annotation.SuppressLint
+import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
+import android.os.Parcelable
+
+@SuppressLint("ParcelCreator")
+@Parcelize
+data class CustomerCreationModel(
+        @SerializedName("AadharNumber")
+        val aadharNumber: String, // 123456764
+        @SerializedName("Address")
+        val address: List<Addres>,
+        @SerializedName("companyType")
+        val companyType: String,
+        @SerializedName("creditLimit")
+        val creditLimit: Int, // null
+        @SerializedName("customerCode")
+        val customerCode: String, // txt013
+        @SerializedName("customerGroupCode")
+        val customerGroupCode: String, // null
+        @SerializedName("customerName")
+        val customerName: String, // testttt
+        @SerializedName("docDate")
+        val docDate: String, // 10-02-2020
+        @SerializedName("email")
+        val email: String, // testttt@gmail.com
+        @SerializedName("GSTINO")
+        val gSTINO: String, // 12345
+        @SerializedName("GSTType")
+        val gSTType: String, // SGST
+        @SerializedName("GeoLocation")
+        val geoLocation: String, // 323453
+        @SerializedName("mobileNumber")
+        val mobileNumber: String, // 1234567891
+        @SerializedName("OwnerNumber")
+        val ownerNumber: String, // 12345
+        @SerializedName("PanNumber")
+        val panNumber: String, // 123EDRR
+        @SerializedName("paymentTermsCode")
+        val paymentTermsCode: String, // null
+        @SerializedName("remarks")
+        val remarks: String, // 1234
+        @SerializedName("salesEmployeeCode")
+        val salesEmployeeCode: String, // null
+        @SerializedName("CardType")
+        val cardType: String // null
+
+) : Parcelable {
+    @SuppressLint("ParcelCreator")
+    @Parcelize
+    data class Addres(
+            @SerializedName("address")
+            val address: String, // Bangalore
+            @SerializedName("address1")
+            val address1: String, // Chennai
+            @SerializedName("addressType")
+            val addressType: Int, // B
+            @SerializedName("areaCode")
+            val areaCode: String,
+            @SerializedName("areaName")
+            val areaName: String,
+            @SerializedName("block")
+            val block: String,
+            @SerializedName("city")
+            val city: String, // Bangalore
+            @SerializedName("countryCode")
+            val countryCode: String,
+            @SerializedName("stateCode")
+            val stateCode: String,
+            @SerializedName("street")
+            val street: String,
+            @SerializedName("zipCode")
+            val zipCode: String
+    ) : Parcelable
+}

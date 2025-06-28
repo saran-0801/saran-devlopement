@@ -1,0 +1,30 @@
+package com.cbs.snb.di.builder;
+
+import com.cbs.snb.ui.leads.address.AddressDetailsFragment;
+import dagger.Binds;
+import dagger.Module;
+import dagger.Subcomponent;
+import dagger.android.AndroidInjector;
+import dagger.multibindings.ClassKey;
+import dagger.multibindings.IntoMap;
+
+@Module(
+  subcomponents =
+      FragmentBuilder_ContributeAddressDetailsFragment.AddressDetailsFragmentSubcomponent.class
+)
+public abstract class FragmentBuilder_ContributeAddressDetailsFragment {
+  private FragmentBuilder_ContributeAddressDetailsFragment() {}
+
+  @Binds
+  @IntoMap
+  @ClassKey(AddressDetailsFragment.class)
+  abstract AndroidInjector.Factory<?> bindAndroidInjectorFactory(
+      AddressDetailsFragmentSubcomponent.Factory builder);
+
+  @Subcomponent
+  public interface AddressDetailsFragmentSubcomponent
+      extends AndroidInjector<AddressDetailsFragment> {
+    @Subcomponent.Factory
+    interface Factory extends AndroidInjector.Factory<AddressDetailsFragment> {}
+  }
+}

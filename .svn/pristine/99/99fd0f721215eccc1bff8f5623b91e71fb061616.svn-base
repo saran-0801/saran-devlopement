@@ -1,0 +1,208 @@
+package com.cbs.snb.di.module;
+
+import android.app.Application;
+import android.content.Context;
+import com.cbs.snb.BuildConfig;
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.ApiService;
+import com.cbs.snb.data.network.RequestInterceptor;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.data.preferences.PreferencesManager;
+import com.cbs.snb.di.AppContext;
+import com.cbs.snb.di.PreferenceInfo;
+import com.cbs.snb.ui.cart.CartAdapter;
+import com.cbs.snb.ui.customerhistory.viewcustomer.CustomerHistoryAdapter;
+import com.cbs.snb.ui.customers.CustomerAdapter;
+import com.cbs.snb.ui.home.adapter.PrimaryCustomerAdapter;
+import com.cbs.snb.ui.home.adapter.SecondaryCustomersAdapter;
+import com.cbs.snb.ui.payment.adapter.PaymentOutstandingAdapter;
+import com.cbs.snb.ui.payment.invoices.InvoiceListAdapter;
+import com.cbs.snb.service.LocationService;
+import com.cbs.snb.ui.productlist.ProductsListAdapter;
+import com.cbs.snb.ui.products.ProductsAdapter;
+import com.cbs.snb.utils.Constants;
+import com.cbs.snb.utils.rx.AppSchedulerProvider;
+import com.cbs.snb.utils.rx.SchedulerProvider;
+
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+import javax.inject.Singleton;
+import dagger.Module;
+import dagger.Provides;
+import io.reactivex.disposables.CompositeDisposable;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+/**
+ * Created by Venkatesh on 09-07-2020.
+ */
+@Module(includes = ViewModelModule.class)
+public class AppModule {
+
+    /*  protected final Application mApplication;
+
+    public AppModule(Application application) {
+        mApplication = application;
+    }
+
+    @Provides
+    @Singleton
+    Application provideApplication() {
+        return mApplication;
+    }
+
+    @Provides
+    @AppContext
+    @Singleton
+    Context provideContext() {
+        return mApplication;
+    }*/
+
+    @Singleton
+    @Provides
+    @AppContext
+    Context provideContext(Application application){
+        return application;
+    }
+
+    @Singleton
+    @Provides
+    LocationService provideLocationService(Application application){
+        return new LocationService(provideContext(application));
+    }
+
+    @Provides
+    @Singleton
+    OkHttpClient provideOkHttpClient() {
+        OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
+        okHttpClient.connectTimeout(5, TimeUnit.MINUTES);
+        okHttpClient.readTimeout(5, TimeUnit.MINUTES);
+        okHttpClient.writeTimeout(5, TimeUnit.MINUTES);
+        okHttpClient.addInterceptor(new RequestInterceptor());
+        okHttpClient.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
+        return okHttpClient.build();
+    }
+
+    @Provides
+    @Singleton
+    ApiService provideRetrofit(OkHttpClient okHttpClient) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BuildConfig.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(okHttpClient)
+                .build();
+
+        return retrofit.create(ApiService.class);
+    }
+
+  /*  @Provides
+    @Singleton
+    AppDatabase provideArticleDatabase(Application application) {
+        return Room.databaseBuilder(application, AppDatabase.class, "narasus.db").build();
+    }*/
+
+    @Provides
+    @Singleton
+    AppDatabase provideAppDatabase(Application application) {
+        return AppDatabase.getDatabaseInstance(application);
+    }
+
+    @Provides
+    @PreferenceInfo
+    String providePreferenceName() {
+        return Constants.PREF_NAME;
+    }
+
+    @Provides
+    @Singleton
+    PreferenceHelper providePreferencesHelper(PreferencesManager preferencesManager) {
+        return preferencesManager;
+    }
+
+    @Provides
+    @Singleton
+    Repository providesRepository(ApiService apiService){
+        return new Repository(apiService);
+    }
+
+    @Provides
+    @Singleton
+    CompositeDisposable provideCompositeDisposable() {
+        return new CompositeDisposable();
+    }
+
+
+    @Provides
+    @Singleton
+    SchedulerProvider provideSchedulerProvider() {
+        return new AppSchedulerProvider();
+    }
+
+
+    @Provides
+    @Singleton
+    PaymentOutstandingAdapter provideOutstandingAdapter(Application application){
+        return new PaymentOutstandingAdapter(new ArrayList<>(),provideContext(application));
+    }
+
+    @Provides
+    @Singleton
+    CustomerHistoryAdapter provideCustomerHistoryAdapter(Application application){
+        return new CustomerHistoryAdapter(new ArrayList<>(),provideContext(application));
+    }
+
+    @Provides
+    @Singleton
+    InvoiceListAdapter provideInvoiceListAdapterr(Application application){
+        return new InvoiceListAdapter(new ArrayList<>(),provideContext(application));
+    }
+
+    @Provides
+    @Singleton
+    CartAdapter provideCartAdapter(Application application){
+        return new CartAdapter(new ArrayList<>(),provideContext(application));
+    }
+
+    @Provides
+    @Singleton
+    ProductsAdapter provideProductAdapter(Application application){
+        return new ProductsAdapter(new ArrayList<>(),provideContext(application));
+    }
+
+    @Provides
+    @Singleton
+    ProductsListAdapter provideProductsListAdapter(Application application){
+        return new ProductsListAdapter(new ArrayList<>(),provideContext(application));
+    }
+
+    @Provides
+    @Singleton
+    com.cbs.snb.ui.orders.orderdetails.OrderItemListAdapter provideOrderItemListAdapter(Application application){
+        return new com.cbs.snb.ui.orders.orderdetails.OrderItemListAdapter(new ArrayList<>(),provideContext(application));
+    }
+
+    @Provides
+    @Singleton
+    PrimaryCustomerAdapter providesPrimaryCustomerAdapter(Application application){
+        return new PrimaryCustomerAdapter(new ArrayList<>(),provideContext(application));
+    }
+
+
+    @Provides
+    @Singleton
+    SecondaryCustomersAdapter providesSecondaryCustomersAdapter(Application application){
+        return new SecondaryCustomersAdapter(new ArrayList<>(),provideContext(application));
+    }
+
+    @Provides
+    @Singleton
+    CustomerAdapter providesCustomerAdapter(Application application){
+        return new CustomerAdapter(new ArrayList<>(),provideContext(application));
+    }
+
+}

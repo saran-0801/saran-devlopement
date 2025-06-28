@@ -1,0 +1,29 @@
+package com.cbs.snb.di.builder;
+
+import com.cbs.snb.ui.forgotpassword.ForgotPasswordActivity;
+import dagger.Binds;
+import dagger.Module;
+import dagger.Subcomponent;
+import dagger.android.AndroidInjector;
+import dagger.multibindings.ClassKey;
+import dagger.multibindings.IntoMap;
+
+@Module(
+  subcomponents = ActivityBuilder_ForgotPasswordActivity.ForgotPasswordActivitySubcomponent.class
+)
+public abstract class ActivityBuilder_ForgotPasswordActivity {
+  private ActivityBuilder_ForgotPasswordActivity() {}
+
+  @Binds
+  @IntoMap
+  @ClassKey(ForgotPasswordActivity.class)
+  abstract AndroidInjector.Factory<?> bindAndroidInjectorFactory(
+      ForgotPasswordActivitySubcomponent.Factory builder);
+
+  @Subcomponent
+  public interface ForgotPasswordActivitySubcomponent
+      extends AndroidInjector<ForgotPasswordActivity> {
+    @Subcomponent.Factory
+    interface Factory extends AndroidInjector.Factory<ForgotPasswordActivity> {}
+  }
+}

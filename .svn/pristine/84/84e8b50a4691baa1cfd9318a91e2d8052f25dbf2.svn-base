@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.cbs.snb.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_nav_home_to_nav_change_psw"
+            app:destination="@id/nav_change_psw"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/nav_home"
+            app:popUpToInclusive="true"/>
+
+        <action
+            android:id="@+id/action_nav_home_to_nav_activity"
+            app:destination="@id/nav_activity"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/nav_home"
+            app:popUpToInclusive="true"/>
+
+
+        <action
+            android:id="@+id/action_nav_home_to_nav_products"
+            app:destination="@id/nav_products"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_from_rigth"
+            app:popExitAnim="@anim/slide_out_to_right"
+            app:popUpTo="@+id/nav_home"
+            app:popUpToInclusive="true"/>
+
+        <action
+            android:id="@+id/action_nav_home_to_nav_customers"
+            app:destination="@id/nav_customers"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_from_rigth"
+            app:popExitAnim="@anim/slide_out_to_right"
+            app:popUpTo="@+id/nav_home"
+            app:popUpToInclusive="true"/>
+
+        <action
+            android:id="@+id/action_nav_home_to_nav_my_orders"
+            app:destination="@id/nav_my_orders" />
+
+        <action
+            android:id="@+id/action_nav_home_to_nav_complaint"
+            app:destination="@id/nav_complaints" />
+
+        <action
+            android:id="@+id/action_nav_home_to_nav_feedback"
+            app:destination="@id/nav_feedback" />
+
+        <action
+            android:id="@+id/action_nav_home_to_nav_reports"
+            app:destination="@id/nav_reports" />
+
+        <action
+            android:id="@+id/action_nav_home_to_nav_leads"
+            app:destination="@id/nav_leads" />
+
+        <action
+            android:id="@+id/action_nav_home_to_nav_inventory"
+            app:destination="@id/nav_inventory" />
+
+        <action
+            android:id="@+id/action_nav_home_to_nav_history"
+            app:destination="@id/nav_history" />
+
+        <action
+            android:id="@+id/action_nav_home_to_nav_payment"
+            app:destination="@id/nav_payment" />
+
+        <action
+            android:id="@+id/action_nav_home_to_nav_check_out"
+            app:destination="@id/nav_check_out" />
+
+        <action
+            android:id="@+id/action_nav_home_to_nav_expense"
+            app:destination="@id/nav_expense" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_change_psw"
+        android:name="com.cbs.snb.ui.changepassword.ChangePasswordFragment"
+        android:label="@string/menu_psw"
+        tools:layout="@layout/fragment_change_password" />
+
+    <fragment
+        android:id="@+id/nav_complaints"
+        android:name="com.cbs.snb.ui.complaints.ComplaintFragment"
+        android:label="@string/menu_complaints"
+        tools:layout="@layout/fragment_complaint" />
+
+    <fragment
+        android:id="@+id/nav_activity"
+        android:name="com.cbs.snb.ui.activity.CreateActivityFragment"
+        android:label="@string/menu_activity"
+        tools:layout="@layout/fragment_create_activity" />
+
+    <fragment
+        android:id="@+id/nav_products"
+        android:name="com.cbs.snb.ui.products.ProductsActivity"
+        android:label="@string/menu_products"
+        tools:layout="@layout/activity_products"/>
+
+    <fragment
+        android:id="@+id/nav_customers"
+        android:name="com.cbs.snb.ui.customers.CustomerFragment"
+        android:label="@string/menu_customers"
+        tools:layout="@layout/fragment_customers"/>
+
+    <fragment
+        android:id="@+id/nav_my_orders"
+        android:name="com.cbs.snb.ui.orders.MyOrdersFragment"
+        android:label="@string/menu_my_orders"
+        tools:layout="@layout/fragment_my_orders" />
+
+    <fragment
+        android:id="@+id/nav_feedback"
+        android:name="com.cbs.snb.ui.feedback.FeedbackFragment"
+        android:label="@string/menu_feedback"
+        tools:layout="@layout/fragment_complaint" />
+
+
+    <fragment
+        android:id="@+id/nav_reports"
+        android:name="com.cbs.snb.ui.pdf_viwer.report_list.ReportListFragment"
+        android:label="@string/menu_reports"
+        tools:layout="@layout/fragment_report_list" />
+
+    <!--android:name="com.cbs.narasus.ui.reports.ReportsFragment"-->
+
+    <fragment
+        android:id="@+id/nav_leads"
+        android:name="com.cbs.snb.ui.leads.LeadFragment"
+        android:label="@string/menu_leads"
+        tools:layout="@layout/fragment_lead" />
+
+    <fragment
+        android:id="@+id/nav_inventory"
+        android:name="com.cbs.snb.ui.inventory.InventoryFragment"
+        android:label="@string/menu_inventory"
+        tools:layout="@layout/fragment_inventory" />
+
+    <fragment
+        android:id="@+id/nav_history"
+        android:name="com.cbs.snb.ui.customerhistory.viewcustomer.CustomerHistoryFragment"
+        android:label="@string/menu_history"
+        tools:layout="@layout/fragment_customer_history" />
+
+    <fragment
+        android:id="@+id/nav_payment"
+        android:name="com.cbs.snb.ui.payment.PaymentFragment"
+        android:label="@string/menu_payment"
+        tools:layout="@layout/fragment_payment" />
+
+    <fragment
+        android:id="@+id/nav_check_out"
+        android:name="com.cbs.snb.ui.attendance.UserCheckOutFragment"
+        android:label="@string/menu_check_out"
+        tools:layout="@layout/fragment_user_checkout" />
+
+    <fragment
+        android:id="@+id/nav_expense"
+        android:name="com.cbs.snb.ui.expense.ExpenseFragment"
+        android:label="@string/menu_expense"
+        tools:layout="@layout/fragment_expense" />
+</navigation>

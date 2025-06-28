@@ -1,0 +1,176 @@
+package com.cbs.snb.databinding;
+import com.cbs.snb.R;
+import com.cbs.snb.BR;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import android.view.View;
+@SuppressWarnings("unchecked")
+public class FragmentComplaintBindingImpl extends FragmentComplaintBinding  {
+
+    @Nullable
+    private static final androidx.databinding.ViewDataBinding.IncludedLayouts sIncludes;
+    @Nullable
+    private static final android.util.SparseIntArray sViewsWithIds;
+    static {
+        sIncludes = null;
+        sViewsWithIds = new android.util.SparseIntArray();
+        sViewsWithIds.put(R.id.leadLayout, 1);
+        sViewsWithIds.put(R.id.cardView, 2);
+        sViewsWithIds.put(R.id.tvComplaintType, 3);
+        sViewsWithIds.put(R.id.complaintTypeLayout, 4);
+        sViewsWithIds.put(R.id.spComplaintType, 5);
+        sViewsWithIds.put(R.id.tvType, 6);
+        sViewsWithIds.put(R.id.typeLayout, 7);
+        sViewsWithIds.put(R.id.spType, 8);
+        sViewsWithIds.put(R.id.tvDealerNameText, 9);
+        sViewsWithIds.put(R.id.dealerNameLayout, 10);
+        sViewsWithIds.put(R.id.spDealerName, 11);
+        sViewsWithIds.put(R.id.tvProductText, 12);
+        sViewsWithIds.put(R.id.productLayout, 13);
+        sViewsWithIds.put(R.id.spProduct, 14);
+        sViewsWithIds.put(R.id.tvBatchText, 15);
+        sViewsWithIds.put(R.id.batchLayout, 16);
+        sViewsWithIds.put(R.id.spBatchNo, 17);
+        sViewsWithIds.put(R.id.tvComment, 18);
+        sViewsWithIds.put(R.id.etComplaintLayout, 19);
+        sViewsWithIds.put(R.id.etComplaintTxt, 20);
+        sViewsWithIds.put(R.id.tvDateText, 21);
+        sViewsWithIds.put(R.id.etDateLayout, 22);
+        sViewsWithIds.put(R.id.etDate, 23);
+        sViewsWithIds.put(R.id.tvShopNameText, 24);
+        sViewsWithIds.put(R.id.etShopNameLayout, 25);
+        sViewsWithIds.put(R.id.etShopName, 26);
+        sViewsWithIds.put(R.id.tvAddressText, 27);
+        sViewsWithIds.put(R.id.etAddressLayout, 28);
+        sViewsWithIds.put(R.id.etAddress, 29);
+        sViewsWithIds.put(R.id.tvContactText, 30);
+        sViewsWithIds.put(R.id.etContactPersonLayout, 31);
+        sViewsWithIds.put(R.id.etContactPerson, 32);
+        sViewsWithIds.put(R.id.tvMobileText, 33);
+        sViewsWithIds.put(R.id.etMobileNoLayout, 34);
+        sViewsWithIds.put(R.id.etMobileNo, 35);
+        sViewsWithIds.put(R.id.tvAttachmentText, 36);
+        sViewsWithIds.put(R.id.imageView, 37);
+        sViewsWithIds.put(R.id.addImage, 38);
+        sViewsWithIds.put(R.id.addComplaint, 39);
+    }
+    // views
+    @NonNull
+    private final androidx.core.widget.NestedScrollView mboundView0;
+    // variables
+    // values
+    // listeners
+    // Inverse Binding Event Handlers
+
+    public FragmentComplaintBindingImpl(@Nullable androidx.databinding.DataBindingComponent bindingComponent, @NonNull View root) {
+        this(bindingComponent, root, mapBindings(bindingComponent, root, 40, sIncludes, sViewsWithIds));
+    }
+    private FragmentComplaintBindingImpl(androidx.databinding.DataBindingComponent bindingComponent, View root, Object[] bindings) {
+        super(bindingComponent, root, 0
+            , (android.widget.Button) bindings[39]
+            , (android.widget.ImageView) bindings[38]
+            , (android.widget.RelativeLayout) bindings[16]
+            , (androidx.cardview.widget.CardView) bindings[2]
+            , (android.widget.RelativeLayout) bindings[4]
+            , (android.widget.RelativeLayout) bindings[10]
+            , (android.widget.EditText) bindings[29]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[28]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[19]
+            , (android.widget.EditText) bindings[20]
+            , (android.widget.EditText) bindings[32]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[31]
+            , (android.widget.EditText) bindings[23]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[22]
+            , (android.widget.EditText) bindings[35]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[34]
+            , (android.widget.EditText) bindings[26]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[25]
+            , (android.widget.ImageView) bindings[37]
+            , (android.widget.LinearLayout) bindings[1]
+            , (android.widget.RelativeLayout) bindings[13]
+            , (com.toptoche.searchablespinnerlibrary.SearchableSpinner) bindings[17]
+            , (com.toptoche.searchablespinnerlibrary.SearchableSpinner) bindings[5]
+            , (com.toptoche.searchablespinnerlibrary.SearchableSpinner) bindings[11]
+            , (com.toptoche.searchablespinnerlibrary.SearchableSpinner) bindings[14]
+            , (com.toptoche.searchablespinnerlibrary.SearchableSpinner) bindings[8]
+            , (android.widget.TextView) bindings[27]
+            , (android.widget.TextView) bindings[36]
+            , (android.widget.TextView) bindings[15]
+            , (android.widget.TextView) bindings[18]
+            , (android.widget.TextView) bindings[3]
+            , (android.widget.TextView) bindings[30]
+            , (android.widget.TextView) bindings[21]
+            , (android.widget.TextView) bindings[9]
+            , (android.widget.TextView) bindings[33]
+            , (android.widget.TextView) bindings[12]
+            , (android.widget.TextView) bindings[24]
+            , (android.widget.TextView) bindings[6]
+            , (android.widget.RelativeLayout) bindings[7]
+            );
+        this.mboundView0 = (androidx.core.widget.NestedScrollView) bindings[0];
+        this.mboundView0.setTag(null);
+        setRootTag(root);
+        // listeners
+        invalidateAll();
+    }
+
+    @Override
+    public void invalidateAll() {
+        synchronized(this) {
+                mDirtyFlags = 0x2L;
+        }
+        requestRebind();
+    }
+
+    @Override
+    public boolean hasPendingBindings() {
+        synchronized(this) {
+            if (mDirtyFlags != 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean setVariable(int variableId, @Nullable Object variable)  {
+        boolean variableSet = true;
+        if (BR.complaintsViewModel == variableId) {
+            setComplaintsViewModel((com.cbs.snb.ui.complaints.ComplaintViewModel) variable);
+        }
+        else {
+            variableSet = false;
+        }
+            return variableSet;
+    }
+
+    public void setComplaintsViewModel(@Nullable com.cbs.snb.ui.complaints.ComplaintViewModel ComplaintsViewModel) {
+        this.mComplaintsViewModel = ComplaintsViewModel;
+    }
+
+    @Override
+    protected boolean onFieldChange(int localFieldId, Object object, int fieldId) {
+        switch (localFieldId) {
+        }
+        return false;
+    }
+
+    @Override
+    protected void executeBindings() {
+        long dirtyFlags = 0;
+        synchronized(this) {
+            dirtyFlags = mDirtyFlags;
+            mDirtyFlags = 0;
+        }
+        // batch finished
+    }
+    // Listener Stub Implementations
+    // callback impls
+    // dirty flag
+    private  long mDirtyFlags = 0xffffffffffffffffL;
+    /* flag mapping
+        flag 0 (0x1L): complaintsViewModel
+        flag 1 (0x2L): null
+    flag mapping end*/
+    //end
+}

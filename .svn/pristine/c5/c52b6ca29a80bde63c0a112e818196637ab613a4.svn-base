@@ -1,0 +1,7 @@
+package com.cbs.snb.ui.forgotpassword;
+
+/**
+ * Created by Venkatesh on 28-08-2020.
+ */
+public interface ForgotPasswordNavigator {
+}

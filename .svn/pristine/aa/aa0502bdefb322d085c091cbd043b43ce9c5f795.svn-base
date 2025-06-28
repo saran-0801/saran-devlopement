@@ -1,0 +1,128 @@
+package com.cbs.snb.databinding;
+import com.cbs.snb.R;
+import com.cbs.snb.BR;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import android.view.View;
+@SuppressWarnings("unchecked")
+public class FragmentCreateActivityBindingImpl extends FragmentCreateActivityBinding  {
+
+    @Nullable
+    private static final androidx.databinding.ViewDataBinding.IncludedLayouts sIncludes;
+    @Nullable
+    private static final android.util.SparseIntArray sViewsWithIds;
+    static {
+        sIncludes = null;
+        sViewsWithIds = new android.util.SparseIntArray();
+        sViewsWithIds.put(R.id.dealerLayout, 1);
+        sViewsWithIds.put(R.id.dealerSp, 2);
+        sViewsWithIds.put(R.id.addCustomerNew, 3);
+        sViewsWithIds.put(R.id.typeLayout, 4);
+        sViewsWithIds.put(R.id.typeSp, 5);
+        sViewsWithIds.put(R.id.etDateLayout, 6);
+        sViewsWithIds.put(R.id.etDate, 7);
+        sViewsWithIds.put(R.id.etLocationLayout, 8);
+        sViewsWithIds.put(R.id.etMeetingLocation, 9);
+        sViewsWithIds.put(R.id.etRemarksLayout, 10);
+        sViewsWithIds.put(R.id.etRemarksCode, 11);
+        sViewsWithIds.put(R.id.tvAttachmentText, 12);
+        sViewsWithIds.put(R.id.imageView, 13);
+        sViewsWithIds.put(R.id.addImage, 14);
+        sViewsWithIds.put(R.id.addActivityBtn, 15);
+    }
+    // views
+    @NonNull
+    private final androidx.core.widget.NestedScrollView mboundView0;
+    // variables
+    // values
+    // listeners
+    // Inverse Binding Event Handlers
+
+    public FragmentCreateActivityBindingImpl(@Nullable androidx.databinding.DataBindingComponent bindingComponent, @NonNull View root) {
+        this(bindingComponent, root, mapBindings(bindingComponent, root, 16, sIncludes, sViewsWithIds));
+    }
+    private FragmentCreateActivityBindingImpl(androidx.databinding.DataBindingComponent bindingComponent, View root, Object[] bindings) {
+        super(bindingComponent, root, 0
+            , (android.widget.Button) bindings[15]
+            , (android.widget.ImageView) bindings[3]
+            , (android.widget.ImageView) bindings[14]
+            , (android.widget.RelativeLayout) bindings[1]
+            , (com.toptoche.searchablespinnerlibrary.SearchableSpinner) bindings[2]
+            , (android.widget.EditText) bindings[7]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[6]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[8]
+            , (android.widget.EditText) bindings[9]
+            , (android.widget.EditText) bindings[11]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[10]
+            , (android.widget.ImageView) bindings[13]
+            , (android.widget.TextView) bindings[12]
+            , (android.widget.RelativeLayout) bindings[4]
+            , (com.toptoche.searchablespinnerlibrary.SearchableSpinner) bindings[5]
+            );
+        this.mboundView0 = (androidx.core.widget.NestedScrollView) bindings[0];
+        this.mboundView0.setTag(null);
+        setRootTag(root);
+        // listeners
+        invalidateAll();
+    }
+
+    @Override
+    public void invalidateAll() {
+        synchronized(this) {
+                mDirtyFlags = 0x2L;
+        }
+        requestRebind();
+    }
+
+    @Override
+    public boolean hasPendingBindings() {
+        synchronized(this) {
+            if (mDirtyFlags != 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean setVariable(int variableId, @Nullable Object variable)  {
+        boolean variableSet = true;
+        if (BR.createActivityViewModel == variableId) {
+            setCreateActivityViewModel((com.cbs.snb.ui.activity.CreateActivityViewModel) variable);
+        }
+        else {
+            variableSet = false;
+        }
+            return variableSet;
+    }
+
+    public void setCreateActivityViewModel(@Nullable com.cbs.snb.ui.activity.CreateActivityViewModel CreateActivityViewModel) {
+        this.mCreateActivityViewModel = CreateActivityViewModel;
+    }
+
+    @Override
+    protected boolean onFieldChange(int localFieldId, Object object, int fieldId) {
+        switch (localFieldId) {
+        }
+        return false;
+    }
+
+    @Override
+    protected void executeBindings() {
+        long dirtyFlags = 0;
+        synchronized(this) {
+            dirtyFlags = mDirtyFlags;
+            mDirtyFlags = 0;
+        }
+        // batch finished
+    }
+    // Listener Stub Implementations
+    // callback impls
+    // dirty flag
+    private  long mDirtyFlags = 0xffffffffffffffffL;
+    /* flag mapping
+        flag 0 (0x1L): createActivityViewModel
+        flag 1 (0x2L): null
+    flag mapping end*/
+    //end
+}

@@ -1,0 +1,126 @@
+package com.cbs.snb.ui.orders.order_details;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.cbs.snb.data.network.models.get.OrderItemListModel;
+import com.cbs.snb.data.network.models.get.PaymentInvoiceModel;
+import com.cbs.snb.databinding.EmptyAdapterBinding;
+import com.cbs.snb.databinding.InvoiceListAdapterLayoutBinding;
+import com.cbs.snb.databinding.OrdersItemListAdapterLayoutBinding;
+import com.cbs.snb.ui.base.BaseViewHolder;
+
+import java.util.List;
+
+/**
+ * Created by Venkatesh on 04-09-2020.
+ */
+public class OrderItemListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+
+    private Callback mCallback;
+    public static final int VIEW_TYPE_EMPTY = 0;
+    public static final int VIEW_TYPE_NORMAL = 1;
+    private List<OrderItemListModel.ResponseObject> mOrderModel;
+    private List<OrderItemListModel.ResponseObject> mSelectedOrderModel;
+    private Context mContext;
+
+    public interface Callback {
+        void onClick(int position, PaymentInvoiceModel.ResponseObject models);
+    }
+
+    public OrderItemListAdapter(List<OrderItemListModel.ResponseObject> mOrderItemList, Context mContext) {
+        this.mOrderModel = mOrderItemList;
+        this.mContext = mContext;
+    }
+
+    @NonNull
+    @Override
+    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case VIEW_TYPE_NORMAL:
+                OrdersItemListAdapterLayoutBinding binding = OrdersItemListAdapterLayoutBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+                return new OrdersViewHolder(binding);
+            case VIEW_TYPE_EMPTY:
+            default:
+                EmptyAdapterBinding emptyViewBinding = EmptyAdapterBinding.inflate(LayoutInflater.from(parent.getContext()),
+                        parent, false);
+                return new EmptyViewHolder(emptyViewBinding);
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
+        holder.onBind(position);
+    }
+
+    @Override
+    public int getItemCount() {
+        if (mOrderModel != null && mOrderModel.size() > 0) {
+            return mOrderModel.size();
+        } else {
+            return 1;
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (mOrderModel != null && !mOrderModel.isEmpty()) {
+            return VIEW_TYPE_NORMAL;
+        } else {
+            return VIEW_TYPE_EMPTY;
+        }
+    }
+
+    public void addData(List<OrderItemListModel.ResponseObject> list) {
+        mOrderModel.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public void clearList() {
+        mOrderModel.clear();
+    }
+
+    public class OrdersViewHolder extends BaseViewHolder {
+
+        OrdersItemListAdapterLayoutBinding binding;
+
+        public OrdersViewHolder(@NonNull OrdersItemListAdapterLayoutBinding itemView) {
+            super(itemView.getRoot());
+            this.binding = itemView;
+        }
+
+        @Override
+        public void onBind(int position) {
+            OrderItemListModel.ResponseObject model = mOrderModel.get(position);
+            binding.productName.setText(model.getDscription());
+            binding.orderQty.setText(String.valueOf(model.getQuantity()));
+            binding.soOrderPrice.setText(String.valueOf("₹ " +model.getPrice()));
+            binding.soDocTotal.setText(String.valueOf("₹ " +model.getLineTotal()));
+            binding.soTaxAmt.setText(String.valueOf("₹ " + model.getTaxAmt()));
+            binding.soDiscount.setText(String.valueOf("% " + model.getDiscPrcnt()));
+        }
+    }
+
+    public static class EmptyViewHolder extends BaseViewHolder {
+
+        private EmptyAdapterBinding mBinding;
+
+        public EmptyViewHolder(EmptyAdapterBinding binding) {
+            super(binding.getRoot());
+            this.mBinding = binding;
+        }
+
+        @Override
+        public void onBind(int position) {
+
+        }
+    }
+
+    public void setOnClick(Callback onClick) {
+        this.mCallback = onClick;
+    }
+}

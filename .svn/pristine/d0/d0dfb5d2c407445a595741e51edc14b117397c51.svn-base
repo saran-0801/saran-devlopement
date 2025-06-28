@@ -1,0 +1,20 @@
+package com.cbs.snb.ui.login;
+
+/**
+ * Created by Venkatesh on 11-07-2020.
+ */
+public interface LoginNavigator {
+
+   // void handleError(Throwable throwable);
+
+ //   void handleError(String throwable);
+
+  //  void openRegionActivity();
+   // void login();
+
+    void openForgotPassword();
+
+    void showLoading();
+
+    void hideLoading();
+}

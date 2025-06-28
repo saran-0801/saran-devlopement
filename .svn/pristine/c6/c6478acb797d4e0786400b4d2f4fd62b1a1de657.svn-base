@@ -1,0 +1,47 @@
+package com.cbs.snb.data.network.models.post
+
+
+import android.annotation.SuppressLint
+import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
+import android.os.Parcelable
+
+@SuppressLint("ParcelCreator")
+@Parcelize
+data class SalesOrderCreationModel(
+    @SerializedName("CustomerCode")
+    val customerCode: String, // 3SC01
+    @SerializedName("CustomerName")
+    val customerName: String, // 3 S Collections
+    @SerializedName("SCustomerCode")
+    val sCustomerCode: String, // 3SC01
+    @SerializedName("SCustomerName")
+    val sCustomerName: String, // 3 S Collections
+    @SerializedName("DocumentDate")
+    val documentDate: String, // 2020-09-03
+    @SerializedName("DueDate")
+    val dueDate: String, // 2020-09-03
+    @SerializedName("OrderType")
+    val orderType: String, // O
+    @SerializedName("Remarks")
+    val remarks: String, // nO REMARKS
+    @SerializedName("SalesEmpCode")
+    val salesEmpCode: String, // nO REMARKS
+    @SerializedName("sorder")
+    val sorder: List<Sorder>
+) : Parcelable {
+    @SuppressLint("ParcelCreator")
+    @Parcelize
+    data class Sorder(
+        @SerializedName("ItemCode")
+        val itemCode: String, // BI008
+        @SerializedName("ItemDescription")
+        val itemDescription: String,
+        @SerializedName("Price")
+        val price: Double, // 2120.0
+        @SerializedName("quantity")
+        val quantity: Int, // 75
+        @SerializedName("WhsCode")
+        val whsCode: String // Stores2
+    ) : Parcelable
+}

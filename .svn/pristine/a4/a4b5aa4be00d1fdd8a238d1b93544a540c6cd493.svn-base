@@ -1,0 +1,7 @@
+package com.cbs.snb.ui.changepassword;
+
+/**
+ * Created by Venkatesh on 13-07-2020.
+ */
+public interface ChangePasswordNavigator {
+}

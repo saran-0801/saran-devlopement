@@ -1,0 +1,34 @@
+package com.cbs.snb.ui.reports.customeroutstanding;
+
+import androidx.lifecycle.LiveData;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.Resource;
+import com.cbs.snb.data.network.models.get.PaymentDetailsModel;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+
+import javax.inject.Inject;
+
+/**
+ * Created by Venkatesh on 14-07-2020.
+ */
+public class CustomerOutstandingViewModel extends BaseViewModel<CustomerOutstandingNavigator> {
+
+    LiveData<Resource<PaymentDetailsModel>> paymentLiveData;
+
+    @Inject
+    public CustomerOutstandingViewModel(Repository repository, PreferenceHelper preferenceHelper, AppDatabase database) {
+        super(repository, preferenceHelper,database);
+        paymentLiveData = repository.getPaymentDetails();
+    }
+
+    public LiveData<Resource<PaymentDetailsModel>> getOutStandingLiveData(){
+        return paymentLiveData;
+    }
+
+    public LiveData<Boolean> isLoading(){
+        return getRepository().getIsLoading();
+    }
+}

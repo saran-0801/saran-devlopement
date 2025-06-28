@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.cbs.snb">
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <application
+        android:name="com.cbs.snb.MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning">
+
+
+        <!--
+         <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+        -->
+        <!--
+         The API key for Google Maps-based APIs is defined as a string resource.
+         (See the file "res/values/google_maps_api.xml").
+         Note that the API key is linked to the encryption key used to sign the APK.
+         You need a different API key for each encryption key, including the release key that is used to
+         sign the APK for publishing.
+         You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.cbs.snb.provider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"
+                tools:replace="android:resource" />
+        </provider>
+
+        <activity android:name="com.cbs.snb.ui.splash.SplashScreenActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.cbs.snb.ui.login.LoginActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/title_activity_login"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.cbs.snb.ui.attendance.checkin.CheckInActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/check_in"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.cbs.snb.ui.main.MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_main"
+            android:launchMode="standard"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.cbs.snb.ui.main.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.cbs.snb.ui.productdetails.ProductDetailsActivity"
+            android:label="@string/title_activity_items" />
+        <activity
+            android:name="com.cbs.snb.ui.cart.CartActivity"
+            android:label="@string/title_activity_cart" />
+        <activity
+            android:name="com.cbs.snb.ui.reports.customeroutstanding.CustomerOutstandingActivity"
+            android:label="@string/title_activity_out" />
+        <activity
+            android:name="com.cbs.snb.ui.reports.expense.ExpenseReportActivity"
+            android:label="@string/title_activity_exp" />
+        <activity
+            android:name="com.cbs.snb.ui.reports.salesanalysis.SalesAnalysisActivity"
+            android:label="@string/title_activity_sa" />
+        <activity
+            android:name="com.cbs.snb.ui.checkout.CheckOutActivity"
+            android:label="@string/title_activity_checkout" />
+        <activity
+            android:name="com.cbs.snb.ui.region.RegionActivity"
+            android:label="@string/title_activity_region" />
+        <activity
+            android:name="com.cbs.snb.ui.customerhistory.addcustomer.AddCustomerActivity"
+            android:label="@string/title_activity_add_customer" />
+        <activity
+            android:name="com.cbs.snb.ui.notification.NotificationActivity"
+            android:label="@string/title_activity_notification" />
+        <activity
+            android:name="com.cbs.snb.ui.forgotpassword.ForgotPasswordActivity"
+            android:label="@string/title_activity_forgot_password" />
+        <activity
+            android:name="com.cbs.snb.ui.reports.complaints.ComplaintsReportActivity"
+            android:label="@string/title_activity_reports" />
+        <activity
+            android:name="com.cbs.snb.ui.settings.SettingsActivity"
+            android:label="@string/title_activity_settings" />
+        <activity
+            android:name="com.cbs.snb.ui.reports.inventory.InventoryReportActivity"
+            android:label="@string/title_activity_reports" />
+        <activity
+            android:name="com.cbs.snb.ui.payment.invoices.InvoiceListActivity"
+            android:label="@string/title_activity_invoice" />
+        <activity
+            android:name="com.cbs.snb.ui.pdf_viwer.PDFViewerActivity"
+            android:label="@string/title_activity_invoice" />
+
+        <activity android:name="com.cbs.snb.ui.reports.activity.ActivityReportActivity"
+            android:label="@string/title_activity_reports"/>
+
+        <activity android:name="com.cbs.snb.ui.products.ProductsActivity"
+            android:label="@string/title_activity_products"/>
+
+        <activity android:name="com.cbs.snb.ui.product_list.ProductsListActivity"
+            android:label="@string/title_activity_products"/>
+
+        <activity android:name="com.cbs.snb.ui.orders.order_details.OrderItemListActivity"
+            android:label="@string/title_activity_item"/>
+    </application>
+
+</manifest>

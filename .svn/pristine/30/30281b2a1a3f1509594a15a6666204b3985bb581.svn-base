@@ -1,0 +1,8 @@
+package com.cbs.snb.ui.attendance;
+
+/**
+ * Created by Venkatesh on 15-07-2020.
+ */
+public interface UserCheckOutNavigator {
+
+}

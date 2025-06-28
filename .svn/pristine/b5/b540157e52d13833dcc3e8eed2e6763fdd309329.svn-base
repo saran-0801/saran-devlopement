@@ -1,0 +1,238 @@
+package com.cbs.snb.data.database.dao;
+
+import android.database.Cursor;
+import androidx.lifecycle.LiveData;
+import androidx.room.EntityInsertionAdapter;
+import androidx.room.RoomDatabase;
+import androidx.room.RoomSQLiteQuery;
+import androidx.room.SharedSQLiteStatement;
+import androidx.room.util.CursorUtil;
+import androidx.room.util.DBUtil;
+import androidx.sqlite.db.SupportSQLiteStatement;
+import com.cbs.snb.data.database.entities.CartItem;
+import java.lang.Double;
+import java.lang.Exception;
+import java.lang.Integer;
+import java.lang.Override;
+import java.lang.String;
+import java.lang.SuppressWarnings;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+
+@SuppressWarnings({"unchecked", "deprecation"})
+public final class CartItemDao_Impl implements CartItemDao {
+  private final RoomDatabase __db;
+
+  private final EntityInsertionAdapter<CartItem> __insertionAdapterOfCartItem;
+
+  private final SharedSQLiteStatement __preparedStmtOfDeleteCartItem;
+
+  private final SharedSQLiteStatement __preparedStmtOfDeleteAllItem;
+
+  public CartItemDao_Impl(RoomDatabase __db) {
+    this.__db = __db;
+    this.__insertionAdapterOfCartItem = new EntityInsertionAdapter<CartItem>(__db) {
+      @Override
+      public String createQuery() {
+        return "INSERT OR REPLACE INTO `CartItem` (`itemName`,`itemCode`,`price`,`quantity`) VALUES (?,?,?,?)";
+      }
+
+      @Override
+      public void bind(SupportSQLiteStatement stmt, CartItem value) {
+        if (value.getName() == null) {
+          stmt.bindNull(1);
+        } else {
+          stmt.bindString(1, value.getName());
+        }
+        if (value.getCode() == null) {
+          stmt.bindNull(2);
+        } else {
+          stmt.bindString(2, value.getCode());
+        }
+        if (value.getPrice() == null) {
+          stmt.bindNull(3);
+        } else {
+          stmt.bindDouble(3, value.getPrice());
+        }
+        if (value.getQuantity() == null) {
+          stmt.bindNull(4);
+        } else {
+          stmt.bindLong(4, value.getQuantity());
+        }
+      }
+    };
+    this.__preparedStmtOfDeleteCartItem = new SharedSQLiteStatement(__db) {
+      @Override
+      public String createQuery() {
+        final String _query = "DELETE FROM cartitem WHERE itemName = ?";
+        return _query;
+      }
+    };
+    this.__preparedStmtOfDeleteAllItem = new SharedSQLiteStatement(__db) {
+      @Override
+      public String createQuery() {
+        final String _query = "DELETE FROM cartitem";
+        return _query;
+      }
+    };
+  }
+
+  @Override
+  public void add(final CartItem cartItem) {
+    __db.assertNotSuspendingTransaction();
+    __db.beginTransaction();
+    try {
+      __insertionAdapterOfCartItem.insert(cartItem);
+      __db.setTransactionSuccessful();
+    } finally {
+      __db.endTransaction();
+    }
+  }
+
+  @Override
+  public void deleteCartItem(final String name) {
+    __db.assertNotSuspendingTransaction();
+    final SupportSQLiteStatement _stmt = __preparedStmtOfDeleteCartItem.acquire();
+    int _argIndex = 1;
+    if (name == null) {
+      _stmt.bindNull(_argIndex);
+    } else {
+      _stmt.bindString(_argIndex, name);
+    }
+    __db.beginTransaction();
+    try {
+      _stmt.executeUpdateDelete();
+      __db.setTransactionSuccessful();
+    } finally {
+      __db.endTransaction();
+      __preparedStmtOfDeleteCartItem.release(_stmt);
+    }
+  }
+
+  @Override
+  public void deleteAllItem() {
+    __db.assertNotSuspendingTransaction();
+    final SupportSQLiteStatement _stmt = __preparedStmtOfDeleteAllItem.acquire();
+    __db.beginTransaction();
+    try {
+      _stmt.executeUpdateDelete();
+      __db.setTransactionSuccessful();
+    } finally {
+      __db.endTransaction();
+      __preparedStmtOfDeleteAllItem.release(_stmt);
+    }
+  }
+
+  @Override
+  public LiveData<List<CartItem>> getCartItems() {
+    final String _sql = "SELECT * FROM cartitem";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
+    return __db.getInvalidationTracker().createLiveData(new String[]{"cartitem"}, false, new Callable<List<CartItem>>() {
+      @Override
+      public List<CartItem> call() throws Exception {
+        final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
+        try {
+          final int _cursorIndexOfName = CursorUtil.getColumnIndexOrThrow(_cursor, "itemName");
+          final int _cursorIndexOfCode = CursorUtil.getColumnIndexOrThrow(_cursor, "itemCode");
+          final int _cursorIndexOfPrice = CursorUtil.getColumnIndexOrThrow(_cursor, "price");
+          final int _cursorIndexOfQuantity = CursorUtil.getColumnIndexOrThrow(_cursor, "quantity");
+          final List<CartItem> _result = new ArrayList<CartItem>(_cursor.getCount());
+          while(_cursor.moveToNext()) {
+            final CartItem _item;
+            _item = new CartItem();
+            final String _tmpName;
+            _tmpName = _cursor.getString(_cursorIndexOfName);
+            _item.setName(_tmpName);
+            final String _tmpCode;
+            _tmpCode = _cursor.getString(_cursorIndexOfCode);
+            _item.setCode(_tmpCode);
+            final Double _tmpPrice;
+            if (_cursor.isNull(_cursorIndexOfPrice)) {
+              _tmpPrice = null;
+            } else {
+              _tmpPrice = _cursor.getDouble(_cursorIndexOfPrice);
+            }
+            _item.setPrice(_tmpPrice);
+            final Integer _tmpQuantity;
+            if (_cursor.isNull(_cursorIndexOfQuantity)) {
+              _tmpQuantity = null;
+            } else {
+              _tmpQuantity = _cursor.getInt(_cursorIndexOfQuantity);
+            }
+            _item.setQuantity(_tmpQuantity);
+            _result.add(_item);
+          }
+          return _result;
+        } finally {
+          _cursor.close();
+        }
+      }
+
+      @Override
+      protected void finalize() {
+        _statement.release();
+      }
+    });
+  }
+
+  @Override
+  public int getCartCount(final String name) {
+    final String _sql = "SELECT quantity FROM cartitem WHERE itemName = ?";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
+    int _argIndex = 1;
+    if (name == null) {
+      _statement.bindNull(_argIndex);
+    } else {
+      _statement.bindString(_argIndex, name);
+    }
+    __db.assertNotSuspendingTransaction();
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
+    try {
+      final int _result;
+      if(_cursor.moveToFirst()) {
+        _result = _cursor.getInt(0);
+      } else {
+        _result = 0;
+      }
+      return _result;
+    } finally {
+      _cursor.close();
+      _statement.release();
+    }
+  }
+
+  @Override
+  public LiveData<Integer> getRowCount() {
+    final String _sql = "SELECT COUNT(itemName) FROM cartitem";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
+    return __db.getInvalidationTracker().createLiveData(new String[]{"cartitem"}, false, new Callable<Integer>() {
+      @Override
+      public Integer call() throws Exception {
+        final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
+        try {
+          final Integer _result;
+          if(_cursor.moveToFirst()) {
+            final Integer _tmp;
+            if (_cursor.isNull(0)) {
+              _tmp = null;
+            } else {
+              _tmp = _cursor.getInt(0);
+            }
+            _result = _tmp;
+          } else {
+            _result = null;
+          }
+          return _result;
+        } finally {
+          _cursor.close();
+        }
+      }
+
+      @Override
+      protected void finalize() {
+        _statement.release();
+      }
+    });
+  }
+}

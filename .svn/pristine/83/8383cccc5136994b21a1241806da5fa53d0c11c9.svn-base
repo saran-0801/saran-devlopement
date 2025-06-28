@@ -1,0 +1,50 @@
+package com.cbs.snb.data.database.dao;
+
+import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
+import androidx.room.Insert;
+import androidx.room.Query;
+
+import com.cbs.snb.data.database.entities.ProductDetails;
+
+import java.util.List;
+
+import static androidx.room.OnConflictStrategy.REPLACE;
+
+/**
+ * Created by Venkatesh on 03-09-2020.
+ */
+@Dao
+public interface ProductDetailsDao {
+
+    @Insert(onConflict = REPLACE)
+    void save(List<ProductDetails> productDetails);
+
+    @Insert(onConflict = REPLACE)
+    void save(ProductDetails productDetails);
+
+    @Query("DELETE FROM productdetails WHERE itemName NOT IN (:nameList)")
+    void deleteOtherProducts(List<String> nameList);
+
+    @Query("DELETE FROM productdetails")
+    void deleteAll();
+
+    @Query("SELECT * FROM productdetails ORDER BY price ASC")
+    LiveData<List<ProductDetails>> getProductsByPrice();
+
+    @Query("SELECT * FROM productdetails")
+    LiveData<List<ProductDetails>> getProductsAll();
+
+    @Query("SELECT COUNT(*) FROM productdetails")
+    LiveData<Integer> getCount();
+
+//    @Query("SELECT * FROM productdetails ORDER BY rating DESC")
+//    LiveData<List<ProductDetails>> getFoodsByRating();
+
+
+    @Query("SELECT COUNT(*) FROM productdetails WHERE itemCode = :selectedCode")
+    LiveData<Integer> getItemCount(int selectedCode);
+
+    @Query("SELECT * FROM productdetails WHERE itemName = :name")
+    LiveData<ProductDetails> getProducts(String name);
+}

@@ -1,0 +1,96 @@
+package com.cbs.snb.ui.checkout;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.database.entities.CartItem;
+import com.cbs.snb.data.network.ApiService;
+import com.cbs.snb.data.network.Resource;
+import com.cbs.snb.data.network.models.get.CustomerDetailsModel;
+import com.cbs.snb.data.network.models.get.WarehouseModel;
+import com.cbs.snb.data.network.models.post.BasePostResponse;
+import com.cbs.snb.data.network.models.post.SalesOrderCreationModel;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.attendance.checkin.CheckInViewModel;
+import com.cbs.snb.ui.base.BaseViewModel;
+import com.cbs.snb.utils.rx.SchedulerProvider;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+/**
+ * Created by Venkatesh on 13-07-2020.
+ */
+public class CheckOutViewModel extends BaseViewModel<CheckOutNavigator> {
+
+    public static final String TAG = CheckOutViewModel.class.getSimpleName();
+    public MutableLiveData<Boolean> progressBar;
+    public MutableLiveData<Resource<CustomerDetailsModel>> customerDetailsModel;
+    private LiveData<List<CartItem>> mediatorLiveData;
+
+    @Inject
+    public CheckOutViewModel(Repository repository, SchedulerProvider schedulerProvider,
+                             PreferenceHelper preferenceHelper, AppDatabase database, ApiService service) {
+        super(repository, schedulerProvider, preferenceHelper, database, service);
+        mediatorLiveData = repository.getCartData(database);
+        customerDetailsModel = new MutableLiveData<>();
+        progressBar = new MutableLiveData<>(false);
+    }
+
+
+    public LiveData<Resource<CustomerDetailsModel>> getCustomers() {
+        return customerDetailsModel;
+    }
+
+
+   /* public LiveData<Resource<CustomerDetailsModel>> getCustomers(String type){
+        return getRepository().getCustomer(type,getPreferenceHelper().getSalesEmpCode());
+    }
+*/
+    public LiveData<Resource<WarehouseModel>> getWareHouseLiveData(){
+        return getRepository().getWarehouse(getPreferenceHelper().getSalesEmpCode(),getPreferenceHelper().getEmpTypeCode());
+    }
+
+
+    public LiveData<Boolean> isLoading(){
+        return getRepository().getIsLoading();
+    }
+
+    public void delete(){
+        getRepository().delete(getDatabase());
+    }
+
+    public LiveData<List<CartItem>> getCartItemsLiveData() {
+        return mediatorLiveData;
+    }
+
+    public LiveData<Resource<BasePostResponse>> addSalesOrder(SalesOrderCreationModel salesOrderCreationModel){
+        return getRepository().addSalesOrder(salesOrderCreationModel);
+    }
+
+    private void getCustomersDetails() {
+        progressBar.setValue(true);
+        getCompositeDisposable().add(getApiService()
+                .getCustomer("C", getPreferenceHelper().getSalesEmpCode(),getPreferenceHelper().getEmpTypeCode())
+                .subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(customerDetailsModel1 -> {
+                    progressBar.setValue(false);
+                    if (customerDetailsModel1.getStatusCode() == 0){
+                        customerDetailsModel.postValue(Resource.success(customerDetailsModel1));
+                    }else {
+                        customerDetailsModel.postValue(Resource.error(customerDetailsModel1.getStatusMessage(),null));
+                    }
+                }, throwable -> {
+                    progressBar.setValue(false);
+                    customerDetailsModel.postValue(Resource.error(throwable.toString(),null));
+                }));
+    }
+
+    public String empCode(){
+        return getPreferenceHelper().getSalesEmpCode();
+    }
+}

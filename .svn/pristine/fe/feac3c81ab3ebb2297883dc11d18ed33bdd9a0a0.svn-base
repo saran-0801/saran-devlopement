@@ -1,0 +1,120 @@
+package com.cbs.snb.ui.reports.inventory;
+
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+
+import com.cbs.snb.BR;
+import com.cbs.snb.R;
+import com.cbs.snb.data.network.models.get.InventoryModel;
+import com.cbs.snb.databinding.ActivityInventoryReportBinding;
+import com.cbs.snb.ui.ViewModelProviderFactory;
+import com.cbs.snb.ui.base.BaseActivity;
+import com.cbs.snb.ui.inventory.InventoryAdapter;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+public class InventoryReportActivity extends BaseActivity<InventoryReportViewModel, ActivityInventoryReportBinding>
+        implements InventoryReportNavigator {
+
+    @Inject
+    ViewModelProviderFactory factory;
+
+    InventoryReportViewModel mViewModel;
+
+    public static Intent newIntent(Context context) {
+        Intent intent = new Intent(context, InventoryReportActivity.class);
+        return intent;
+    }
+
+    public static Intent getStartIntent(Context context, Bundle bundle) {
+        Intent intent = new Intent(context, InventoryReportActivity.class);
+        intent.putExtras(bundle);
+        return intent;
+    }
+
+
+    @Override
+    public int getBindingVariable() {
+        return BR.inventoryViewModel;
+    }
+
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.activity_inventory_report;
+    }
+
+    @Override
+    protected InventoryReportViewModel getViewModel() {
+        mViewModel = new ViewModelProvider(this, factory).get(InventoryReportViewModel.class);
+        return mViewModel;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mViewModel.setNavigator(this);
+        setUp();
+    }
+
+    public void setUp() {
+        setSupportActionBar(dataBinding.toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Inventory");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        dataBinding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        dataBinding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        isLoading();
+        getInventory();
+
+    }
+
+    private void isLoading(){
+        mViewModel.isLoading().observe(this,aBoolean -> {
+            if (aBoolean){
+                showLoading();
+            }else{
+                hideLoading();
+            }
+        });
+    }
+
+    private void getInventory(){
+        mViewModel.getInventory().observe(this,inventoryModelResource -> {
+            switch (inventoryModelResource.status){
+                case LOADING:
+                    showLoading();
+                    break;
+                case SUCCESS:
+                    hideLoading();
+                    setInventory(inventoryModelResource.data.getResponseObject());
+                    break;
+                case ERROR:
+                    hideLoading();
+                    showSnackBar(inventoryModelResource.getMessage(),getResources().getColor(R.color.red));
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
+
+
+    private void setInventory(List<InventoryModel.ResponseObject> list){
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        dataBinding.inventoryReportRecyclerView.setLayoutManager(linearLayoutManager);
+        dataBinding.inventoryReportRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        dataBinding.inventoryReportRecyclerView.setAdapter(new InventoryAdapter(list,this));
+    }
+
+}

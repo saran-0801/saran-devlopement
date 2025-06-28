@@ -1,0 +1,172 @@
+package com.cbs.snb.ui.products;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import com.cbs.snb.R;
+import com.cbs.snb.data.network.models.get.ProductsModel;
+import com.cbs.snb.databinding.EmptyAdapterBinding;
+import com.cbs.snb.databinding.ProductsAdapterLayoutBinding;
+import com.cbs.snb.ui.base.BaseViewHolder;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by Venkatesh on 31-08-2020.
+ */
+public class ProductsAdapter extends RecyclerView.Adapter<BaseViewHolder> implements Filterable {
+
+   // public static final int VIEW_TYPE_EMPTY = 0;
+   // public static final int VIEW_TYPE_NORMAL = 1;
+    private Callback mCallback;
+    private List<ProductsModel.ResponseObject> mProductsModel;
+    private List<ProductsModel.ResponseObject> mFilterdProductsModel;
+    private Context mContext;
+
+    public interface Callback {
+        void onProductClick(int position ,ProductsModel.ResponseObject models);
+    }
+
+    public ProductsAdapter(List<ProductsModel.ResponseObject> mProductsModel, Context mContext) {
+        this.mProductsModel = mProductsModel;
+        this.mContext = mContext;
+        this.mFilterdProductsModel = mProductsModel;
+    }
+
+    @NonNull
+    @Override
+    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        ProductsAdapterLayoutBinding binding = ProductsAdapterLayoutBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
+        return new ProductsViewHolder(binding);
+
+        /*
+        switch (viewType) {
+            case VIEW_TYPE_NORMAL:
+                ProductsAdapterLayoutBinding binding = ProductsAdapterLayoutBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
+                return new ProductsViewHolder(binding);
+            case VIEW_TYPE_EMPTY:
+            default:
+                EmptyAdapterBinding emptyViewBinding = EmptyAdapterBinding.inflate(LayoutInflater.from(parent.getContext()),
+                        parent, false);
+                return new EmptyViewHolder(emptyViewBinding);
+        }
+*/
+
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
+        holder.onBind(position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return mFilterdProductsModel.size();
+    }
+
+    public void addProducts(List<ProductsModel.ResponseObject> list) {
+        mProductsModel.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public void clearList() {
+        mFilterdProductsModel.clear();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String charString = constraint.toString();
+                if (charString.isEmpty()) {
+                    mFilterdProductsModel = mProductsModel;
+                } else {
+                    List<ProductsModel.ResponseObject> filteredList = new ArrayList<>();
+                    for (ProductsModel.ResponseObject row : mProductsModel) {
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for ItemName or ItemCode match
+                        if (row.getItemName().toLowerCase().contains(charString.toLowerCase()) ||
+                                row.getItemCode().contains(constraint)) {
+                            filteredList.add(row);
+                        }
+                    }
+
+                    mFilterdProductsModel = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mFilterdProductsModel;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                mFilterdProductsModel = (List<ProductsModel.ResponseObject>) results.values;
+                notifyDataSetChanged();
+
+            }
+        };
+    }
+
+   /* @Override
+    public int getItemViewType(int position) {
+        if (mProductsModel != null && !mProductsModel.isEmpty()) {
+            return VIEW_TYPE_NORMAL;
+        } else {
+            return VIEW_TYPE_EMPTY;
+        }
+    }*/
+
+    public class ProductsViewHolder extends BaseViewHolder {
+
+        ProductsAdapterLayoutBinding binding;
+
+        public ProductsViewHolder(@NonNull ProductsAdapterLayoutBinding itemView) {
+            super(itemView.getRoot());
+            this.binding = itemView;
+        }
+
+        @Override
+        public void onBind(int position) {
+            ProductsModel.ResponseObject model = mFilterdProductsModel.get(position);
+            binding.itemCode.setText(model.getItemCode());
+            binding.itemName.setText(model.getItemName());
+            StringBuilder sb = new StringBuilder(mContext.getResources().getString(R.string.rupee));
+            sb.append( new DecimalFormat("##.00").format(model.getPrice()));
+            binding.itemPrice.setText(sb);
+            binding.inStock.setText(new DecimalFormat("##.00").format(model.getInStock()));
+            binding.itemUom.setText(model.getInvntryUom());
+
+            binding.productsCard.setOnClickListener(v -> mCallback.onProductClick(position,model));
+
+        }
+    }
+
+    public static class EmptyViewHolder extends BaseViewHolder{
+
+        private EmptyAdapterBinding mBinding;
+
+        public EmptyViewHolder(EmptyAdapterBinding binding) {
+            super(binding.getRoot());
+            this.mBinding = binding;
+        }
+
+        @Override
+        public void onBind(int position) {
+
+        }
+    }
+
+    public void setOnClick(Callback onClick) {
+        this.mCallback = onClick;
+    }
+}

@@ -1,0 +1,53 @@
+package com.cbs.snb.data.network.models.get
+
+
+import android.annotation.SuppressLint
+import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
+import android.os.Parcelable
+
+@SuppressLint("ParcelCreator")
+@Parcelize
+data class CustomerDetailsModel(
+        @SerializedName("responseObject")
+    val responseObject: List<ResponseObject>,
+        @SerializedName("statusCode")
+    val statusCode: Int, // 0
+        @SerializedName("statusMessage")
+    val statusMessage: String // Success
+) : Parcelable {
+    @SuppressLint("ParcelCreator")
+    @Parcelize
+    data class ResponseObject(
+        @SerializedName("CardCode")
+        val cardCode: String, // ARCHNACELL
+        @SerializedName("CardName")
+        val cardName: String, // null
+        @SerializedName("Address")
+        val address: String,
+        @SerializedName("Street")
+        val street: String,
+        @SerializedName("GSTRegnNo")
+        val gstRegnNo: String,
+        @SerializedName("ZipCode")
+        val zipCode: String,
+        @SerializedName("Block")
+        val block: String,
+        @SerializedName("Cellular")
+        val cellular: String?,
+        @SerializedName("Phone1")
+        val phone1: String,
+        @SerializedName("Phone2")
+        val phone2: String,
+        @SerializedName("U_Direct")
+        val direct: String,
+        @SerializedName("U_PCCode")
+        val pcCode: String,
+        @SerializedName("U_PCName")
+        val pcName: String
+    ) : Parcelable{
+        override fun toString(): String {
+            return cardName
+        }
+    }
+}

@@ -1,0 +1,28 @@
+package com.cbs.snb.di.builder;
+
+import com.cbs.snb.ui.customers.CustomerFragment;
+import dagger.Binds;
+import dagger.Module;
+import dagger.Subcomponent;
+import dagger.android.AndroidInjector;
+import dagger.multibindings.ClassKey;
+import dagger.multibindings.IntoMap;
+
+@Module(
+  subcomponents = FragmentBuilder_ContributeCustomerFragment.CustomerFragmentSubcomponent.class
+)
+public abstract class FragmentBuilder_ContributeCustomerFragment {
+  private FragmentBuilder_ContributeCustomerFragment() {}
+
+  @Binds
+  @IntoMap
+  @ClassKey(CustomerFragment.class)
+  abstract AndroidInjector.Factory<?> bindAndroidInjectorFactory(
+      CustomerFragmentSubcomponent.Factory builder);
+
+  @Subcomponent
+  public interface CustomerFragmentSubcomponent extends AndroidInjector<CustomerFragment> {
+    @Subcomponent.Factory
+    interface Factory extends AndroidInjector.Factory<CustomerFragment> {}
+  }
+}

@@ -1,0 +1,29 @@
+package com.cbs.snb.di.builder;
+
+import com.cbs.snb.ui.reports.expense.ExpenseReportActivity;
+import dagger.Binds;
+import dagger.Module;
+import dagger.Subcomponent;
+import dagger.android.AndroidInjector;
+import dagger.multibindings.ClassKey;
+import dagger.multibindings.IntoMap;
+
+@Module(
+  subcomponents = ActivityBuilder_ExpenseReportActivity.ExpenseReportActivitySubcomponent.class
+)
+public abstract class ActivityBuilder_ExpenseReportActivity {
+  private ActivityBuilder_ExpenseReportActivity() {}
+
+  @Binds
+  @IntoMap
+  @ClassKey(ExpenseReportActivity.class)
+  abstract AndroidInjector.Factory<?> bindAndroidInjectorFactory(
+      ExpenseReportActivitySubcomponent.Factory builder);
+
+  @Subcomponent
+  public interface ExpenseReportActivitySubcomponent
+      extends AndroidInjector<ExpenseReportActivity> {
+    @Subcomponent.Factory
+    interface Factory extends AndroidInjector.Factory<ExpenseReportActivity> {}
+  }
+}

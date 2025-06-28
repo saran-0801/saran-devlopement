@@ -1,0 +1,29 @@
+package com.cbs.snb.ui.region;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.ApiService;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+import com.cbs.snb.utils.rx.SchedulerProvider;
+
+import javax.inject.Inject;
+
+/**
+ * Created by Venkatesh on 11-07-2020.
+ */
+public class RegionViewModel extends BaseViewModel<RegionNavigator> {
+
+
+
+    @Inject
+    public RegionViewModel(Repository repository, SchedulerProvider schedulerProvider,
+                           PreferenceHelper preferenceHelper, AppDatabase database, ApiService service) {
+        super(repository, schedulerProvider, preferenceHelper, database, service);
+    }
+
+
+    public void regionSelected(){
+        getNavigator().navigateMainActivity();
+    }
+}

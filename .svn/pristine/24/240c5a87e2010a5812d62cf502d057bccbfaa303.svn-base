@@ -1,0 +1,154 @@
+package com.cbs.snb.databinding;
+import com.cbs.snb.R;
+import com.cbs.snb.BR;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import android.view.View;
+@SuppressWarnings("unchecked")
+public class FragmentFeedbackBindingImpl extends FragmentFeedbackBinding  {
+
+    @Nullable
+    private static final androidx.databinding.ViewDataBinding.IncludedLayouts sIncludes;
+    @Nullable
+    private static final android.util.SparseIntArray sViewsWithIds;
+    static {
+        sIncludes = null;
+        sViewsWithIds = new android.util.SparseIntArray();
+        sViewsWithIds.put(R.id.typeLayout, 1);
+        sViewsWithIds.put(R.id.spComplaintType, 2);
+        sViewsWithIds.put(R.id.tvType, 3);
+        sViewsWithIds.put(R.id.productLayout, 4);
+        sViewsWithIds.put(R.id.spProduct, 5);
+        sViewsWithIds.put(R.id.tvProductText, 6);
+        sViewsWithIds.put(R.id.tvFeedback, 7);
+        sViewsWithIds.put(R.id.etFeedbackTxtLayout, 8);
+        sViewsWithIds.put(R.id.etFeedbackTxt, 9);
+        sViewsWithIds.put(R.id.tvDateText, 10);
+        sViewsWithIds.put(R.id.tvDate, 11);
+        sViewsWithIds.put(R.id.tvDealerNameText, 12);
+        sViewsWithIds.put(R.id.etDealerNameLayout, 13);
+        sViewsWithIds.put(R.id.etDealerName, 14);
+        sViewsWithIds.put(R.id.tvCustomerNameText, 15);
+        sViewsWithIds.put(R.id.etCustomerNameLayout, 16);
+        sViewsWithIds.put(R.id.etCustomerName, 17);
+        sViewsWithIds.put(R.id.tvAddressText, 18);
+        sViewsWithIds.put(R.id.etAddressNameLayout, 19);
+        sViewsWithIds.put(R.id.etAddress, 20);
+        sViewsWithIds.put(R.id.tvContactText, 21);
+        sViewsWithIds.put(R.id.etContactPersonLayout, 22);
+        sViewsWithIds.put(R.id.etContactPerson, 23);
+        sViewsWithIds.put(R.id.tvMobileText, 24);
+        sViewsWithIds.put(R.id.etMobileNoLayout, 25);
+        sViewsWithIds.put(R.id.etMobileNo, 26);
+        sViewsWithIds.put(R.id.tvAddRating, 27);
+        sViewsWithIds.put(R.id.ratingOfProduct, 28);
+    }
+    // views
+    @NonNull
+    private final androidx.constraintlayout.widget.ConstraintLayout mboundView0;
+    // variables
+    // values
+    // listeners
+    // Inverse Binding Event Handlers
+
+    public FragmentFeedbackBindingImpl(@Nullable androidx.databinding.DataBindingComponent bindingComponent, @NonNull View root) {
+        this(bindingComponent, root, mapBindings(bindingComponent, root, 29, sIncludes, sViewsWithIds));
+    }
+    private FragmentFeedbackBindingImpl(androidx.databinding.DataBindingComponent bindingComponent, View root, Object[] bindings) {
+        super(bindingComponent, root, 0
+            , (android.widget.EditText) bindings[20]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[19]
+            , (android.widget.EditText) bindings[23]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[22]
+            , (android.widget.EditText) bindings[17]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[16]
+            , (android.widget.EditText) bindings[14]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[13]
+            , (android.widget.EditText) bindings[9]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[8]
+            , (android.widget.EditText) bindings[26]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[25]
+            , (android.widget.RelativeLayout) bindings[4]
+            , (android.widget.ImageView) bindings[28]
+            , (android.widget.Spinner) bindings[2]
+            , (android.widget.Spinner) bindings[5]
+            , (android.widget.TextView) bindings[27]
+            , (android.widget.TextView) bindings[18]
+            , (android.widget.TextView) bindings[21]
+            , (android.widget.TextView) bindings[15]
+            , (android.widget.TextView) bindings[11]
+            , (android.widget.TextView) bindings[10]
+            , (android.widget.TextView) bindings[12]
+            , (android.widget.TextView) bindings[7]
+            , (android.widget.TextView) bindings[24]
+            , (android.widget.TextView) bindings[6]
+            , (android.widget.TextView) bindings[3]
+            , (android.widget.RelativeLayout) bindings[1]
+            );
+        this.mboundView0 = (androidx.constraintlayout.widget.ConstraintLayout) bindings[0];
+        this.mboundView0.setTag(null);
+        setRootTag(root);
+        // listeners
+        invalidateAll();
+    }
+
+    @Override
+    public void invalidateAll() {
+        synchronized(this) {
+                mDirtyFlags = 0x2L;
+        }
+        requestRebind();
+    }
+
+    @Override
+    public boolean hasPendingBindings() {
+        synchronized(this) {
+            if (mDirtyFlags != 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean setVariable(int variableId, @Nullable Object variable)  {
+        boolean variableSet = true;
+        if (BR.feedbackViewModel == variableId) {
+            setFeedbackViewModel((com.cbs.snb.ui.feedback.FeedbackViewModel) variable);
+        }
+        else {
+            variableSet = false;
+        }
+            return variableSet;
+    }
+
+    public void setFeedbackViewModel(@Nullable com.cbs.snb.ui.feedback.FeedbackViewModel FeedbackViewModel) {
+        this.mFeedbackViewModel = FeedbackViewModel;
+    }
+
+    @Override
+    protected boolean onFieldChange(int localFieldId, Object object, int fieldId) {
+        switch (localFieldId) {
+        }
+        return false;
+    }
+
+    @Override
+    protected void executeBindings() {
+        long dirtyFlags = 0;
+        synchronized(this) {
+            dirtyFlags = mDirtyFlags;
+            mDirtyFlags = 0;
+        }
+        // batch finished
+    }
+    // Listener Stub Implementations
+    // callback impls
+    // dirty flag
+    private  long mDirtyFlags = 0xffffffffffffffffL;
+    /* flag mapping
+        flag 0 (0x1L): feedbackViewModel
+        flag 1 (0x2L): null
+    flag mapping end*/
+    //end
+}

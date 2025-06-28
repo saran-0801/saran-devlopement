@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="outstandingAmt"
+            type="com.cbs.snb.data.network.models.get.CustomerDetailsModel" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/lightGray">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/productsCard1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginTop="@dimen/dimen1dp"
+            android:layout_marginBottom="@dimen/dimen1dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="2dp"
+            app:cardElevation="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/customerName"
+                    style="@style/TextStyle.Heading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="5dp"
+                    android:paddingTop="2dp"
+                    android:text="@string/customer_name"
+                    android:textAlignment="viewStart" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/customerCodeTxt"
+                        style="@style/TextAppearance.Text.Regular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:paddingStart="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="2dp"
+                        android:text="@string/customer_code"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/grey_text"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:id="@+id/space"
+                        style="@style/TextStyle.Title.Sub"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:text="@string/space"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/grey_text" />
+
+
+                    <TextView
+                        android:id="@+id/customerCode"
+                        style="@style/TextAppearance.Text.Regular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingHorizontal="5dp"
+                        android:paddingTop="2dp"
+                        android:text="@string/customer_code"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/grey_text"
+                        android:textStyle="normal" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/gstRegnNoTxt"
+                        style="@style/TextAppearance.Text.Regular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:paddingStart="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="2dp"
+                        android:text="@string/gst_reg"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/grey_text"
+                        android:textStyle="normal" />
+
+
+                    <TextView
+                        android:id="@+id/space1"
+                        style="@style/TextStyle.Title.Sub"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:text="@string/space"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/grey_text" />
+
+                    <TextView
+                        android:id="@+id/gstRegnNo"
+                        style="@style/TextAppearance.Text.Regular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingHorizontal="5dp"
+                        android:paddingTop="2dp"
+                        android:text="@string/gst_reg"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/grey_text"
+                        android:textStyle="normal" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/addressTxt"
+                        style="@style/TextAppearance.Text.Regular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:paddingStart="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="2dp"
+                        android:text="@string/address"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/grey_text"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:id="@+id/space2"
+                        style="@style/TextStyle.Title.Sub"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:text="@string/space"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/grey_text" />
+
+                    <TextView
+                        android:id="@+id/address"
+                        style="@style/TextAppearance.Text.Regular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingStart="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="2dp"
+                        android:text="@string/address"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/grey_text"
+                        android:textStyle="normal" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/streetTxt"
+                        style="@style/TextAppearance.Text.Regular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:paddingStart="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="2dp"
+                        android:text="@string/street"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/grey_text"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:id="@+id/space3"
+                        style="@style/TextStyle.Title.Sub"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:text="@string/space"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/grey_text" />
+
+
+                    <TextView
+                        android:id="@+id/street"
+                        style="@style/TextAppearance.Text.Regular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingStart="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="2dp"
+                        android:text="@string/street"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/grey_text"
+                        android:textStyle="normal" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/zipCodeTxt"
+                        style="@style/TextAppearance.Text.Regular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:paddingStart="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="2dp"
+                        android:text="@string/zip_code"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/grey_text"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:id="@+id/space4"
+                        style="@style/TextStyle.Title.Sub"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:text="@string/space"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/grey_text" />
+
+
+                    <TextView
+                        android:id="@+id/zipCode"
+                        style="@style/TextAppearance.Text.Regular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingStart="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="2dp"
+                        android:text="@string/zip_code"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/grey_text"
+                        android:textStyle="normal" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/blockTxt"
+                        style="@style/TextAppearance.Text.Regular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:paddingStart="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="2dp"
+                        android:text="@string/block"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/grey_text"
+                        android:textStyle="normal" />
+
+
+                    <TextView
+                        android:id="@+id/space5"
+                        style="@style/TextStyle.Title.Sub"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:text="@string/space"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/grey_text" />
+
+                    <TextView
+                        android:id="@+id/block"
+                        style="@style/TextAppearance.Text.Regular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingStart="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="2dp"
+                        android:text="@string/block"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/grey_text"
+                        android:textStyle="normal" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+
+
+

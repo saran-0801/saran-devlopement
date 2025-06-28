@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/tintAppBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/txToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:elevation="4dp"
+            android:background="@color/white"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                style="@style/TextAppearance.AppCompat.Headline"
+                android:textColor="@color/gray_dark"
+                android:text="Items"/>
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout >
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <LinearLayout
+                android:visibility="visible"
+                android:orientation="horizontal"
+                android:layout_marginVertical="@dimen/dimen5dp"
+                android:layout_marginHorizontal="@dimen/dimen50dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/manualClick"
+                    android:layout_width="@dimen/dimen0dp"
+                    android:layout_weight="10"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen45dp"
+                        android:layout_height="@dimen/dimen70dp"
+                        android:visibility="gone"
+                        android:src="@drawable/manual"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/TextAppearance.AppCompat.Headline"
+                        android:text="Manual"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/scanClick"
+                    android:layout_width="@dimen/dimen0dp"
+                    android:layout_weight="10"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen45dp"
+                        android:layout_height="@dimen/dimen70dp"
+                        android:visibility="gone"
+                        android:src="@drawable/qrcode"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/TextAppearance.AppCompat.Headline"
+                        android:text="Scanner"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/dimen5dp"
+                android:layout_marginHorizontal="@dimen/dimen30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/scTypeInfo"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.AppCompat.Headline"
+                    android:text="Scan Bar Code"/>
+
+                <com.budiyev.android.codescanner.CodeScannerView
+                        android:id="@+id/scanner_view"
+                        android:visibility="gone"
+                        android:layout_marginTop="@dimen/dimen10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen175dp"/>
+
+                <LinearLayout
+                    android:id="@+id/manual_la"
+                    android:visibility="visible"
+                    android:gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen100dp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen45dp"
+                        android:layout_height="@dimen/dimen70dp"
+                        android:visibility="gone"
+                        android:src="@drawable/barcode"/>
+
+                    <LinearLayout
+                        android:gravity="center"
+                        android:layout_margin="@dimen/dimen10dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/inputText"
+                                style="@style/profileEditText"
+                                android:background="@drawable/button_corner_bg"
+                                android:inputType="textAutoComplete"
+                                android:layout_width="0dp"
+                                android:layout_weight="7"
+                                android:layout_height="48dp"/>
+
+                            <ImageView
+                                android:id="@+id/okText"
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/dimen45dp"
+                                android:layout_weight="2"
+                                android:src="@drawable/checkmark"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/dimen5dp"
+                android:layout_marginHorizontal="@dimen/dimen15dp">
+
+                <LinearLayout
+                    android:id="@+id/layView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvSlnpo"
+                        android:layout_width="@dimen/dimen45dp"
+                        android:layout_height="wrap_content"
+                        android:padding="3dp"
+                        android:gravity="start"
+                        android:text="#"
+                        android:textColor="@color/white"
+                        android:background="@drawable/table_header_cell_bg"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvItemCode"
+                        android:layout_width="@dimen/dimen0dp"
+                        android:layout_height="wrap_content"
+                        android:padding="3dp"
+                        android:layout_weight="1"
+                        android:text=" Itemcode"
+                        android:textColor="@color/white"
+                        android:background="@drawable/table_header_cell_bg"
+                        android:textAlignment="center"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvRemove"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".35"
+                        android:padding="3dp"
+                        android:gravity="center"
+                        android:text="Delete"
+                        android:textColor="@color/white"
+                        android:background="@drawable/table_header_cell_bg"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnAdd"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/dimen50dp"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:background="@color/colorPrimary"
+                        android:text="@string/n_add"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

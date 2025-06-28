@@ -1,0 +1,183 @@
+package com.cbs.snb.data.database;
+
+import androidx.room.DatabaseConfiguration;
+import androidx.room.InvalidationTracker;
+import androidx.room.RoomOpenHelper;
+import androidx.room.RoomOpenHelper.Delegate;
+import androidx.room.RoomOpenHelper.ValidationResult;
+import androidx.room.util.DBUtil;
+import androidx.room.util.TableInfo;
+import androidx.room.util.TableInfo.Column;
+import androidx.room.util.TableInfo.ForeignKey;
+import androidx.room.util.TableInfo.Index;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+import androidx.sqlite.db.SupportSQLiteOpenHelper;
+import androidx.sqlite.db.SupportSQLiteOpenHelper.Callback;
+import androidx.sqlite.db.SupportSQLiteOpenHelper.Configuration;
+import com.cbs.snb.data.database.dao.CartItemDao;
+import com.cbs.snb.data.database.dao.CartItemDao_Impl;
+import com.cbs.snb.data.database.dao.ProductDetailsDao;
+import com.cbs.snb.data.database.dao.ProductDetailsDao_Impl;
+import java.lang.Override;
+import java.lang.String;
+import java.lang.SuppressWarnings;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
+@SuppressWarnings({"unchecked", "deprecation"})
+public final class AppDatabase_Impl extends AppDatabase {
+  private volatile ProductDetailsDao _productDetailsDao;
+
+  private volatile CartItemDao _cartItemDao;
+
+  @Override
+  protected SupportSQLiteOpenHelper createOpenHelper(DatabaseConfiguration configuration) {
+    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(1) {
+      @Override
+      public void createAllTables(SupportSQLiteDatabase _db) {
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `ProductDetails` (`itemName` TEXT NOT NULL, `itemCode` TEXT, `price` REAL, `inStock` REAL, `imageUrl` TEXT, `invntryUom` TEXT, `qty` INTEGER, `totalQty` INTEGER, `totalPrice` REAL, PRIMARY KEY(`itemName`))");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `CartItem` (`itemName` TEXT NOT NULL, `itemCode` TEXT, `price` REAL, `quantity` INTEGER, PRIMARY KEY(`itemName`))");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
+        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5e3ccc1ad7489c955180d9d7d1b1a46a')");
+      }
+
+      @Override
+      public void dropAllTables(SupportSQLiteDatabase _db) {
+        _db.execSQL("DROP TABLE IF EXISTS `ProductDetails`");
+        _db.execSQL("DROP TABLE IF EXISTS `CartItem`");
+        if (mCallbacks != null) {
+          for (int _i = 0, _size = mCallbacks.size(); _i < _size; _i++) {
+            mCallbacks.get(_i).onDestructiveMigration(_db);
+          }
+        }
+      }
+
+      @Override
+      protected void onCreate(SupportSQLiteDatabase _db) {
+        if (mCallbacks != null) {
+          for (int _i = 0, _size = mCallbacks.size(); _i < _size; _i++) {
+            mCallbacks.get(_i).onCreate(_db);
+          }
+        }
+      }
+
+      @Override
+      public void onOpen(SupportSQLiteDatabase _db) {
+        mDatabase = _db;
+        internalInitInvalidationTracker(_db);
+        if (mCallbacks != null) {
+          for (int _i = 0, _size = mCallbacks.size(); _i < _size; _i++) {
+            mCallbacks.get(_i).onOpen(_db);
+          }
+        }
+      }
+
+      @Override
+      public void onPreMigrate(SupportSQLiteDatabase _db) {
+        DBUtil.dropFtsSyncTriggers(_db);
+      }
+
+      @Override
+      public void onPostMigrate(SupportSQLiteDatabase _db) {
+      }
+
+      @Override
+      protected RoomOpenHelper.ValidationResult onValidateSchema(SupportSQLiteDatabase _db) {
+        final HashMap<String, TableInfo.Column> _columnsProductDetails = new HashMap<String, TableInfo.Column>(9);
+        _columnsProductDetails.put("itemName", new TableInfo.Column("itemName", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsProductDetails.put("itemCode", new TableInfo.Column("itemCode", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsProductDetails.put("price", new TableInfo.Column("price", "REAL", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsProductDetails.put("inStock", new TableInfo.Column("inStock", "REAL", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsProductDetails.put("imageUrl", new TableInfo.Column("imageUrl", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsProductDetails.put("invntryUom", new TableInfo.Column("invntryUom", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsProductDetails.put("qty", new TableInfo.Column("qty", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsProductDetails.put("totalQty", new TableInfo.Column("totalQty", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsProductDetails.put("totalPrice", new TableInfo.Column("totalPrice", "REAL", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        final HashSet<TableInfo.ForeignKey> _foreignKeysProductDetails = new HashSet<TableInfo.ForeignKey>(0);
+        final HashSet<TableInfo.Index> _indicesProductDetails = new HashSet<TableInfo.Index>(0);
+        final TableInfo _infoProductDetails = new TableInfo("ProductDetails", _columnsProductDetails, _foreignKeysProductDetails, _indicesProductDetails);
+        final TableInfo _existingProductDetails = TableInfo.read(_db, "ProductDetails");
+        if (! _infoProductDetails.equals(_existingProductDetails)) {
+          return new RoomOpenHelper.ValidationResult(false, "ProductDetails(com.cbs.snb.data.database.entities.ProductDetails).\n"
+                  + " Expected:\n" + _infoProductDetails + "\n"
+                  + " Found:\n" + _existingProductDetails);
+        }
+        final HashMap<String, TableInfo.Column> _columnsCartItem = new HashMap<String, TableInfo.Column>(4);
+        _columnsCartItem.put("itemName", new TableInfo.Column("itemName", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCartItem.put("itemCode", new TableInfo.Column("itemCode", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCartItem.put("price", new TableInfo.Column("price", "REAL", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCartItem.put("quantity", new TableInfo.Column("quantity", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        final HashSet<TableInfo.ForeignKey> _foreignKeysCartItem = new HashSet<TableInfo.ForeignKey>(0);
+        final HashSet<TableInfo.Index> _indicesCartItem = new HashSet<TableInfo.Index>(0);
+        final TableInfo _infoCartItem = new TableInfo("CartItem", _columnsCartItem, _foreignKeysCartItem, _indicesCartItem);
+        final TableInfo _existingCartItem = TableInfo.read(_db, "CartItem");
+        if (! _infoCartItem.equals(_existingCartItem)) {
+          return new RoomOpenHelper.ValidationResult(false, "CartItem(com.cbs.snb.data.database.entities.CartItem).\n"
+                  + " Expected:\n" + _infoCartItem + "\n"
+                  + " Found:\n" + _existingCartItem);
+        }
+        return new RoomOpenHelper.ValidationResult(true, null);
+      }
+    }, "5e3ccc1ad7489c955180d9d7d1b1a46a", "704afce304987fa0bdddaa939fdb1394");
+    final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(configuration.context)
+        .name(configuration.name)
+        .callback(_openCallback)
+        .build();
+    final SupportSQLiteOpenHelper _helper = configuration.sqliteOpenHelperFactory.create(_sqliteConfig);
+    return _helper;
+  }
+
+  @Override
+  protected InvalidationTracker createInvalidationTracker() {
+    final HashMap<String, String> _shadowTablesMap = new HashMap<String, String>(0);
+    HashMap<String, Set<String>> _viewTables = new HashMap<String, Set<String>>(0);
+    return new InvalidationTracker(this, _shadowTablesMap, _viewTables, "ProductDetails","CartItem");
+  }
+
+  @Override
+  public void clearAllTables() {
+    super.assertNotMainThread();
+    final SupportSQLiteDatabase _db = super.getOpenHelper().getWritableDatabase();
+    try {
+      super.beginTransaction();
+      _db.execSQL("DELETE FROM `ProductDetails`");
+      _db.execSQL("DELETE FROM `CartItem`");
+      super.setTransactionSuccessful();
+    } finally {
+      super.endTransaction();
+      _db.query("PRAGMA wal_checkpoint(FULL)").close();
+      if (!_db.inTransaction()) {
+        _db.execSQL("VACUUM");
+      }
+    }
+  }
+
+  @Override
+  public ProductDetailsDao ProductDetailsDao() {
+    if (_productDetailsDao != null) {
+      return _productDetailsDao;
+    } else {
+      synchronized(this) {
+        if(_productDetailsDao == null) {
+          _productDetailsDao = new ProductDetailsDao_Impl(this);
+        }
+        return _productDetailsDao;
+      }
+    }
+  }
+
+  @Override
+  public CartItemDao cartItemDao() {
+    if (_cartItemDao != null) {
+      return _cartItemDao;
+    } else {
+      synchronized(this) {
+        if(_cartItemDao == null) {
+          _cartItemDao = new CartItemDao_Impl(this);
+        }
+        return _cartItemDao;
+      }
+    }
+  }
+}

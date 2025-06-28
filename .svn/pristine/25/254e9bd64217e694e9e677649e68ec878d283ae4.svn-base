@@ -1,0 +1,154 @@
+package com.cbs.snb.ui.cart;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.cbs.snb.BuildConfig;
+import com.cbs.snb.R;
+import com.cbs.snb.data.database.entities.CartItem;
+import com.cbs.snb.databinding.CartAdapterLayoutBinding;
+import com.cbs.snb.ui.base.BaseViewHolder;
+
+import java.text.DecimalFormat;
+import java.util.List;
+
+/**
+ * Created by Venkatesh on 13-07-2020.
+ */
+public class CartAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+
+    private Callback mCallback;
+    private List<CartItem> itemsModels = null;
+    private Context mContext;
+    private int count = 0;
+    private int totQty = 0;
+    private double totPrice = 0.0;
+    private String itemName, itemCode, price, uom, inStock, imgUrl;
+
+    public CartAdapter(List<CartItem> itemsModels, Context context) {
+        this.itemsModels = itemsModels;
+        this.mContext = context;
+    }
+
+    public interface Callback {
+        void onProductDelete(CartItem models);
+
+        void onProductAdd(double tot, int count, CartItem models);
+
+        void onProductRemove(double tot, int count, CartItem models);
+    }
+
+    public void setOnClick(final Callback onClick) {
+        this.mCallback = onClick;
+    }
+
+    @NonNull
+    @Override
+    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        CartAdapterLayoutBinding blogViewBinding = CartAdapterLayoutBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new CartViewHolder(blogViewBinding);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
+        holder.onBind(position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return itemsModels.size();
+    }
+
+    public void addItems(List<CartItem> list, String url) {
+        itemsModels.addAll(list);
+        imgUrl = url;
+        notifyDataSetChanged();
+    }
+
+    public void clearList() {
+        itemsModels.clear();
+    }
+
+    public class CartViewHolder extends BaseViewHolder {
+
+        CartAdapterLayoutBinding mCartAdapterLayoutBinding;
+
+        public CartViewHolder(CartAdapterLayoutBinding binding) {
+            super(binding.getRoot());
+            this.mCartAdapterLayoutBinding = binding;
+        }
+
+
+        @Override
+        public void onBind(int position) {
+            CartItem model = itemsModels.get(position);
+
+            mCartAdapterLayoutBinding.textTitle.setText(model.getName());
+            mCartAdapterLayoutBinding.textItemCode.setText(model.getCode());
+
+            Glide.with(mContext).load(BuildConfig.BASE_URL + "" + imgUrl)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_404_image).error(R.drawable.ic_404_image)
+                    .into(mCartAdapterLayoutBinding.imageMoviePoster);
+
+            /* Picasso.get()
+                    .load(R.drawable.maida)
+                    .centerCrop()
+                    .fit()
+                    .into(mCartAdapterLayoutBinding.imageMoviePoster);*/
+
+            mCartAdapterLayoutBinding.tvQtyVal.setText(String.valueOf(model.getQuantity()));
+            StringBuilder sb1 = new StringBuilder(mContext.getResources().getString(R.string.rupee));
+            sb1.append(new DecimalFormat("##.00").format(model.getPrice()));
+            mCartAdapterLayoutBinding.textPrice.setText(sb1);
+
+//            totPrice = model.getQuantity() * model.getPrice();
+//            StringBuilder sb2 = new StringBuilder(mContext.getResources().getString(R.string.rupee));
+//            sb2.append(new DecimalFormat("##.00").format(totPrice));
+//            mCartAdapterLayoutBinding.tvTotalPrice.setText(sb2);
+
+            mCartAdapterLayoutBinding.deleteItem.setOnClickListener(v -> mCallback.onProductDelete(model));
+
+
+            mCartAdapterLayoutBinding.imgAdd.setOnClickListener(v -> {
+                count = Integer.parseInt(String.valueOf(mCartAdapterLayoutBinding.tvQtyVal.getText()));
+                count++;
+                mCartAdapterLayoutBinding.tvQtyVal.setText(String.valueOf(count));
+                totPrice = count * model.getPrice();
+//                StringBuilder sb = new StringBuilder(mContext.getResources().getString(R.string.rupee));
+//                sb.append(new DecimalFormat("##.00").format(totPrice));
+//                mCartAdapterLayoutBinding.tvTotalPrice.setText(sb);
+                mCallback.onProductAdd(totPrice, count, model);
+            });
+
+
+            mCartAdapterLayoutBinding.imgRemove.setOnClickListener(v -> {
+                count = Integer.parseInt(String.valueOf(mCartAdapterLayoutBinding.tvQtyVal.getText()));
+                if (count == 1) {
+                    mCartAdapterLayoutBinding.tvQtyVal.setText("1");
+                } else {
+                    count -= 1;
+                    mCartAdapterLayoutBinding.tvQtyVal.setText(String.valueOf(count));
+                    totPrice = count * model.getPrice();
+//                    StringBuilder sb = new StringBuilder(mContext.getResources().getString(R.string.rupee));
+//                    sb.append(new DecimalFormat("##.00").format(totPrice));
+//                    mCartAdapterLayoutBinding.tvTotalPrice.setText(sb);
+                    mCallback.onProductRemove(totPrice, count, model);
+                }
+            });
+
+        }
+
+
+    }
+
+
+}

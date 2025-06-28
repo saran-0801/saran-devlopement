@@ -1,0 +1,151 @@
+package com.cbs.snb.ui.product_list;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.cbs.snb.BuildConfig;
+import com.cbs.snb.R;
+import com.cbs.snb.data.network.models.get.ProductsListModel;
+import com.cbs.snb.databinding.EmptyAdapterBinding;
+import com.cbs.snb.databinding.ProductsAdapterLayoutBinding;
+import com.cbs.snb.databinding.ProductsListAdapterLayoutBinding;
+import com.cbs.snb.ui.base.BaseViewHolder;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by Venkatesh on 31-08-2020.
+ */
+
+public class ProductsListAdapter extends RecyclerView.Adapter<BaseViewHolder> implements Filterable {
+
+    private Callback mCallback;
+    private List<ProductsListModel.ResponseObject> mProductsModel;
+    private List<ProductsListModel.ResponseObject> mFilterdProductsModel;
+    private Context mContext;
+
+    public interface Callback {
+        void onProductClick(int position, ProductsListModel.ResponseObject models);
+    }
+
+    public ProductsListAdapter(List<ProductsListModel.ResponseObject> mProductsModel, Context mContext) {
+        this.mProductsModel = mProductsModel;
+        this.mContext = mContext;
+        this.mFilterdProductsModel = mProductsModel;
+    }
+
+    @NonNull
+    @Override
+    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        ProductsListAdapterLayoutBinding binding = ProductsListAdapterLayoutBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
+        return new ProductsViewHolder(binding);
+
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
+        holder.onBind(position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return mFilterdProductsModel.size();
+    }
+
+    public void addProducts(List<ProductsListModel.ResponseObject> list) {
+        mProductsModel.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public void clearList() {
+        mFilterdProductsModel.clear();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String charString = constraint.toString();
+                if (charString.isEmpty()) {
+                    mFilterdProductsModel = mProductsModel;
+                } else {
+                    List<ProductsListModel.ResponseObject> filteredList = new ArrayList<>();
+                    for (ProductsListModel.ResponseObject row : mProductsModel) {
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for ItemName or ItemCode match
+                        if (row.getItemName().toLowerCase().contains(charString.toLowerCase())) {
+                            filteredList.add(row);
+                        }
+                    }
+                    mFilterdProductsModel = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mFilterdProductsModel;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                mFilterdProductsModel = (List<ProductsListModel.ResponseObject>) results.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
+
+    public class ProductsViewHolder extends BaseViewHolder {
+
+        ProductsListAdapterLayoutBinding binding;
+
+        public ProductsViewHolder(@NonNull ProductsListAdapterLayoutBinding itemView) {
+            super(itemView.getRoot());
+            this.binding = itemView;
+        }
+
+        @Override
+        public void onBind(int position) {
+            ProductsListModel.ResponseObject model = mFilterdProductsModel.get(position);
+
+            binding.itemName.setText(model.getItemName());
+            binding.itemUom.setText(model.getInvntryUom());
+
+            Glide.with(mContext).load(BuildConfig.BASE_URL+""+model.getColumn1())
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_404_image).error(R.drawable.ic_404_image)
+                    .into(binding.imageListProduct);
+
+        }
+    }
+
+    public static class EmptyViewHolder extends BaseViewHolder{
+
+        private EmptyAdapterBinding mBinding;
+
+        public EmptyViewHolder(EmptyAdapterBinding binding) {
+            super(binding.getRoot());
+            this.mBinding = binding;
+        }
+
+        @Override
+        public void onBind(int position) {
+
+        }
+    }
+
+    public void setOnClick(Callback onClick) {
+        this.mCallback = onClick;
+    }
+}

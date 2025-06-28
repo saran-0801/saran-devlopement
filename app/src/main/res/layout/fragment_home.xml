@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="homeViewModel"
+            type="com.covalsys.ttss_barcode.ui.home.HomeViewModel" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/window_background"
+            tools:context=".ui.home.HomeFragment">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:orientation="vertical"
+            android:padding="@dimen/dimen15dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/lay_first"
+            android:padding="5dp"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="5dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/pallet_inward"
+                    android:padding="20dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/pallet_inward"
+                    android:backgroundTint="@color/gray_trans"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="false"
+                    android:text="@string/menu_inward"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/pallet_outward"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/pallet_outward"
+                    android:backgroundTint="@color/gray_trans"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="false"
+                    android:text="@string/menu_outward"/>
+
+            </LinearLayout>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@+id/lay_first"
+            app:layout_constraintStart_toStartOf="@+id/lay_first"
+            app:layout_constraintTop_toBottomOf="@+id/lay_first">
+
+            <LinearLayout
+                android:id="@+id/lay_spare"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="5dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:padding="20dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/inv_spares"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/inv_spares"
+                    android:backgroundTint="@color/gray_trans"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="false"
+                    android:text="@string/menu_spares"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lay_gate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/gate_entry"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/gate_entry"
+                    android:backgroundTint="@color/gray_trans"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="false"
+                    android:text="@string/menu_gate_entry"/>
+
+            </LinearLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:padding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="@+id/lay_first"
+                app:layout_constraintStart_toStartOf="@+id/lay_first"
+                app:layout_constraintTop_toBottomOf="@+id/lay_first">
+
+                <LinearLayout
+                    android:id="@+id/lay_asset"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:padding="20dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/asset_tag"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/asset_tag"
+                        android:backgroundTint="@color/gray_trans"
+                        android:layout_width="match_parent"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_height="wrap_content"
+                        android:textAllCaps="false"
+                        android:text="@string/menu_asset"/>
+                </LinearLayout>
+
+                <!--<LinearLayout
+                    android:id="@+id/lay_gate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:padding="5dp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/gate_entry"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/gate_entry"
+                        android:backgroundTint="@color/gray_trans"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAllCaps="false"
+                        android:text="@string/menu_gate_entry"/>
+
+                </LinearLayout>-->
+            </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

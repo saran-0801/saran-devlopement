@@ -1,0 +1,36 @@
+package com.cbs.snb.data.network.models.post
+
+import android.annotation.SuppressLint
+import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
+import android.os.Parcelable
+
+@SuppressLint("ParcelCreator")
+@Parcelize
+data class PostPaymentModel(
+        @SerializedName("Amount")
+    val amount: String, // 2001
+        @SerializedName("BankCode")
+    val bankCode: String,
+        @SerializedName("CheckNumber")
+    val checkNumber: Int, // 1343
+        @SerializedName("CustomerCode")
+    val customerCode: String,
+        @SerializedName("InvoiceList")
+    val invoiceList: List<Invoice>,
+        @SerializedName("PaymentMode")
+    val paymentMode: String,
+        @SerializedName("PaymentType")
+    val paymentType: String,
+        @SerializedName("Remarks")
+    val remarks: String
+) : Parcelable {
+    @SuppressLint("ParcelCreator")
+    @Parcelize
+    data class Invoice(
+        @SerializedName("InvoiceNumber")
+        val invoiceNumber: Int, // 12009
+        @SerializedName("PaymentTerms")
+        val paymentTerms: String // 0
+    ) : Parcelable
+}

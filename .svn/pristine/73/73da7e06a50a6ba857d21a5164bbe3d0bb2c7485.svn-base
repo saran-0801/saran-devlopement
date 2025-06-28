@@ -1,0 +1,85 @@
+package com.cbs.snb.data.network.models.post
+
+
+import android.annotation.SuppressLint
+import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
+import android.os.Parcelable
+
+@SuppressLint("ParcelCreator")
+@Parcelize
+data class LeadCreationModel(
+        @SerializedName("AadharNumber")
+        val aadharNumber: String, // 123456764
+        @SerializedName("Address")
+        val address: List<Addres>,
+        @SerializedName("CompanyType")
+        val companyType: String,
+        @SerializedName("CreditLimit")
+        val creditLimit: String, // null
+        @SerializedName("CustomerCode")
+        val customerCode: String, // txt008
+        @SerializedName("CustomerGroupCode")
+        val customerGroupCode: String, // null
+        @SerializedName("CustomerName")
+        val customerName: String, // testttt
+        @SerializedName("DocDate")
+        val docDate: String, // 10-02-2020
+        @SerializedName("Email")
+        val email: String, // testttt@gmail.com
+        @SerializedName("GSTINO")
+        val gSTINO: String, // 12345
+        @SerializedName("GSTType")
+        val gSTType: String, // SGST
+        @SerializedName("GeoLocation")
+        val geoLocation: String, // 32345322
+        @SerializedName("mobileNumber")
+        val mobileNumber: String, // 1234567891
+        @SerializedName("OwnerNumber")
+        val ownerNumber: String, // 12345
+        @SerializedName("PanNumber")
+        val panNumber: String, // 123EDRR
+        @SerializedName("PaymentTermsCode")
+        val paymentTermsCode: String, // null
+        @SerializedName("Remarks")
+        val remarks: String, // 1234
+        @SerializedName("SalesEmployeeCode")
+        val salesEmployeeCode: String, // null
+        @SerializedName("CardType")
+        val cardType: String, // null
+        @SerializedName("Distributor")
+        val distributor: String, // null
+        @SerializedName("DistributorCode")
+        val distributorCode: String // null
+
+) : Parcelable {
+    @SuppressLint("ParcelCreator")
+    @Parcelize
+    data class Addres(
+            @SerializedName("Address")
+            val address: String, // Bangalore
+            @SerializedName("Address1")
+            val address1: String, // Chennai
+            @SerializedName("AddressType")
+            val addressType: Int, // B
+            @SerializedName("AreaCode")
+            val areaCode: String,
+            @SerializedName("AreaName")
+            val areaName: String,
+            @SerializedName("Block")
+            val block: String,
+            @SerializedName("City")
+            val city: String, // Bangalore
+            @SerializedName("CountryCode")
+            val countryCode: String,
+            @SerializedName("StateCode")
+            val stateCode: String,
+            @SerializedName("Street")
+            val street: String,
+            @SerializedName("ZipCode")
+            val zipCode: String
+    ) : Parcelable
+}
+
+
+

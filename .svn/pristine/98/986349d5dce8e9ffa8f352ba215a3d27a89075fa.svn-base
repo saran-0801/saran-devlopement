@@ -1,0 +1,129 @@
+package com.cbs.snb.ui.orders.order_details;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.cbs.snb.BR;
+import com.cbs.snb.R;
+import com.cbs.snb.data.network.models.get.OrderItemListModel;
+import com.cbs.snb.databinding.ActivityInvoiceListBinding;
+import com.cbs.snb.databinding.ActivityOrderItemListBinding;
+import com.cbs.snb.ui.ViewModelProviderFactory;
+import com.cbs.snb.ui.base.BaseActivity;
+import com.cbs.snb.ui.payment.invoices.InvoiceNavigator;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+public class OrderItemListActivity extends BaseActivity<OrderItemViewModel, ActivityOrderItemListBinding> implements InvoiceNavigator {
+
+    @Inject
+    ViewModelProviderFactory factory;
+
+    @Inject
+    OrderItemListAdapter mAdapter;
+
+    OrderItemViewModel viewModel;
+    private String docEntry, customerName,paymentName,paymentCode;
+
+    @Override
+    public int getBindingVariable() {
+        return BR.orderItemListViewModel;
+    }
+
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.activity_order_item_list;
+    }
+
+    @Override
+    protected OrderItemViewModel getViewModel() {
+        viewModel = new ViewModelProvider(this, factory).get(OrderItemViewModel.class);
+        return viewModel;
+    }
+
+    public static Intent newIntent(Context context) {
+        return new Intent(context, OrderItemListActivity.class);
+
+    }
+
+    public static Intent getStartIntent(Context context, Bundle bundle) {
+        Intent intent = new Intent(context, OrderItemListActivity.class);
+        intent.putExtras(bundle);
+        return intent;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        viewModel.setNavigator(this);
+        //mAdapter.setOnClick(this);
+        setUp();
+    }
+
+    private void setUp() {
+        setSupportActionBar(dataBinding.toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Item Details");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        dataBinding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        dataBinding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            docEntry = bundle.getString("DocEntry");
+        }
+
+        dataBinding.orderItemListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        dataBinding.orderItemListRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        dataBinding.orderItemListRecyclerView.setAdapter(mAdapter);
+
+        getInvoices();
+    }
+
+    private void getInvoices() {
+        viewModel.isLoading().observe(this,aBoolean -> {
+            if (aBoolean){
+                showLoading();
+            }else {
+                hideLoading();
+            }
+        });
+
+        viewModel.getInvoiceLiveData(docEntry).observe(this, orderItemListModelResource -> {
+            switch (orderItemListModelResource.status) {
+                case LOADING:
+                    showLoading();
+                    break;
+                case SUCCESS:
+                    hideLoading();
+                    setInvoice(orderItemListModelResource.data.getResponseObject());
+                    break;
+                case ERROR:
+                    hideLoading();
+                    showSnackBar(orderItemListModelResource.getMessage(),getResources().getColor(R.color.red));
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
+
+    private void setInvoice(List<OrderItemListModel.ResponseObject> invoice) {
+        if(mAdapter != null)
+            mAdapter.clearList();
+        mAdapter.addData(invoice);
+        mAdapter.notifyDataSetChanged();
+    }
+
+
+}

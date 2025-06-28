@@ -1,0 +1,69 @@
+package com.cbs.snb.ui.forgotpassword;
+
+import androidx.lifecycle.ViewModelProvider;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+
+import com.cbs.snb.BR;
+import com.cbs.snb.R;
+import com.cbs.snb.databinding.ActivityForgotPasswordBinding;
+import com.cbs.snb.ui.ViewModelProviderFactory;
+import com.cbs.snb.ui.base.BaseActivity;
+
+import javax.inject.Inject;
+
+public class ForgotPasswordActivity extends BaseActivity<ForgotPasswordViewModel, ActivityForgotPasswordBinding>
+        implements ForgotPasswordNavigator {
+
+    @Inject
+    ViewModelProviderFactory factory;
+
+    ForgotPasswordViewModel mViewModel;
+
+    public static Intent newIntent(Context context) {
+        return new Intent(context, ForgotPasswordActivity.class);
+    }
+
+    public static Intent getStartIntent(Context context, Bundle bundle) {
+        Intent intent = new Intent(context, ForgotPasswordActivity.class);
+        intent.putExtras(bundle);
+        return intent;
+    }
+
+    @Override
+    public int getBindingVariable() {
+        return BR.forgotPasswordViewModel;
+    }
+
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.activity_forgot_password;
+    }
+
+    @Override
+    protected ForgotPasswordViewModel getViewModel() {
+        mViewModel = new ViewModelProvider(this, factory).get(ForgotPasswordViewModel.class);
+        return mViewModel;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mViewModel.setNavigator(this);
+        setUp();
+    }
+
+    public void setUp() {
+        setSupportActionBar(dataBinding.toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Change Password");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        dataBinding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        dataBinding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+    }
+}

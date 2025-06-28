@@ -1,0 +1,69 @@
+package com.cbs.snb.ui.leads.manager;
+
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.cbs.snb.BR;
+import com.cbs.snb.R;
+import com.cbs.snb.databinding.FragmentPurchaseManagerBinding;
+import com.cbs.snb.ui.base.BaseFragment;
+
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link PurchaseManagerFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class PurchaseManagerFragment extends BaseFragment<PurchaseManagerViewModel, FragmentPurchaseManagerBinding>
+        implements PurchaseManagerNavigator {
+
+
+    public static PurchaseManagerFragment newInstance() {
+        Bundle args = new Bundle();
+        PurchaseManagerFragment fragment = new PurchaseManagerFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+
+    @Override
+    public int getBindingVariable() {
+        return BR.purchaseManagerViewModel;
+    }
+
+    @Override
+    public int getLayoutRes() {
+        return R.layout.fragment_purchase_manager;
+    }
+
+    @Override
+    protected Class<PurchaseManagerViewModel> getViewModel() {
+        return PurchaseManagerViewModel.class;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        setHasOptionsMenu(false);
+        viewModel.setNavigator(this);
+        setUp();
+        return dataBinding.getRoot();
+    }
+
+    private void setUp(){
+
+    }
+}

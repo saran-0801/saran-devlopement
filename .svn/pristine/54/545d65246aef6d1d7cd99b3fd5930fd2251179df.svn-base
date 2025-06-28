@@ -1,0 +1,7 @@
+package com.cbs.snb.ui.attendance.checkin;
+
+/**
+ * Created by Venkatesh on 19-08-2020.
+ */
+public interface CheckInNavigator {
+}

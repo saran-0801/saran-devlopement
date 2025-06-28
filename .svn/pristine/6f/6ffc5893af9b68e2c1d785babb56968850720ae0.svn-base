@@ -1,0 +1,29 @@
+package com.cbs.snb.data.network.models.post
+
+
+import android.annotation.SuppressLint
+import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
+import android.os.Parcelable
+
+@SuppressLint("ParcelCreator")
+@Parcelize
+data class PostExpense(
+    @SerializedName("Details")
+    val details: List<Detail>,
+    @SerializedName("SlpCode")
+    val slpCode: String // VC-1009
+) : Parcelable {
+    @SuppressLint("ParcelCreator")
+    @Parcelize
+    data class Detail(
+        @SerializedName("Amount")
+        val amount: Int, // 1
+        @SerializedName("AttachementName")
+        val attachementName: String,
+        @SerializedName("Date")
+        val date: String, // AD01HC01L000001
+        @SerializedName("TypeOfTravel")
+        val typeOfTravel: String // 1
+    ) : Parcelable
+}

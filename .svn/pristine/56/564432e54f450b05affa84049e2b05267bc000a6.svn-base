@@ -1,0 +1,141 @@
+package com.cbs.snb.ui.orders;
+
+import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.cbs.snb.BR;
+import com.cbs.snb.R;
+import com.cbs.snb.data.network.models.get.MyOrdersModel;
+import com.cbs.snb.databinding.FragmentMyOrdersBinding;
+import com.cbs.snb.ui.base.BaseFragment;
+import com.cbs.snb.ui.orders.orderdetails.OrderItemListActivity;
+import com.cbs.snb.utils.DateUtils;
+
+import java.util.List;
+
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link MyOrdersFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class MyOrdersFragment extends BaseFragment<MyOrdersViewModel, FragmentMyOrdersBinding> implements MyOrdersNavigator, MyOrdersAdapter.Callback {
+
+    MyOrdersAdapter mAdapter;
+
+    public static MyOrdersFragment newInstance() {
+        MyOrdersFragment fragment = new MyOrdersFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public int getBindingVariable() {
+        return BR.myOrdersViewModel;
+    }
+
+    @Override
+    public int getLayoutRes() {
+        return R.layout.fragment_my_orders;
+    }
+
+    @Override
+    protected Class<MyOrdersViewModel> getViewModel() {
+        return MyOrdersViewModel.class;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        setHasOptionsMenu(true);
+        viewModel.setNavigator(this);
+        setUp();
+        return dataBinding.getRoot();
+    }
+
+    public void setUp() {
+        dataBinding.etFromDate.setOnClickListener(v -> viewModel.fromDate(getActivity()));
+        dataBinding.etToDate.setOnClickListener(v -> {
+            viewModel.toDate(getActivity());
+
+        });
+
+        viewModel.setFromDate(DateUtils.convertDateFormat10(dataBinding.etFromDate.getText().toString()));
+        viewModel.setToDate(DateUtils.convertDateFormat10(dataBinding.etToDate.getText().toString()));
+
+        getData();
+    }
+
+    private void getData() {
+        if (isNetworkConnected()) {
+            viewModel.progressBar.observe(getViewLifecycleOwner(), aBoolean -> {
+                if (aBoolean) {
+                    showLoading();
+                } else {
+                    hideLoading();
+                }
+            });
+
+            viewModel.getMyOrders().observe(getViewLifecycleOwner(), myOrdersModelResource -> {
+                switch (myOrdersModelResource.status) {
+                    case LOADING:
+                        showLoading();
+                        break;
+                    case SUCCESS:
+                        hideLoading();
+                        setOrders(myOrdersModelResource.data.getResponseObject());
+                        break;
+                    case ERROR:
+                        hideLoading();
+                        showSnackBar(myOrdersModelResource.getMessage());
+                       // setOrders(new ArrayList<MyOrdersModel.ResponseObject>());
+                        break;
+                    default:
+                        break;
+                }
+            });
+        } else {
+            showSnackBar(getActivity().getResources().getString(R.string.no_internet), getResources().getColor(R.color.black_effective));
+        }
+    }
+
+    private void setOrders(List<MyOrdersModel.ResponseObject> orders) {
+        dataBinding.myOrdersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        dataBinding.myOrdersRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mAdapter = new MyOrdersAdapter(orders, getContext());
+        dataBinding.myOrdersRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void fromDate(String fromDate) {
+        dataBinding.etFromDate.setText(fromDate);
+    }
+
+    @Override
+    public void toDate(String toDate) {
+        dataBinding.etToDate.setText(toDate);
+        viewModel.setFromDate(DateUtils.convertDateFormat10(dataBinding.etFromDate.getText().toString()));
+        viewModel.setToDate(DateUtils.convertDateFormat10(dataBinding.etToDate.getText().toString()));
+        getData();
+
+    }
+
+    @Override
+    public void onClick(int position, MyOrdersModel.ResponseObject model) {
+        Bundle bundle = new Bundle();
+        bundle.putString("DocEntry", String.valueOf(model.getDocEntry()));
+        startActivity(OrderItemListActivity.getStartIntent(getActivity(), bundle));
+    }
+}

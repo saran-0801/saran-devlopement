@@ -1,0 +1,19 @@
+package com.cbs.snb.ui.notification;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+
+import javax.inject.Inject;
+
+/**
+ * Created by Venkatesh on 19-08-2020.
+ */
+public class NotificationViewModel extends BaseViewModel<NotificationNavigator> {
+
+    @Inject
+    public NotificationViewModel(Repository repository, PreferenceHelper preferenceHelper, AppDatabase database) {
+        super(repository, preferenceHelper,database);
+    }
+}

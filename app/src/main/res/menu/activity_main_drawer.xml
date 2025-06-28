@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:id="@+id/home"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="@string/menu_home" />
+
+        <item
+            android:id="@+id/nav_dashboard"
+            android:visible="false"
+            android:icon="@drawable/ic_home"
+            android:title="@string/menu_dashboard" />
+
+        <item
+            android:id="@+id/nav_check_out"
+            android:icon="@drawable/pallet_outward"
+            android:title="@string/menu_outward" />
+
+        <item
+            android:id="@+id/nav_check_in"
+            android:icon="@drawable/pallet_inward"
+            android:title="@string/menu_inward" />
+
+        <item
+            android:id="@+id/nav_inv"
+            android:visible="true"
+            android:icon="@drawable/inv_spares"
+            android:title="@string/menu_inv" />
+
+        <item
+            android:id="@+id/nav_gate"
+            android:visible="true"
+            android:icon="@drawable/gate_entry"
+            android:title="@string/menu_gate_entry" />
+
+        <item
+            android:id="@+id/nav_asset"
+            android:visible="true"
+            android:icon="@drawable/inv_spares"
+            android:title="@string/menu_asset" />
+
+
+       <!-- <item
+            android:id="@+id/nav_activity"
+            android:visible="false"
+            android:icon="@drawable/ic_activity"
+            android:title="@string/menu_activity" />
+
+        <item
+            android:id="@+id/nav_complaints"
+            android:icon="@drawable/ic_complaints"
+            android:title="@string/menu_complaints"
+            android:visible="false"/>
+
+        <item
+            android:id="@+id/nav_leads"
+            android:visible="false"
+            android:icon="@drawable/ic_leads"
+            android:title="@string/menu_leads" />
+
+        <item
+            android:id="@+id/nav_sale_order"
+            android:visible="false"
+            android:icon="@drawable/ic_my_order"
+            android:title="@string/menu_order" />
+
+        <item
+            android:id="@+id/nav_payment"
+            android:visible="false"
+            android:icon="@drawable/ic_payment"
+            android:title="@string/menu_payment" />
+
+        <item
+            android:id="@+id/nav_geo_tag"
+            android:visible="false"
+            android:icon="@drawable/ic_expenses"
+            android:title="@string/menu_Geo" />
+
+        <item
+            android:id="@+id/nav_expense"
+            android:visible="false"
+            android:icon="@drawable/ic_expenses"
+            android:title="@string/menu_expense" />-->
+
+    </group>
+
+    <!--<group android:id="@+id/reports"
+        android:visible="false"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_products"
+            android:icon="@drawable/ic_products"
+            android:title="@string/menu_products"
+            android:visible="false"/>
+
+        <item
+            android:id="@+id/nav_customers"
+            android:icon="@drawable/ic_customer"
+            android:title="@string/menu_customers"
+            android:visible="false"/>
+
+        <item
+            android:id="@+id/nav_my_orders"
+            android:visible="false"
+            android:icon="@drawable/ic_my_order"
+            android:title="@string/menu_my_orders" />
+
+        <item
+            android:id="@+id/nav_feedback"
+            android:icon="@drawable/ic_feedback"
+            android:title="@string/menu_feedback"
+            android:visible="false" />
+
+        <item
+            android:id="@+id/nav_reports"
+            android:icon="@drawable/ic_report"
+            android:title="@string/menu_reports"
+            android:visible="false"/>
+
+        <item
+            android:id="@+id/nav_inventory"
+            android:icon="@drawable/ic_inventory"
+            android:title="@string/menu_inventory"
+            android:visible="false"/>
+
+        <item
+            android:id="@+id/nav_history"
+            android:icon="@drawable/ic_customer_history"
+            android:visible="false"
+            android:title="@string/menu_history" />
+
+        <item
+            android:id="@+id/nav_outstanding"
+            android:icon="@drawable/ic_customer_history"
+            android:visible="false"
+            android:title="@string/menu_outstanding" />
+
+        <item
+            android:id="@+id/nav_target_com"
+            android:icon="@drawable/ic_report"
+            android:visible="false"
+            android:title="@string/menu_target_com" />
+
+    </group>-->
+
+    <group android:id="@+id/history"
+        android:checkableBehavior="single">
+
+    </group>
+
+    <group android:id="@+id/logout"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_change_psw"
+            android:icon="@drawable/ic_change_password"
+            android:title="@string/change_pwd"
+            android:visible="false"/>
+
+        <item
+            android:id="@+id/nav_settings"
+            android:visible="false"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/menu_settings" />
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="@string/menu_logout" />
+
+    </group>
+</menu>

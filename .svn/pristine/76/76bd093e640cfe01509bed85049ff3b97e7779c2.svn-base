@@ -1,0 +1,59 @@
+package com.cbs.snb.ui.region;
+
+import androidx.lifecycle.ViewModelProvider;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+
+import com.cbs.snb.BR;
+import com.cbs.snb.R;
+import com.cbs.snb.databinding.ActivityRegionBinding;
+import com.cbs.snb.ui.ViewModelProviderFactory;
+import com.cbs.snb.ui.base.BaseActivity;
+import com.cbs.snb.ui.main.MainActivity;
+
+import javax.inject.Inject;
+
+public class RegionActivity extends BaseActivity<RegionViewModel, ActivityRegionBinding> implements RegionNavigator {
+
+    @Inject
+    ViewModelProviderFactory factory;
+
+    private RegionViewModel mRegionViewModel;
+
+    public static Intent newIntent(Context context) {
+        Intent intent = new Intent(context, RegionActivity.class);
+        return intent;
+    }
+
+    @Override
+    public int getBindingVariable() {
+        return BR.regionViewModel;
+    }
+
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.activity_region;
+    }
+
+    @Override
+    protected RegionViewModel getViewModel() {
+        mRegionViewModel = new ViewModelProvider(this,factory).get(RegionViewModel.class);
+        return mRegionViewModel;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mRegionViewModel.setNavigator(this);
+
+    }
+
+    @Override
+    public void navigateMainActivity() {
+        Intent intent = MainActivity.newIntent(RegionActivity.this);
+        startActivity(intent);
+        finish();
+    }
+}

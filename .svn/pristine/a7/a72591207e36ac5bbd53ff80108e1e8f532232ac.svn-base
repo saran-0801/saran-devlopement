@@ -1,0 +1,244 @@
+package com.cbs.snb.ui.checkout;
+
+import androidx.lifecycle.ViewModelProvider;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.view.View;
+import android.widget.AdapterView;
+
+import com.cbs.snb.BR;
+import com.cbs.snb.R;
+import com.cbs.snb.data.database.entities.CartItem;
+import com.cbs.snb.data.network.models.get.WarehouseModel;
+import com.cbs.snb.data.network.models.post.SalesOrderCreationModel;
+import com.cbs.snb.databinding.ActivityCheckOutBinding;
+import com.cbs.snb.service.LocationService;
+import com.cbs.snb.ui.ViewModelProviderFactory;
+import com.cbs.snb.ui.base.BaseActivity;
+import com.cbs.snb.ui.inventory.WareHouseAdapter;
+import com.cbs.snb.ui.main.MainActivity;
+import com.cbs.snb.utils.DateUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
+public class CheckOutActivity extends BaseActivity<CheckOutViewModel, ActivityCheckOutBinding> implements CheckOutNavigator {
+
+    @Inject
+    ViewModelProviderFactory factory;
+
+    private double latitude, longitude;
+
+    @Inject
+    LocationService locationService;
+
+    private String geoLocation;
+    private CheckOutViewModel mCheckOutViewModel;
+    private List<SalesOrderCreationModel.Sorder> sordersList;
+
+    private String totalPrice,customerCode,customerName,wCode,wName;
+
+    public static Intent newIntent(Context context) {
+        Intent intent = new Intent(context, CheckOutActivity.class);
+        return intent;
+    }
+
+    public static Intent getStartIntent(Context context, Bundle bundle) {
+        Intent intent = new Intent(context, CheckOutActivity.class);
+        intent.putExtras(bundle);
+        return intent;
+    }
+
+    @Override
+    public int getBindingVariable() {
+        return BR.checkOutViewModel;
+    }
+
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.activity_check_out;
+    }
+
+    @Override
+    protected CheckOutViewModel getViewModel() {
+        mCheckOutViewModel = new ViewModelProvider(this, factory).get(CheckOutViewModel.class);
+        return mCheckOutViewModel;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mCheckOutViewModel.setNavigator(this);
+        setUp();
+    }
+
+    public void setUp() {
+        setSupportActionBar(dataBinding.toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Check Out");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        dataBinding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        dataBinding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            customerCode = bundle.getString("cardCode");
+            customerName = bundle.getString("cardName");
+            totalPrice = bundle.getString("totalPrice");
+        }
+        dataBinding.tvTotalVal.setText(totalPrice);
+
+        sordersList = new ArrayList<>();
+
+        isLoading();
+
+        //getCustomers();
+
+        getWareHouse();
+
+        dataBinding.placeOrder.setOnClickListener(v -> placeOrder());
+
+    }
+
+    public void isLoading(){
+        mCheckOutViewModel.isLoading().observe(this,aBoolean -> {
+            if (aBoolean){
+                showLoading();
+            }else{
+                hideLoading();
+            }
+        });
+    }
+
+    /*public void getCustomers(){
+        mCheckOutViewModel.getCustomers("C").observe(this, customerDetailsModelResource -> {
+            switch (customerDetailsModelResource.status) {
+                case LOADING:
+                    showLoading();
+                    break;
+                case SUCCESS:
+                    hideLoading();
+                    setData(customerDetailsModelResource.data.getResponseObject());
+                    break;
+                case ERROR:
+                    hideLoading();
+                    showSnackBar(customerDetailsModelResource.getMessage(),getResources().getColor(R.color.red));
+                    break;
+                default:
+                    break;
+            }
+        });
+    }*/
+
+   /* private void setData(List<CustomerDetailsModel.ResponseObject> responseObjects) {
+        dataBinding.customerSp.setTitle("Customers");
+        DealersAdapter adapter = new DealersAdapter(this, responseObjects);
+        dataBinding.customerSp.setAdapter(adapter);
+
+        dataBinding.customerSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                customerCode = responseObjects.get(position).getCardCode();
+                customerName = responseObjects.get(position).getCardName();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }*/
+
+    public void getWareHouse(){
+        mCheckOutViewModel.getWareHouseLiveData()
+                .observe(this,warehouseModelResource -> {
+            switch (warehouseModelResource.status){
+                case LOADING:
+                    showLoading();
+                    break;
+                case SUCCESS:
+                    hideLoading();
+                    setWarehouse(warehouseModelResource.data.getResponseObject());
+                    break;
+                case ERROR:
+                    hideLoading();
+                    showSnackBar(warehouseModelResource.getMessage(),getResources().getColor(R.color.red));
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
+
+
+    private void setWarehouse(List<WarehouseModel.ResponseObject> whs){
+        dataBinding.wareHouseSp.setTitle("Warehouse");
+        WareHouseAdapter adapter = new WareHouseAdapter(this, whs);
+        dataBinding.wareHouseSp.setAdapter(adapter);
+
+        dataBinding.wareHouseSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                wCode = whs.get(position).getWhsCode();
+                wName = whs.get(position).getWhsName();
+                getCartData();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void getCartData(){
+        mCheckOutViewModel.getCartItemsLiveData().observe(this,cartItems -> {
+            sordersList.clear();
+            for (CartItem cartItem:cartItems){
+              sordersList.add(new SalesOrderCreationModel.Sorder(cartItem.getCode(),cartItem.getName(),cartItem.getPrice(),cartItem.getQuantity(),wCode));
+            }
+        });
+    }
+
+    public void placeOrder() {
+        hideKeyboard();
+        SalesOrderCreationModel salesOrderCreationModel = new SalesOrderCreationModel(customerCode,customerName,
+                DateUtils.currentDateYYYY(),DateUtils.currentDateYYYY(),"O",dataBinding.etRemarks.getText().toString(), mCheckOutViewModel.empCode() ,sordersList);
+        mCheckOutViewModel.addSalesOrder(salesOrderCreationModel).observe(this,basePostResponseResource -> {
+            switch (basePostResponseResource.status){
+                case LOADING:
+                    showLoading();
+                    break;
+                case SUCCESS:
+                    hideLoading();
+                    //showSnackBar(basePostResponseResource.getMessage());
+                    showSnackBar("Order Placed Successfully",getResources().getColor(R.color.green));
+                    mCheckOutViewModel.delete();
+                    refresh();
+                    break;
+                case ERROR:
+                    hideLoading();
+                    showSnackBar(basePostResponseResource.getMessage(),getResources().getColor(R.color.red));
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
+
+    private void refresh(){
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(() ->   {
+            Intent intent = new Intent(CheckOutActivity.this, MainActivity.class);
+            startActivity(intent);
+        }, 2000);
+    }
+}

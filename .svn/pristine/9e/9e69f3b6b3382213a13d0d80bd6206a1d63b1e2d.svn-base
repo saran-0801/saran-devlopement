@@ -1,0 +1,28 @@
+package com.cbs.snb.di.builder;
+
+import com.cbs.snb.ui.complaints.ComplaintFragment;
+import dagger.Binds;
+import dagger.Module;
+import dagger.Subcomponent;
+import dagger.android.AndroidInjector;
+import dagger.multibindings.ClassKey;
+import dagger.multibindings.IntoMap;
+
+@Module(
+  subcomponents = FragmentBuilder_ContributeComplaintFragment.ComplaintFragmentSubcomponent.class
+)
+public abstract class FragmentBuilder_ContributeComplaintFragment {
+  private FragmentBuilder_ContributeComplaintFragment() {}
+
+  @Binds
+  @IntoMap
+  @ClassKey(ComplaintFragment.class)
+  abstract AndroidInjector.Factory<?> bindAndroidInjectorFactory(
+      ComplaintFragmentSubcomponent.Factory builder);
+
+  @Subcomponent
+  public interface ComplaintFragmentSubcomponent extends AndroidInjector<ComplaintFragment> {
+    @Subcomponent.Factory
+    interface Factory extends AndroidInjector.Factory<ComplaintFragment> {}
+  }
+}

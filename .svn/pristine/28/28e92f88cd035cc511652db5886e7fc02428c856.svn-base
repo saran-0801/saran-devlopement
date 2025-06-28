@@ -1,0 +1,30 @@
+package com.cbs.snb.di.builder;
+
+import com.cbs.snb.ui.reports.complaints.ComplaintsReportActivity;
+import dagger.Binds;
+import dagger.Module;
+import dagger.Subcomponent;
+import dagger.android.AndroidInjector;
+import dagger.multibindings.ClassKey;
+import dagger.multibindings.IntoMap;
+
+@Module(
+  subcomponents =
+      ActivityBuilder_ComplaintsReportActivity.ComplaintsReportActivitySubcomponent.class
+)
+public abstract class ActivityBuilder_ComplaintsReportActivity {
+  private ActivityBuilder_ComplaintsReportActivity() {}
+
+  @Binds
+  @IntoMap
+  @ClassKey(ComplaintsReportActivity.class)
+  abstract AndroidInjector.Factory<?> bindAndroidInjectorFactory(
+      ComplaintsReportActivitySubcomponent.Factory builder);
+
+  @Subcomponent
+  public interface ComplaintsReportActivitySubcomponent
+      extends AndroidInjector<ComplaintsReportActivity> {
+    @Subcomponent.Factory
+    interface Factory extends AndroidInjector.Factory<ComplaintsReportActivity> {}
+  }
+}

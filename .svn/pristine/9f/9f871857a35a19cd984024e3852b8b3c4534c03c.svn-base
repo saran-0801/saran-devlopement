@@ -1,0 +1,139 @@
+package com.cbs.snb.ui.home.adapter;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.cbs.snb.BuildConfig;
+import com.cbs.snb.R;
+import com.cbs.snb.data.network.models.get.ProductsModel;
+import com.cbs.snb.databinding.ItemsAdapterLayoutBinding;
+import com.cbs.snb.ui.base.BaseViewHolder;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by Venkatesh on 10-07-2020.
+ */
+public class HomeProductsAdapter extends RecyclerView.Adapter<BaseViewHolder> implements Filterable {
+
+    private Callback mCallback;
+    private List<ProductsModel.ResponseObject> itemsModels;
+    private List<ProductsModel.ResponseObject> mFilterditemsModels;
+    private Context mContext;
+
+    public interface Callback {
+        void onProductClick(int position ,ProductsModel.ResponseObject models);
+    }
+
+    public HomeProductsAdapter(List<ProductsModel.ResponseObject> itemsModels, Context context) {
+        this.itemsModels = itemsModels;
+        this.mContext = context;
+        this.mFilterditemsModels = itemsModels;
+    }
+
+    @NonNull
+    @Override
+    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        ItemsAdapterLayoutBinding blogViewBinding = ItemsAdapterLayoutBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new HomeProductsAdapter.ViewHolder(blogViewBinding);
+        //View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.items_adapter_layout, parent, false);
+        // return new ViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
+        holder.onBind(position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return mFilterditemsModels.size();
+    }
+
+    public void addItems(List<ProductsModel.ResponseObject> list) {
+        itemsModels.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public void clearList() {
+        mFilterditemsModels.clear();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String charString = constraint.toString();
+                if (charString.isEmpty()) {
+                    mFilterditemsModels = itemsModels;
+                } else {
+                    List<ProductsModel.ResponseObject> filteredList = new ArrayList<>();
+                    for (ProductsModel.ResponseObject row : itemsModels) {
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for Name or Mobile Number match
+                        if (row.getItemName().toLowerCase().contains(charString.toLowerCase()) ||
+                                row.getItemCode().contains(constraint)) {
+                            filteredList.add(row);
+                        }
+                    }
+                    mFilterditemsModels = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mFilterditemsModels;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                mFilterditemsModels = (List<ProductsModel.ResponseObject>) results.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
+    public class ViewHolder extends BaseViewHolder {
+
+        ItemsAdapterLayoutBinding mBinding;
+
+
+        public ViewHolder(ItemsAdapterLayoutBinding binding) {
+            super(binding.getRoot());
+            this.mBinding = binding;
+        }
+
+        @Override
+        public void onBind(int position) {
+            ProductsModel.ResponseObject model = mFilterditemsModels.get(position);
+
+            mBinding.textTitle.setText(model.getItemName());
+
+            Glide.with(mContext).load(BuildConfig.BASE_URL+""+model.getColumn1())
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .placeholder(R.drawable.ic_404_image).error(R.drawable.ic_404_image)
+                    .into(mBinding.imageMoviePoster);
+
+            mBinding.textPrice.setText( String.valueOf("₹ " + model.getPrice()));
+            mBinding.availableQty.setText(String.valueOf(model.getInStock() + mContext.getResources().getString(R.string.available_qty)));
+
+            mBinding.productCardView.setOnClickListener(v -> mCallback.onProductClick(position,model));
+        }
+
+    }
+
+    public void setOnClick(Callback onClick) {
+        this.mCallback = onClick;
+    }
+
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/tvCode"
+    android:text="Dubai (+971)"
+    android:gravity="center|left"
+    android:textSize="@dimen/dimen14sp"
+    android:focusable="false"
+    android:padding="10dp"/>
+

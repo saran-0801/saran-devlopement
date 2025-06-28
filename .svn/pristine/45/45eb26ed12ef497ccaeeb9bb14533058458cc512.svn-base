@@ -1,0 +1,163 @@
+package com.cbs.snb.ui.payment.invoices;
+
+import android.content.Context;
+import android.graphics.Color;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.cbs.snb.R;
+import com.cbs.snb.data.network.models.get.PaymentInvoiceModel;
+import com.cbs.snb.databinding.EmptyAdapterBinding;
+import com.cbs.snb.databinding.InvoiceListAdapterLayoutBinding;
+import com.cbs.snb.ui.base.BaseViewHolder;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by Venkatesh on 04-09-2020.
+ */
+public class InvoiceListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+
+    private Callback mCallback;
+    public static final int VIEW_TYPE_EMPTY = 0;
+    public static final int VIEW_TYPE_NORMAL = 1;
+    private List<PaymentInvoiceModel.ResponseObject> mInvoiceModel;
+    private ArrayList<PaymentInvoiceModel.ResponseObject> mSelectedInvoiceModel;
+    private Context mContext;
+
+    public interface Callback {
+        void onClick(int position, PaymentInvoiceModel.ResponseObject models,ArrayList<PaymentInvoiceModel.ResponseObject> mSelectedInvoiceModel);
+    }
+
+    public InvoiceListAdapter(List<PaymentInvoiceModel.ResponseObject> mInvoiceModel, Context mContext) {
+        this.mInvoiceModel = mInvoiceModel;
+        this.mContext = mContext;
+        mSelectedInvoiceModel = new ArrayList<>();
+    }
+
+    @NonNull
+    @Override
+    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case VIEW_TYPE_NORMAL:
+                InvoiceListAdapterLayoutBinding binding = InvoiceListAdapterLayoutBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+                return new InvoiceViewHolder(binding);
+            case VIEW_TYPE_EMPTY:
+            default:
+                EmptyAdapterBinding emptyViewBinding = EmptyAdapterBinding.inflate(LayoutInflater.from(parent.getContext()),
+                        parent, false);
+                return new EmptyViewHolder(emptyViewBinding);
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
+        holder.onBind(position);
+    }
+
+    @Override
+    public int getItemCount() {
+        if (mInvoiceModel != null && mInvoiceModel.size() > 0) {
+            return mInvoiceModel.size();
+        } else {
+            return 1;
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (mInvoiceModel != null && !mInvoiceModel.isEmpty()) {
+            return VIEW_TYPE_NORMAL;
+        } else {
+            return VIEW_TYPE_EMPTY;
+        }
+    }
+
+    public void addData(List<PaymentInvoiceModel.ResponseObject> list) {
+        mInvoiceModel.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public void clearList() {
+        mInvoiceModel.clear();
+    }
+
+    public class InvoiceViewHolder extends BaseViewHolder {
+
+        InvoiceListAdapterLayoutBinding binding;
+
+        public InvoiceViewHolder(@NonNull InvoiceListAdapterLayoutBinding itemView) {
+            super(itemView.getRoot());
+            this.binding = itemView;
+        }
+
+        @Override
+        public void onBind(int position) {
+            PaymentInvoiceModel.ResponseObject model = mInvoiceModel.get(position);
+            binding.invoiceNum.setText(String.valueOf(model.getInvoiceNumber()));
+            binding.status.setText(model.getStatus());
+            binding.docDate.setText(model.getInvoiceDocumentDate());
+            binding.dueDate.setText(model.getInvoiceDueDate());
+            binding.invoiceAmount.setText(String.valueOf("₹ " + model.getValue()));
+            binding.invoiceOpenAmount.setText(String.valueOf("₹ " + model.getOpenValue()));
+
+            binding.invoiceCard.setOnClickListener(v -> {
+                if (binding.cbInvoice.isChecked()){
+                    mCallback.onClick(position, model,mSelectedInvoiceModel);
+                }else{
+                    Toast.makeText(mContext, "Please select invoice", Toast.LENGTH_SHORT).show();
+                }
+
+            });
+            mSelectedInvoiceModel.clear();
+
+            binding.cbInvoice.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if(isChecked){
+                    mSelectedInvoiceModel.add(new PaymentInvoiceModel.ResponseObject(model.getInvoiceDocumentDate(),model.getInvoiceDueDate(),model.getInvoiceNumber(),
+                            model.getInvoiceEntry(),model.getOpenValue(),model.getStatus(),model.getValue()));
+
+                } else{
+                    mSelectedInvoiceModel.remove(new PaymentInvoiceModel.ResponseObject(model.getInvoiceDocumentDate(),model.getInvoiceDueDate(),model.getInvoiceNumber(),
+                            model.getInvoiceEntry(),model.getOpenValue(),model.getStatus(),model.getValue()));
+                }
+            });
+
+           /* binding.invoiceCard.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    // check whether you selected an item
+                    binding.invoiceCard.setSelected(!binding.invoiceCard.isSelected());
+                    v.setBackgroundColor(binding.invoiceCard.isSelected() ? ContextCompat.getColor(mContext, R.color.md_pink_50) : Color.WHITE);
+                    return true;
+                }
+            });*/
+        }
+    }
+
+    public static class EmptyViewHolder extends BaseViewHolder {
+
+        private EmptyAdapterBinding mBinding;
+
+        public EmptyViewHolder(EmptyAdapterBinding binding) {
+            super(binding.getRoot());
+            this.mBinding = binding;
+        }
+
+        @Override
+        public void onBind(int position) {
+
+        }
+    }
+
+    public void setOnClick(Callback onClick) {
+        this.mCallback = onClick;
+    }
+}

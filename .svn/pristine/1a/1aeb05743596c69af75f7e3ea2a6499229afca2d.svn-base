@@ -1,0 +1,38 @@
+package com.cbs.snb.ui.worker;
+
+import android.os.AsyncTask;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.database.entities.CartItem;
+import com.cbs.snb.data.database.entities.ProductDetails;
+
+import javax.inject.Inject;
+
+public class UpdateCart extends AsyncTask<ProductDetails, Void, Void> {
+
+    @Inject
+    AppDatabase db;
+
+    public UpdateCart(AppDatabase db) {
+        this.db = db;
+    }
+
+    @Override
+    protected Void doInBackground(ProductDetails... foodDetails) {
+        if(db!=null){
+            if(foodDetails[0]!=null) {
+                if (foodDetails[0].getQty() == 0) {
+                    db.cartItemDao().deleteCartItem(foodDetails[0].getItemName());
+                    return null;
+                }
+                CartItem cartItem = new CartItem();
+                cartItem.setName(foodDetails[0].getItemName());
+                cartItem.setCode(foodDetails[0].getItemCode());
+                cartItem.setPrice(foodDetails[0].getPrice());
+                cartItem.setQuantity(foodDetails[0].getQty());
+                db.cartItemDao().add(cartItem);
+            }
+        }
+        return null;
+    }
+}

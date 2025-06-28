@@ -1,0 +1,26 @@
+package com.cbs.snb.di.builder;
+
+import com.cbs.snb.ui.splash.SplashScreenActivity;
+import dagger.Binds;
+import dagger.Module;
+import dagger.Subcomponent;
+import dagger.android.AndroidInjector;
+import dagger.multibindings.ClassKey;
+import dagger.multibindings.IntoMap;
+
+@Module(subcomponents = ActivityBuilder_SplashScreenActivity.SplashScreenActivitySubcomponent.class)
+public abstract class ActivityBuilder_SplashScreenActivity {
+  private ActivityBuilder_SplashScreenActivity() {}
+
+  @Binds
+  @IntoMap
+  @ClassKey(SplashScreenActivity.class)
+  abstract AndroidInjector.Factory<?> bindAndroidInjectorFactory(
+      SplashScreenActivitySubcomponent.Factory builder);
+
+  @Subcomponent
+  public interface SplashScreenActivitySubcomponent extends AndroidInjector<SplashScreenActivity> {
+    @Subcomponent.Factory
+    interface Factory extends AndroidInjector.Factory<SplashScreenActivity> {}
+  }
+}

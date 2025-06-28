@@ -1,0 +1,104 @@
+package com.cbs.snb.di.builder;
+
+
+import com.cbs.snb.ui.activity.CreateActivityFragment;
+import com.cbs.snb.ui.attendance.UserCheckOutFragment;
+import com.cbs.snb.ui.changepassword.ChangePasswordFragment;
+import com.cbs.snb.ui.complaints.ComplaintFragment;
+import com.cbs.snb.ui.customerhistory.viewcustomer.CustomerHistoryFragment;
+import com.cbs.snb.ui.customers.CustomerFragment;
+import com.cbs.snb.ui.expense.ExpenseFragment;
+import com.cbs.snb.ui.feedback.FeedbackFragment;
+import com.cbs.snb.ui.home.HomeFragment;
+import com.cbs.snb.ui.inventory.InventoryFragment;
+import com.cbs.snb.ui.leads.LeadFragment;
+import com.cbs.snb.ui.leads.address.AddressDetailsFragment;
+import com.cbs.snb.ui.leads.customer.CustomerDetailsFragment;
+import com.cbs.snb.ui.leads.manager.PurchaseManagerFragment;
+import com.cbs.snb.ui.leads.owner.OwnerDetailsFragment;
+import com.cbs.snb.ui.orders.MyOrdersFragment;
+import com.cbs.snb.ui.payment.PaymentFragment;
+import com.cbs.snb.ui.pdf_viwer.report_list.ReportListFragment;
+
+import dagger.Module;
+import dagger.android.ContributesAndroidInjector;
+
+/**
+ * Created by Venkatesh on 09-07-2020.
+ */
+@Module
+public abstract class FragmentBuilder {
+
+    @SuppressWarnings("unused")
+    @ContributesAndroidInjector
+    abstract HomeFragment contributeHomeFragment();
+
+    @SuppressWarnings("unused")
+    @ContributesAndroidInjector
+    abstract ChangePasswordFragment contributeChangePasswordFragment();
+
+    @SuppressWarnings("unused")
+    @ContributesAndroidInjector
+    abstract ComplaintFragment contributeComplaintFragment();
+
+    @SuppressWarnings("unused")
+    @ContributesAndroidInjector
+    abstract FeedbackFragment contributeFeedbackFragment();
+
+    @SuppressWarnings("unused")
+    @ContributesAndroidInjector
+    abstract CustomerDetailsFragment contributeCustomerDetailsFragment();
+
+    @SuppressWarnings("unused")
+    @ContributesAndroidInjector
+    abstract AddressDetailsFragment contributeAddressDetailsFragment();
+
+    @SuppressWarnings("unused")
+    @ContributesAndroidInjector
+    abstract PurchaseManagerFragment contributePurchaseManageFragment();
+
+    @SuppressWarnings("unused")
+    @ContributesAndroidInjector
+    abstract OwnerDetailsFragment contributeOwnerDetailsFragment();
+
+    @SuppressWarnings("unused")
+    @ContributesAndroidInjector
+    abstract LeadFragment contributeLeadFragment();
+
+    @SuppressWarnings("unused")
+    @ContributesAndroidInjector
+    abstract InventoryFragment contributeInventoryFragment();
+
+    @SuppressWarnings("unused")
+    @ContributesAndroidInjector
+    abstract CustomerHistoryFragment contributeCustomerHistoryFragment();
+
+    @SuppressWarnings("unused")
+    @ContributesAndroidInjector
+    abstract PaymentFragment contributePaymentFragment();
+
+    @SuppressWarnings("unused")
+    @ContributesAndroidInjector
+    abstract ExpenseFragment contributeExpenseFragment();
+
+    @SuppressWarnings("unused")
+    @ContributesAndroidInjector
+    abstract UserCheckOutFragment contributeUserCheckOutFragment();
+
+    @SuppressWarnings("unused")
+    @ContributesAndroidInjector
+    abstract MyOrdersFragment contributeMyOrdersFragment();
+
+    @SuppressWarnings("unused")
+    @ContributesAndroidInjector
+    abstract CreateActivityFragment contributeCreateActivityFragment();
+
+    @SuppressWarnings("unused")
+    @ContributesAndroidInjector
+    abstract ReportListFragment reportListFragment();
+
+    @SuppressWarnings("unused")
+    @ContributesAndroidInjector
+    abstract CustomerFragment contributeCustomerFragment();
+
+}

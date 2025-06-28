@@ -1,0 +1,11 @@
+package com.cbs.snb.ui.cart;
+
+/**
+ * Created by Venkatesh on 13-07-2020.
+ */
+public interface CartNavigator {
+
+    //void addToCart(List<ItemsModel> itemsModels);
+
+    void checkOutClicked();
+}

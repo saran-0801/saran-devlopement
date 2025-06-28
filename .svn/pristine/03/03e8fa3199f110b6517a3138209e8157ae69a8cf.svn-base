@@ -1,0 +1,453 @@
+package com.cbs.snb.ui.attendance;
+
+import android.Manifest;
+import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.cbs.snb.BR;
+import com.cbs.snb.R;
+import com.cbs.snb.data.network.models.post.CheckInOut;
+import com.cbs.snb.databinding.FragmentUserCheckoutBinding;
+import com.cbs.snb.ui.base.BaseFragment;
+import com.cbs.snb.utils.DateUtils;
+import com.cbs.snb.utils.GPSListener;
+import com.cbs.snb.utils.getAddressByLatLng;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import static android.content.Context.LOCATION_SERVICE;
+import static com.cbs.snb.utils.Constants.PERMISSION_LOCATION_REQUEST_CODE;
+
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link UserCheckOutFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class UserCheckOutFragment extends BaseFragment<UserCheckOutViewModel, FragmentUserCheckoutBinding>
+        implements UserCheckOutNavigator,LocationListener,
+        OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks {
+
+
+    private GoogleApiClient mGoogleApiClient;
+    private GoogleMap mMap;
+    private Location mLastLocation;
+    private List<LatLng> startLatLngList,endLatLngList;
+    private LocationRequest mLocationRequest;
+    private MarkerOptions mLocationMarker;
+    private LocationManager manager;
+    private View mapView;
+    private double latitudeValue = 0.0;
+    private double longitudeValue = 0.0;
+    private double startLatitude = 0.0;
+    private double startLongitude = 0.0;
+    private double endLatitude = 0.0;
+    private double endLongitude = 0.0;
+   // private List<UpdateLocation> locationList,list;
+    private String startAddress,endAddress;
+    private Date startTime,endTime;
+    private LocationManager mLocationManager;
+    private LocationListener gpsListener;
+    private Activity activity;
+    private MarkerOptions yourLocationMarker;
+
+    public static UserCheckOutFragment newInstance() {
+        UserCheckOutFragment fragment = new UserCheckOutFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public int getBindingVariable() {
+        return BR.userCheckOutViewModel;
+    }
+
+    @Override
+    public int getLayoutRes() {
+        return R.layout.fragment_user_checkout;
+    }
+
+    @Override
+    protected Class<UserCheckOutViewModel> getViewModel() {
+        return UserCheckOutViewModel.class;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        setHasOptionsMenu(true);
+        viewModel.setNavigator(this);
+        setUp();
+        return dataBinding.getRoot();
+    }
+
+    public void setUp(){
+
+        endLatLngList = new ArrayList<>();
+
+        initClient();
+
+        isLoading();
+
+        dataBinding.btnCheckOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                endTime = Calendar.getInstance().getTime();
+                Log.e("endTime",String.valueOf(endTime));
+                if (mLastLocation != null) {
+                    latitudeValue = mLastLocation.getLatitude();
+                    longitudeValue = mLastLocation.getLongitude();
+                    startLatitude = latitudeValue;
+                    startLongitude = longitudeValue;
+                    endLatLngList.add(new LatLng(latitudeValue, longitudeValue));
+                    assignLocationValues(mLastLocation);
+                    markEndingLocationOnMap(mMap, new LatLng(latitudeValue, longitudeValue));
+                    endLatitude = latitudeValue;
+                    endLongitude = longitudeValue;
+
+                }
+                checkOut();
+            }
+        });
+    }
+
+    public void isLoading() {
+        viewModel.isLoading().observe(getViewLifecycleOwner(), aBoolean -> {
+            if (aBoolean) {
+                showLoading();
+            } else {
+                hideLoading();
+            }
+        });
+    }
+
+    private void initClient() {
+        // getting GPS status
+        isGPSEnable();
+
+        //initializing GoogleApiClient client
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                    .addConnectionCallbacks(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
+
+        SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.checkOutMap);
+        mapView = mapFragment.getView();
+        mapFragment.getMapAsync(this);
+
+    }
+
+    public void isGPSEnable() {
+        mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+        // boolean enabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+        if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            setUpGps();
+            //findLoc();
+        } else {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+            alertDialogBuilder
+                    .setMessage("GPS is disabled in your device. Enable it?")
+                    .setCancelable(false)
+                    .setPositiveButton("Enable GPS",
+                            (dialog, id) -> {
+                                Intent callGPSSettingIntent = new Intent(
+                                        android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                getActivity().startActivity(callGPSSettingIntent);
+                            });
+            alertDialogBuilder.setNegativeButton("Cancel",
+                    (dialog, id) -> dialog.cancel());
+            AlertDialog alert = alertDialogBuilder.create();
+            alert.show();
+        }
+    }
+
+    public void setUpGps() {
+        gpsListener = new GPSListener(activity, mLocationManager);
+    }
+
+
+
+    @Override
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        MenuItem item = menu.findItem(R.id.action_cart);
+
+        if (item != null)
+            item.setVisible(false);
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(mLocationRequest);
+        PendingResult<LocationSettingsResult> result = LocationServices.SettingsApi.checkLocationSettings(mGoogleApiClient, builder.build());
+        result.setResultCallback(result1 -> {
+            final Status status = result1.getStatus();
+            switch (status.getStatusCode()) {
+                case LocationSettingsStatusCodes.SUCCESS:
+                    //  Log.d("Dashboard", "Connection method has been called");
+                    if (ActivityCompat.checkSelfPermission(getActivity(),
+                            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                            && ActivityCompat.checkSelfPermission(getActivity(),
+                            Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+                        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                         if (mLastLocation != null) {
+                            assignLocationValues(mLastLocation);
+                            setDefaultMarkerOption(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
+                        }
+
+                    }else{
+                        ActivityCompat.requestPermissions(getActivity(),
+                                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+                                        Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_LOCATION_REQUEST_CODE);
+                    }
+                    break;
+                case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                    break;
+            }
+        });
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_LOCATION_REQUEST_CODE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                    // permission was denied, show alert to explain permission
+                    showPermissionAlert();
+                } else {
+                    //permission is granted now start a background service
+                    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                            && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                        if (mLastLocation != null) {
+                            assignLocationValues(mLastLocation);
+                            setDefaultMarkerOption(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
+
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+    private void assignLocationValues(Location currentLocation) {
+        if (currentLocation != null) {
+            latitudeValue = currentLocation.getLatitude();
+            longitudeValue = currentLocation.getLongitude();
+            Log.d("TAG", "Latitude: " + latitudeValue + " Longitude: " + longitudeValue);
+            markEndingLocationOnMap(mMap, new LatLng(latitudeValue, longitudeValue));
+            addCameraToMap(new LatLng(latitudeValue, longitudeValue));
+        }
+    }
+
+    private void markStartingLocationOnMap(GoogleMap mapObject, LatLng location) {
+        mapObject.addMarker(new MarkerOptions().position(location).title("Current location"));
+        mapObject.moveCamera(CameraUpdateFactory.newLatLng(location));
+    }
+
+    private void addCameraToMap(LatLng latLng) {
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(latLng)
+                .zoom(16)
+                .build();
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+    }
+
+    private void setDefaultMarkerOption(LatLng location) {
+        if (yourLocationMarker == null) {
+            yourLocationMarker = new MarkerOptions();
+        }
+        yourLocationMarker.position(location);
+        mMap.setMyLocationEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
+    }
+
+    private void showPermissionAlert() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(R.string.permission_request_title);
+        builder.setMessage(R.string.app_permission_notice);
+        builder.create();
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_LOCATION_REQUEST_CODE);
+                }
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getActivity(), R.string.permission_refused, Toast.LENGTH_LONG).show();
+            }
+        });
+        builder.show();
+    }
+
+    private void markEndingLocationOnMap(GoogleMap mapObject, LatLng location) {
+        Log.e("endSize",String.valueOf(endLatLngList.size()));
+        for (int i = 0; i < endLatLngList.size(); i++) {
+            final LatLng position = new LatLng(endLatLngList.get(i).latitude, endLatLngList.get(i).longitude);
+            final MarkerOptions options = new MarkerOptions().position(position);
+            endAddress = getAddressByLatLng.getAddress(latitudeValue, longitudeValue, getActivity());
+            mapObject.addMarker(options
+                    .position(location)
+                    .title("End Location")
+                    .snippet(endAddress)
+                    .icon(BitmapDescriptorFactory
+                            .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+            mapObject.moveCamera(CameraUpdateFactory.newLatLng(location));
+        }
+
+    }
+
+
+    private void checkOut(){
+        CheckInOut checkInOut = new CheckInOut("CheckOut", DateUtils.currentDateYYYY(), DateUtils.currentTime(),
+                String.valueOf(startLatitude),String.valueOf(startLongitude),viewModel.empName(),viewModel.slpCode());
+
+        viewModel.checkOut(checkInOut).observe(this,basePostResponseResource -> {
+            switch (basePostResponseResource.status){
+                case LOADING:
+                    showLoading();
+                    break;
+                case SUCCESS:
+                    hideLoading();
+                    showSnackBar("Checked Out successfully",getResources().getColor(R.color.green));
+                    distanceInKm(startLatitude,startLongitude,endLatitude,endLongitude);
+                    getActivity().onBackPressed();
+/*
+                    if (basePostResponseResource.data.getStatusMessage().equalsIgnoreCase("Success")){
+                        showSnackBar("Checked Out successfully",getResources().getColor(R.color.green));
+                        distanceInKm(startLatitude,startLongitude,endLatitude,endLongitude);
+                        getActivity().onBackPressed();
+                    }else{
+                        showSnackBar(basePostResponseResource.data.getStatusMessage(),getResources().getColor(R.color.text_black_38));
+                    }
+*/                  break;
+                case ERROR:
+                    hideLoading();
+                    showSnackBar(basePostResponseResource.getMessage(), getResources().getColor(R.color.red));
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
+
+
+    private void distanceInKm(double startLatitudeValue,double startLongitudeValue,double endLatitudeValue,double endLongitudeValue){
+        Location startPoint = new Location("start");
+        startPoint.setLatitude(startLatitudeValue);
+        startPoint.setLongitude(startLongitudeValue);
+
+        Location endPoint = new Location("end");
+        endPoint.setLatitude(endLatitudeValue);
+        endPoint.setLongitude(endLongitudeValue);
+
+        double distance = startPoint.distanceTo(endPoint);
+        double di = distance/1000;
+        Log.e("KM",String.valueOf(Math.round(di)));
+
+    }
+
+    @Override
+    public void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+}

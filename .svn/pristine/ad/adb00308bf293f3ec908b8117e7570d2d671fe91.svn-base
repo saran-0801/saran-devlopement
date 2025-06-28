@@ -1,0 +1,122 @@
+package com.cbs.snb.ui.inventory;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import com.cbs.snb.data.network.models.get.InventoryModel;
+import com.cbs.snb.databinding.EmptyAdapterBinding;
+import com.cbs.snb.databinding.InventoryListAdapterBinding;
+import com.cbs.snb.ui.base.BaseViewHolder;
+
+import java.util.List;
+
+/**
+ * Created by Venkatesh on 05-09-2020.
+ */
+public class InventoryAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+
+    private Callback mCallback;
+    public static final int VIEW_TYPE_EMPTY = 0;
+    public static final int VIEW_TYPE_NORMAL = 1;
+    private List<InventoryModel.ResponseObject> mInventoryModel;
+    private Context mContext;
+
+    public interface Callback {
+        void onClick(int position, InventoryModel.ResponseObject models);
+
+    }
+
+    public InventoryAdapter(List<InventoryModel.ResponseObject> mInventoryModel, Context mContext) {
+        this.mInventoryModel = mInventoryModel;
+        this.mContext = mContext;
+    }
+
+    @NonNull
+    @Override
+    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case VIEW_TYPE_NORMAL:
+                InventoryListAdapterBinding binding = InventoryListAdapterBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+                return new InventoryViewHolder(binding);
+            case VIEW_TYPE_EMPTY:
+            default:
+                EmptyAdapterBinding emptyViewBinding = EmptyAdapterBinding.inflate(LayoutInflater.from(parent.getContext()),
+                        parent, false);
+                return new EmptyViewHolder(emptyViewBinding);
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
+        holder.onBind(position);
+    }
+
+    @Override
+    public int getItemCount() {
+        if (mInventoryModel != null && mInventoryModel.size() > 0) {
+            return mInventoryModel.size();
+        } else {
+            return 1;
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (mInventoryModel != null && !mInventoryModel.isEmpty()) {
+            return VIEW_TYPE_NORMAL;
+        } else {
+            return VIEW_TYPE_EMPTY;
+        }
+    }
+
+    public void addData(List<InventoryModel.ResponseObject> list) {
+        mInventoryModel.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public void clearList() {
+        mInventoryModel.clear();
+    }
+
+    public class InventoryViewHolder extends BaseViewHolder {
+
+        InventoryListAdapterBinding binding;
+
+        public InventoryViewHolder(@NonNull InventoryListAdapterBinding itemView) {
+            super(itemView.getRoot());
+            this.binding = itemView;
+
+        }
+
+        @Override
+        public void onBind(int position) {
+            InventoryModel.ResponseObject model = mInventoryModel.get(position);
+            binding.itemCode.setText(model.getItemCode());
+            binding.itemName.setText(model.getItemName());
+            binding.inStock.setText(String.valueOf(model.getInStock()));
+            binding.uom.setText(model.getInvntryUom());
+
+        }
+    }
+
+    public static class EmptyViewHolder extends BaseViewHolder {
+
+        private EmptyAdapterBinding mBinding;
+
+        public EmptyViewHolder(EmptyAdapterBinding binding) {
+            super(binding.getRoot());
+            this.mBinding = binding;
+        }
+
+        @Override
+        public void onBind(int position) {
+
+        }
+    }
+
+    public void setOnClick(Callback onClick) {
+        this.mCallback = onClick;
+    }
+}

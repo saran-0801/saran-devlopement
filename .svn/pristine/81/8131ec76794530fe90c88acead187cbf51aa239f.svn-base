@@ -1,0 +1,33 @@
+package com.cbs.snb.data.network.models.get
+
+
+import android.annotation.SuppressLint
+import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
+import android.os.Parcelable
+
+@SuppressLint("ParcelCreator")
+@Parcelize
+data class PaymentDetailsModel(
+        @SerializedName("responseObject")
+    val responseObject: List<ResponseObject>,
+        @SerializedName("statusCode")
+    val statusCode: Int, // 0
+        @SerializedName("statusMessage")
+    val statusMessage: String // Success
+) : Parcelable {
+    @SuppressLint("ParcelCreator")
+    @Parcelize
+    data class ResponseObject(
+        @SerializedName("CardCode")
+        val cardCode: String, // A1M01
+        @SerializedName("CardName")
+        val cardName: String, // A-1 Matheswara Lorry Service
+        @SerializedName("OutStandinAmount")
+        val outStandinAmount: Double,
+        @SerializedName("GroupNum")
+        val groupNum: String,
+        @SerializedName("PymntGroup")
+        val pymntGroup: String// 0
+    ) : Parcelable
+}

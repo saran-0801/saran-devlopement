@@ -1,0 +1,13 @@
+package com.cbs.snb.ui.productdetails;
+
+/**
+ * Created by Venkatesh on 11-07-2020.
+ */
+public interface ProductDetailsNavigator {
+
+    void addItemsToCart();
+
+    void addItemCount();
+
+    void removeItemCount();
+}

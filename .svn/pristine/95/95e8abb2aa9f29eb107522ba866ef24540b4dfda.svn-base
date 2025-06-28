@@ -1,0 +1,125 @@
+package com.cbs.snb.ui.reports.customeroutstanding;
+
+
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+
+import com.cbs.snb.BR;
+import com.cbs.snb.R;
+import com.cbs.snb.data.network.models.get.PaymentDetailsModel;
+import com.cbs.snb.databinding.ActivityCustomerOutstandingBinding;
+import com.cbs.snb.ui.ViewModelProviderFactory;
+import com.cbs.snb.ui.base.BaseActivity;
+import com.cbs.snb.ui.payment.adapter.PaymentOutstandingAdapter;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+public class CustomerOutstandingActivity extends BaseActivity<CustomerOutstandingViewModel, ActivityCustomerOutstandingBinding>
+        implements CustomerOutstandingNavigator {
+
+    @Inject
+    ViewModelProviderFactory factory;
+
+    @Inject
+    PaymentOutstandingAdapter mAdapter;
+
+    private CustomerOutstandingViewModel mViewModel;
+
+    public static Intent newIntent(Context context) {
+        Intent intent = new Intent(context, CustomerOutstandingActivity.class);
+        return intent;
+    }
+
+    public static Intent getStartIntent(Context context, Bundle bundle) {
+        Intent intent = new Intent(context, CustomerOutstandingActivity.class);
+        intent.putExtras(bundle);
+        return intent;
+    }
+
+
+    @Override
+    public int getBindingVariable() {
+        return BR.outstandingViewModel;
+    }
+
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.activity_customer_outstanding;
+    }
+
+    @Override
+    protected CustomerOutstandingViewModel getViewModel() {
+        mViewModel = new ViewModelProvider(this, factory).get(CustomerOutstandingViewModel.class);
+        return mViewModel;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mViewModel.setNavigator(this);
+        setUp();
+    }
+
+    public void setUp() {
+        setSupportActionBar(dataBinding.toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Customer Outstanding");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        dataBinding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        dataBinding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        dataBinding.invoiceRecyclerView.setLayoutManager(linearLayoutManager);
+        dataBinding.invoiceRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        dataBinding.invoiceRecyclerView.setAdapter(mAdapter);
+
+        getObservables();
+
+    }
+
+    private void getObservables() {
+        mViewModel.progressBar.observe(this, aBoolean -> {
+            if (aBoolean) {
+                showLoading();
+            } else {
+                hideLoading();
+            }
+        });
+
+        mViewModel.getOutStandingLiveData().observe(this, paymentDetailsModelResource -> {
+            switch (paymentDetailsModelResource.status) {
+                case LOADING:
+                    showLoading();
+                    break;
+                case SUCCESS:
+                    hideLoading();
+                    addOutStandingList(paymentDetailsModelResource.data.getResponseObject());
+                    break;
+                case ERROR:
+                    hideLoading();
+                    showSnackBar(paymentDetailsModelResource.getMessage(), getResources().getColor(R.color.red));
+                    break;
+                default:
+                    break;
+
+            }
+        });
+
+    }
+
+    private void addOutStandingList(List<PaymentDetailsModel.ResponseObject> responseObjects) {
+        mAdapter.addInvoices(responseObjects);
+        mAdapter.notifyDataSetChanged();
+    }
+}

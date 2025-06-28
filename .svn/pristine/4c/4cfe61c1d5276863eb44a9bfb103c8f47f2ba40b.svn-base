@@ -1,0 +1,30 @@
+package com.cbs.snb.di.builder;
+
+import com.cbs.snb.ui.reports.customeroutstanding.CustomerOutstandingActivity;
+import dagger.Binds;
+import dagger.Module;
+import dagger.Subcomponent;
+import dagger.android.AndroidInjector;
+import dagger.multibindings.ClassKey;
+import dagger.multibindings.IntoMap;
+
+@Module(
+  subcomponents =
+      ActivityBuilder_CustomerOutstandingActivity.CustomerOutstandingActivitySubcomponent.class
+)
+public abstract class ActivityBuilder_CustomerOutstandingActivity {
+  private ActivityBuilder_CustomerOutstandingActivity() {}
+
+  @Binds
+  @IntoMap
+  @ClassKey(CustomerOutstandingActivity.class)
+  abstract AndroidInjector.Factory<?> bindAndroidInjectorFactory(
+      CustomerOutstandingActivitySubcomponent.Factory builder);
+
+  @Subcomponent
+  public interface CustomerOutstandingActivitySubcomponent
+      extends AndroidInjector<CustomerOutstandingActivity> {
+    @Subcomponent.Factory
+    interface Factory extends AndroidInjector.Factory<CustomerOutstandingActivity> {}
+  }
+}

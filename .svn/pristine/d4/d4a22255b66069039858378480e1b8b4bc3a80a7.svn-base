@@ -1,0 +1,150 @@
+package com.cbs.snb.ui.orders;
+
+import android.content.Context;
+import android.graphics.Paint;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.cbs.snb.R;
+import com.cbs.snb.data.network.models.get.MyOrdersModel;
+import com.cbs.snb.databinding.EmptyAdapterBinding;
+import com.cbs.snb.databinding.MyOrdersAdapterLayoutBinding;
+import com.cbs.snb.ui.base.BaseViewHolder;
+import com.cbs.snb.ui.orders.orderdetails.OrderItemListActivity;
+import com.cbs.snb.utils.DateUtils;
+
+import java.text.DecimalFormat;
+import java.util.List;
+
+/**
+ * Created by Venkatesh on 31-08-2020.
+ */
+public class MyOrdersAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+
+    public static final int VIEW_TYPE_EMPTY = 0;
+    public static final int VIEW_TYPE_NORMAL = 1;
+    private List<MyOrdersModel.ResponseObject> mMyOrdersModel;
+
+    private Context mContext;
+
+    private Callback mCallback;
+
+    public interface Callback {
+        void onClick(int position , MyOrdersModel.ResponseObject models);
+    }
+
+    public MyOrdersAdapter(List<MyOrdersModel.ResponseObject> mMyOrdersModel, Context mContext) {
+        this.mMyOrdersModel = mMyOrdersModel;
+        this.mContext = mContext;
+    }
+
+    @NonNull
+    @Override
+    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+       switch (viewType){
+           case VIEW_TYPE_NORMAL:
+               MyOrdersAdapterLayoutBinding binding = MyOrdersAdapterLayoutBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
+               return new MyOrdersViewHolder(binding);
+           case VIEW_TYPE_EMPTY:
+           default:
+               EmptyAdapterBinding emptyViewBinding = EmptyAdapterBinding.inflate(LayoutInflater.from(parent.getContext()),
+                       parent, false);
+               return new EmptyViewHolder(emptyViewBinding);
+       }
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
+        holder.onBind(position);
+    }
+
+    @Override
+    public int getItemCount() {
+        if (mMyOrdersModel != null && mMyOrdersModel.size() > 0) {
+            return mMyOrdersModel.size();
+        } else {
+            return 1;
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (mMyOrdersModel != null && !mMyOrdersModel.isEmpty()) {
+            return VIEW_TYPE_NORMAL;
+        } else {
+            return VIEW_TYPE_EMPTY;
+        }
+    }
+
+    public void clearList() {
+        mMyOrdersModel.clear();
+    }
+
+    public class MyOrdersViewHolder extends BaseViewHolder {
+
+        MyOrdersAdapterLayoutBinding binding;
+
+        public MyOrdersViewHolder(@NonNull MyOrdersAdapterLayoutBinding itemView) {
+            super(itemView.getRoot());
+            this.binding = itemView;
+        }
+
+        @Override
+        public void onBind(int position) {
+            MyOrdersModel.ResponseObject model = mMyOrdersModel.get(position);
+            binding.customerName.setText(model.getCardName());
+            if (model.getDocStatus().equalsIgnoreCase("C")){
+                binding.orderStatus.setText("Close");
+                binding.orderStatus.setTextColor(mContext.getResources().getColor(R.color.red_dark));
+            }else if (model.getDocStatus().equalsIgnoreCase("O")){
+                binding.orderStatus.setText("Open");
+                binding.orderStatus.setTextColor(mContext.getResources().getColor(R.color.green_dark));
+            } else {
+                binding.orderStatus.setText("Pending");
+                binding.orderStatus.setTextColor(mContext.getResources().getColor(R.color.gray_dark));
+            }
+
+            binding.orderNum.setText(String.valueOf(model.getDocNum()));
+            binding.orderNum.setTextColor(mContext.getResources().getColor(R.color.blue_dark));
+            binding.orderNum.setPaintFlags(binding.orderNum.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+            String[] split = model.getDocDate().split("T");
+            Log.e("date",DateUtils.convertDateFormat4(model.getDocDate()));
+            binding.soDate.setText(DateUtils.convertDateFormat2(split[0]));
+            StringBuilder sb = new StringBuilder(mContext.getResources().getString(R.string.rupee));
+            sb.append( new DecimalFormat("##.00").format(model.getDocTotal()));
+            binding.soOrderValue.setText(sb);
+
+            binding.orderNum.setOnClickListener(v -> {
+                //mCallback.onClick(position,model);
+                Bundle bundle = new Bundle();
+                bundle.putString("DocEntry", String.valueOf(model.getDocEntry()));
+                mContext.startActivity(OrderItemListActivity.getStartIntent(mContext,bundle));
+            });
+        }
+    }
+
+    public static class EmptyViewHolder extends BaseViewHolder{
+
+        private EmptyAdapterBinding mBinding;
+
+        public EmptyViewHolder(EmptyAdapterBinding binding) {
+            super(binding.getRoot());
+            this.mBinding = binding;
+        }
+
+        @Override
+        public void onBind(int position) {
+
+        }
+    }
+
+    public void setOnClick(Callback onClick) {
+        this.mCallback = onClick;
+    }
+
+}

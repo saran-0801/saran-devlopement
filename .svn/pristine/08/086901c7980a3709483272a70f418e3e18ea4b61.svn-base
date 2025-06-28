@@ -1,0 +1,280 @@
+package com.cbs.snb.ui.home;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.cbs.snb.BR;
+import com.cbs.snb.R;
+import com.cbs.snb.data.network.models.get.CustomerDetailsModel;
+import com.cbs.snb.data.network.models.get.ItemsModel;
+import com.cbs.snb.databinding.FragmentHomeBinding;
+import com.cbs.snb.ui.base.BaseFragment;
+import com.cbs.snb.ui.home.adapter.PrimaryCustomerAdapter;
+import com.cbs.snb.ui.home.adapter.MyViewPagers;
+import com.cbs.snb.ui.home.adapter.SecondaryCustomersAdapter;
+import com.cbs.snb.ui.products.ProductsActivity;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.inject.Inject;
+
+
+public class HomeFragment extends BaseFragment<HomeViewModel, FragmentHomeBinding> implements HomeNavigator,
+        PrimaryCustomerAdapter.Callback, SecondaryCustomersAdapter.Callback {
+
+    public static final String TAG = HomeFragment.class.getSimpleName();
+
+    @Inject
+    PrimaryCustomerAdapter mPrimaryAdapter;
+
+    @Inject
+    SecondaryCustomersAdapter mSecondaryAdapter;
+
+    @Override
+    public int getBindingVariable() {
+        return BR.homeViewModel;
+    }
+
+    @Override
+    public int getLayoutRes() {
+        return R.layout.fragment_home;
+    }
+
+    @Override
+    protected Class<HomeViewModel> getViewModel() {
+        return HomeViewModel.class;
+    }
+
+    //home
+    public static HomeFragment newInstance() {
+        Bundle args = new Bundle();
+        HomeFragment fragment = new HomeFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        setHasOptionsMenu(true);
+        viewModel.setNavigator(this);
+        mPrimaryAdapter.setOnClick(this);
+        mSecondaryAdapter.setOnClick(this);
+        setUp();
+        return dataBinding.getRoot();
+    }
+
+    private void setUp() {
+        dataBinding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mPrimaryAdapter.getFilter().filter(newText);
+                return true;
+            }
+        });
+
+
+        dataBinding.itemViewPager.setAdapter(new MyViewPagers(getActivity()));
+        dataBinding.itemViewPager.startAutoScroll();
+        dataBinding.itemViewPager.setCycle(true);
+        dataBinding.indicator.setViewPager(dataBinding.itemViewPager);
+
+        LinearLayoutManager primaryManager = new LinearLayoutManager(getActivity());
+        primaryManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        dataBinding.primaryRecyclerView.setLayoutManager(primaryManager);
+        dataBinding.primaryRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        dataBinding.primaryRecyclerView.setAdapter(mPrimaryAdapter);
+
+        LinearLayoutManager secondaryManager = new LinearLayoutManager(getActivity());
+        secondaryManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        dataBinding.secondaryRecyclerView.setLayoutManager(secondaryManager);
+        dataBinding.secondaryRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        dataBinding.secondaryRecyclerView.setAdapter(mSecondaryAdapter);
+
+        customersObservables();
+
+        dataBinding.tvPrimaryMore.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("isPrimary", true);
+            Navigation.findNavController(getActivity().findViewById(R.id.nav_host_fragment)).navigate(R.id.nav_customers, bundle);
+        });
+
+
+        dataBinding.tvSecondaryMore.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("isPrimary", false);
+            Navigation.findNavController(getActivity().findViewById(R.id.nav_host_fragment)).navigate(R.id.nav_customers, bundle);
+        });
+
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    public void customersObservables() {
+
+        viewModel.progressBar.observe(getViewLifecycleOwner(), aBoolean -> {
+            if (aBoolean) {
+                showLoading();
+            } else {
+                hideLoading();
+            }
+        });
+
+        viewModel.getPCustomers().observe(getViewLifecycleOwner(), customerDetailsModelResource -> {
+            switch (customerDetailsModelResource.status) {
+                case LOADING:
+                    showLoading();
+                    break;
+                case SUCCESS:
+                    hideLoading();
+                    setPData(customerDetailsModelResource.data.getResponseObject());
+                    break;
+                case ERROR:
+                    hideLoading();
+                    showSnackBar(customerDetailsModelResource.getMessage());
+                    break;
+                default:
+                    break;
+            }
+        });
+
+
+        viewModel.getSCustomers().observe(getViewLifecycleOwner(), customerDetailsModelResource -> {
+            switch (customerDetailsModelResource.status) {
+                case LOADING:
+                    showLoading();
+                    break;
+                case SUCCESS:
+                    hideLoading();
+                    setSData(customerDetailsModelResource.data.getResponseObject());
+                    break;
+                case ERROR:
+                    hideLoading();
+                    showSnackBar(customerDetailsModelResource.getMessage());
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
+
+    @Override
+    public void addItems(List<ItemsModel> models) {
+        //  dataBinding.itemsRecyclerView.setAdapter(new ItemsAdapter(models,getActivity()));
+    }
+
+    private void setPData(List<CustomerDetailsModel.ResponseObject> customers) {
+        HashSet<CustomerDetailsModel.ResponseObject> hashSet = new HashSet<CustomerDetailsModel.ResponseObject>();
+        hashSet.addAll(customers);
+        customers.clear();
+        customers.addAll(hashSet);
+        // setting the value of N as 4
+        int limit = 10;
+        int count = 0;
+        Iterator<CustomerDetailsModel.ResponseObject> it = customers.iterator();
+        // Iterating through the list of integers
+        while (it.hasNext()) {
+            it.next();
+            count++;
+            // Check if first four i.e, (equal to N)
+            // integers are iterated.
+            if (count > limit) {
+                // If yes then remove all the remaining integers.
+                it.remove();
+            }
+        }
+        // Displaying new stream of length
+        // N after truncation
+        for (CustomerDetailsModel.ResponseObject number : customers) {
+            System.out.print(number + " ");
+        }
+
+        if (mPrimaryAdapter != null)
+            mPrimaryAdapter.clearList();
+        mPrimaryAdapter.addCustomers(customers);
+        mPrimaryAdapter.notifyDataSetChanged();
+
+
+    }
+
+    private void setSData(List<CustomerDetailsModel.ResponseObject> customers) {
+        HashSet<CustomerDetailsModel.ResponseObject> hashSet = new HashSet<CustomerDetailsModel.ResponseObject>();
+        hashSet.addAll(customers);
+        customers.clear();
+        customers.addAll(hashSet);
+        // setting the value of N as 4
+        int limit = 10;
+        int count = 0;
+        Iterator<CustomerDetailsModel.ResponseObject> it = customers.iterator();
+        // Iterating through the list of integers
+        while (it.hasNext()) {
+            it.next();
+            count++;
+            // Check if first four i.e, (equal to N)
+            // integers are iterated.
+            if (count > limit) {
+                // If yes then remove all the remaining integers.
+                it.remove();
+            }
+        }
+        // Displaying new stream of length
+        // N after truncation
+        for (CustomerDetailsModel.ResponseObject number : customers) {
+            System.out.print(number + " ");
+        }
+
+        if (mSecondaryAdapter != null)
+            mSecondaryAdapter.clearList();
+        mSecondaryAdapter.addCustomers(customers);
+        mSecondaryAdapter.notifyDataSetChanged();
+
+    }
+
+
+    @Override
+    public void onCustomerClick(int position, CustomerDetailsModel.ResponseObject models) {
+        viewModel.delete();
+        Bundle bundle = new Bundle();
+        bundle.putString("pCode", models.getCardCode());
+        bundle.putString("pName", models.getCardName());
+        bundle.putString("sCode", models.getPcCode());
+        bundle.putString("sName", models.getPcName());
+        startActivity(ProductsActivity.getStartIntent(getActivity(), bundle));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //Set title
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        ActionBar actionBar = activity.getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle("Home");
+            //actionBar.setSubtitle("Subtitle");
+        }
+    }
+}

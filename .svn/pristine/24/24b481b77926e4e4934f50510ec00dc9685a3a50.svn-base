@@ -1,0 +1,243 @@
+package com.cbs.snb.ui.settings;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.cbs.snb.BR;
+import com.cbs.snb.R;
+import com.cbs.snb.databinding.SettingsActivityBinding;
+import com.cbs.snb.ui.ViewModelProviderFactory;
+import com.cbs.snb.ui.base.BaseActivity;
+import com.google.android.material.snackbar.Snackbar;
+
+import javax.inject.Inject;
+
+
+public class SettingsActivity extends BaseActivity<SettingsViewModel, SettingsActivityBinding>
+        implements SettingsNavigator {
+    public String mCurrentTheme = "";
+    SharedPreferences mSpref;
+
+    @Inject
+    ViewModelProviderFactory factory;
+
+    SettingsViewModel mViewModel;
+
+    public static Intent getStartIntent(Context context) {
+        return new Intent(context, SettingsActivity.class);
+    }
+
+    @Override
+    public int getBindingVariable() {
+        return BR.settingsViewModel;
+    }
+
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.settings_activity;
+    }
+
+    @Override
+    protected SettingsViewModel getViewModel() {
+        mViewModel = new ViewModelProvider(this, factory).get(SettingsViewModel.class);
+        return mViewModel;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mViewModel.setNavigator(this);
+        setUp();
+    }
+
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    public void setUp() {
+      /*  Toolbar toolbar = findViewById(R.id.toolbar);
+        ImageView themeYellow = findViewById(R.id.theme_yellow);
+        ImageView themeGreen = findViewById(R.id.theme_green);
+        ImageView themeRed = findViewById(R.id.theme_red);
+        ImageView themePurple = findViewById(R.id.theme_purple);
+        ImageView themeBlue = findViewById(R.id.theme_blue);
+        ImageView themeOrange = findViewById(R.id.theme_orange);
+        ImageView themePink = findViewById(R.id.theme_pink);
+        ImageView themeIndigo = findViewById(R.id.theme_indigo);*/
+
+
+        setSupportActionBar(dataBinding.toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Settings");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        dataBinding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        dataBinding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
+        mSpref = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        mCurrentTheme = mSpref.getString(KEY_CURRENT_THEME, RED_THEME);
+
+        switch (mCurrentTheme) {
+            case RED_THEME:
+                dataBinding.themeRed.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_done_24));
+                break;
+            case YELLOW_THEME:
+                dataBinding.themeYellow.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_done_24));
+                break;
+            case GREEN_THEME:
+                dataBinding.themeGreen.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_done_24));
+                break;
+            case PURPLE_THEME:
+                dataBinding.themePurple.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_done_24));
+                break;
+            case BLUE_THEME:
+                dataBinding.themeBlue.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_done_24));
+                break;
+            case ORANGE_THEME:
+                dataBinding.themeOrange.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_done_24));
+                break;
+            case PINK_THEME:
+                dataBinding.themePink.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_done_24));
+                break;
+            default:
+                dataBinding.themeIndigo.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_done_24));
+                break;
+        }
+
+        dataBinding.themeYellow.setOnClickListener(v -> {
+            dataBinding.themeYellow.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_done_24));
+            dataBinding.themeGreen.setImageDrawable(null);
+            dataBinding.themeRed.setImageDrawable(null);
+            dataBinding.themePurple.setImageDrawable(null);
+            dataBinding.themeBlue.setImageDrawable(null);
+            dataBinding.themeOrange.setImageDrawable(null);
+            dataBinding.themePink.setImageDrawable(null);
+            dataBinding.themeIndigo.setImageDrawable(null);
+            mSpref.edit().putString(KEY_CURRENT_THEME, YELLOW_THEME).apply();
+            showSnackBarMessage("Applied yellow theme");
+            reload();
+        });
+
+        dataBinding.themeBlue.setOnClickListener(v -> {
+            dataBinding.themeBlue.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_done_24));
+            dataBinding.themeGreen.setImageDrawable(null);
+            dataBinding.themeRed.setImageDrawable(null);
+            dataBinding.themePurple.setImageDrawable(null);
+            dataBinding.themeYellow.setImageDrawable(null);
+            dataBinding.themeOrange.setImageDrawable(null);
+            dataBinding.themePink.setImageDrawable(null);
+            dataBinding.themeIndigo.setImageDrawable(null);
+            mSpref.edit().putString(KEY_CURRENT_THEME, BLUE_THEME).apply();
+            showSnackBarMessage("Applied blue theme");
+            reload();
+        });
+
+        dataBinding.themeGreen.setOnClickListener(v -> {
+            dataBinding.themeGreen.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_done_24));
+            dataBinding.themeRed.setImageDrawable(null);
+            dataBinding.themeBlue.setImageDrawable(null);
+            dataBinding.themePurple.setImageDrawable(null);
+            dataBinding.themeYellow.setImageDrawable(null);
+            dataBinding.themeOrange.setImageDrawable(null);
+            dataBinding.themePink.setImageDrawable(null);
+            dataBinding.themeIndigo.setImageDrawable(null);
+            mSpref.edit().putString(KEY_CURRENT_THEME, GREEN_THEME).apply();
+            showSnackBarMessage("Applied green theme");
+            reload();
+        });
+
+        dataBinding.themeRed.setOnClickListener(v -> {
+            dataBinding.themeRed.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_done_24));
+            dataBinding.themeGreen.setImageDrawable(null);
+            dataBinding.themeBlue.setImageDrawable(null);
+            dataBinding.themePurple.setImageDrawable(null);
+            dataBinding.themeYellow.setImageDrawable(null);
+            dataBinding.themeOrange.setImageDrawable(null);
+            dataBinding.themePink.setImageDrawable(null);
+            dataBinding.themeIndigo.setImageDrawable(null);
+            mSpref.edit().putString(KEY_CURRENT_THEME, RED_THEME).apply();
+            showSnackBarMessage("Applied red theme");
+            reload();
+        });
+
+        dataBinding.themePurple.setOnClickListener(v -> {
+            dataBinding.themePurple.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_done_24));
+            dataBinding.themeGreen.setImageDrawable(null);
+            dataBinding.themeBlue.setImageDrawable(null);
+            dataBinding.themeRed.setImageDrawable(null);
+            dataBinding.themeYellow.setImageDrawable(null);
+            dataBinding.themeOrange.setImageDrawable(null);
+            dataBinding.themePink.setImageDrawable(null);
+            dataBinding. themeIndigo.setImageDrawable(null);
+            mSpref.edit().putString(KEY_CURRENT_THEME, PURPLE_THEME).apply();
+            showSnackBarMessage("Applied purple theme");
+            reload();
+        });
+
+        dataBinding.themeIndigo.setOnClickListener(v -> {
+            dataBinding.themeIndigo.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_done_24));
+            dataBinding.themeGreen.setImageDrawable(null);
+            dataBinding.themeBlue.setImageDrawable(null);
+            dataBinding.themeRed.setImageDrawable(null);
+            dataBinding.themeYellow.setImageDrawable(null);
+            dataBinding.themeOrange.setImageDrawable(null);
+            dataBinding.themePink.setImageDrawable(null);
+            dataBinding.themePurple.setImageDrawable(null);
+            mSpref.edit().putString(KEY_CURRENT_THEME, INDIGO_THEME).apply();
+            showSnackBarMessage("Applied indigo theme");
+            reload();
+        });
+
+        dataBinding.themePink.setOnClickListener(v -> {
+            dataBinding.themePink.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_done_24));
+            dataBinding.themeGreen.setImageDrawable(null);
+            dataBinding.themeBlue.setImageDrawable(null);
+            dataBinding.themeRed.setImageDrawable(null);
+            dataBinding.themeYellow.setImageDrawable(null);
+            dataBinding.themeOrange.setImageDrawable(null);
+            dataBinding.themeIndigo.setImageDrawable(null);
+            dataBinding.themePurple.setImageDrawable(null);
+            mSpref.edit().putString(KEY_CURRENT_THEME, PINK_THEME).apply();
+            showSnackBarMessage("Applied pink theme");
+            reload();
+        });
+
+        dataBinding.themeOrange.setOnClickListener(v -> {
+            dataBinding.themeOrange.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_done_24));
+            dataBinding.themeGreen.setImageDrawable(null);
+            dataBinding.themeBlue.setImageDrawable(null);
+            dataBinding.themeRed.setImageDrawable(null);
+            dataBinding.themeYellow.setImageDrawable(null);
+            dataBinding.themePink.setImageDrawable(null);
+            dataBinding.themeIndigo.setImageDrawable(null);
+            dataBinding.themePurple.setImageDrawable(null);
+            mSpref.edit().putString(KEY_CURRENT_THEME, ORANGE_THEME).apply();
+            showSnackBarMessage("Applied orange theme");
+            reload();
+        });
+    }
+
+    public void reload() {
+        Intent intent = getIntent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(intent);
+    }
+
+    private void showSnackBarMessage(String message){
+        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content),message, Snackbar.LENGTH_LONG);
+        View sbView = snackbar.getView();
+        TextView textView = sbView.findViewById(R.id.snackbar_text);
+        textView.setTextColor(ContextCompat.getColor(this, R.color.white));
+        snackbar.show();
+
+    }
+}

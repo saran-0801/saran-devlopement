@@ -1,0 +1,26 @@
+package com.cbs.snb.di.builder;
+
+import com.cbs.snb.ui.pdf_viwer.report_list.ReportListFragment;
+import dagger.Binds;
+import dagger.Module;
+import dagger.Subcomponent;
+import dagger.android.AndroidInjector;
+import dagger.multibindings.ClassKey;
+import dagger.multibindings.IntoMap;
+
+@Module(subcomponents = FragmentBuilder_ReportListFragment.ReportListFragmentSubcomponent.class)
+public abstract class FragmentBuilder_ReportListFragment {
+  private FragmentBuilder_ReportListFragment() {}
+
+  @Binds
+  @IntoMap
+  @ClassKey(ReportListFragment.class)
+  abstract AndroidInjector.Factory<?> bindAndroidInjectorFactory(
+      ReportListFragmentSubcomponent.Factory builder);
+
+  @Subcomponent
+  public interface ReportListFragmentSubcomponent extends AndroidInjector<ReportListFragment> {
+    @Subcomponent.Factory
+    interface Factory extends AndroidInjector.Factory<ReportListFragment> {}
+  }
+}

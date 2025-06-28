@@ -1,0 +1,30 @@
+package com.cbs.snb.di.builder;
+
+import com.cbs.snb.ui.changepassword.ChangePasswordFragment;
+import dagger.Binds;
+import dagger.Module;
+import dagger.Subcomponent;
+import dagger.android.AndroidInjector;
+import dagger.multibindings.ClassKey;
+import dagger.multibindings.IntoMap;
+
+@Module(
+  subcomponents =
+      FragmentBuilder_ContributeChangePasswordFragment.ChangePasswordFragmentSubcomponent.class
+)
+public abstract class FragmentBuilder_ContributeChangePasswordFragment {
+  private FragmentBuilder_ContributeChangePasswordFragment() {}
+
+  @Binds
+  @IntoMap
+  @ClassKey(ChangePasswordFragment.class)
+  abstract AndroidInjector.Factory<?> bindAndroidInjectorFactory(
+      ChangePasswordFragmentSubcomponent.Factory builder);
+
+  @Subcomponent
+  public interface ChangePasswordFragmentSubcomponent
+      extends AndroidInjector<ChangePasswordFragment> {
+    @Subcomponent.Factory
+    interface Factory extends AndroidInjector.Factory<ChangePasswordFragment> {}
+  }
+}

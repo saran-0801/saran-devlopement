@@ -1,0 +1,26 @@
+package com.cbs.snb.di.builder;
+
+import com.cbs.snb.ui.payment.PaymentFragment;
+import dagger.Binds;
+import dagger.Module;
+import dagger.Subcomponent;
+import dagger.android.AndroidInjector;
+import dagger.multibindings.ClassKey;
+import dagger.multibindings.IntoMap;
+
+@Module(subcomponents = FragmentBuilder_ContributePaymentFragment.PaymentFragmentSubcomponent.class)
+public abstract class FragmentBuilder_ContributePaymentFragment {
+  private FragmentBuilder_ContributePaymentFragment() {}
+
+  @Binds
+  @IntoMap
+  @ClassKey(PaymentFragment.class)
+  abstract AndroidInjector.Factory<?> bindAndroidInjectorFactory(
+      PaymentFragmentSubcomponent.Factory builder);
+
+  @Subcomponent
+  public interface PaymentFragmentSubcomponent extends AndroidInjector<PaymentFragment> {
+    @Subcomponent.Factory
+    interface Factory extends AndroidInjector.Factory<PaymentFragment> {}
+  }
+}

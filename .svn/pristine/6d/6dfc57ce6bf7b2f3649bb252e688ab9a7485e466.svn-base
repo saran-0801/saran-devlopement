@@ -1,0 +1,28 @@
+package com.cbs.snb.data.network.models.post
+
+import android.annotation.SuppressLint
+import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
+import android.os.Parcelable
+
+@SuppressLint("ParcelCreator")
+@Parcelize
+data class CreateActivityModel(
+        @SerializedName("CustomerCode")
+        val customerCode: String, // URB-003228
+        @SerializedName("ActivityType")
+        val activityType: String, // E
+        @SerializedName("Date")
+        val currentDate: String, // 2020-08-30
+        @SerializedName("Location")
+        val meetingLocation: String?, // Bangalore
+        @SerializedName("Latlong")
+        val lng: String, // No Instructions
+        @SerializedName("Latitude")
+        val lat: String, // No Instructions
+        @SerializedName("Remarks")
+        val remarks: String // No Notes
+
+) : Parcelable
+
+

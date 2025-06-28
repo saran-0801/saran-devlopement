@@ -1,0 +1,290 @@
+package com.cbs.snb.ui.main;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Menu;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.cbs.snb.BR;
+import com.cbs.snb.R;
+
+import com.cbs.snb.databinding.ActivityMainBinding;
+import com.cbs.snb.service.MyWorkManager;
+import com.cbs.snb.ui.ViewModelProviderFactory;
+import com.cbs.snb.ui.base.BaseActivity;
+import com.cbs.snb.ui.cart.CartActivity;
+import com.cbs.snb.ui.login.LoginActivity;
+import com.cbs.snb.ui.notification.NotificationActivity;
+import com.cbs.snb.ui.productlist.ProductsListActivity;
+import com.cbs.snb.ui.settings.SettingsActivity;
+import com.google.android.material.navigation.NavigationView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.widget.Toolbar;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkInfo;
+import androidx.work.WorkManager;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
+
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+
+public class MainActivity extends BaseActivity<MainViewModel, ActivityMainBinding> {
+
+    private AppBarConfiguration mAppBarConfiguration;
+    private NavController navController;
+    private static final int PERMISSION_REQUEST_CODE = 200;
+    private static final String TAG = "LocationUpdate";
+
+    @Inject
+    ViewModelProviderFactory factory;
+
+    private MainViewModel mMainViewModel;
+
+    @Override
+    public int getBindingVariable() {
+        return BR.mainViewModel;
+    }
+
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    public MainViewModel getViewModel() {
+        mMainViewModel = new ViewModelProvider(this, factory).get(MainViewModel.class);
+        return mMainViewModel;
+    }
+
+    public static Intent newIntent(Context context) {
+        return new Intent(context, MainActivity.class);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setItemIconTintList(null);
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.nav_home,
+                R.id.nav_activity,
+                R.id.nav_products,
+                R.id.nav_my_orders,
+                R.id.nav_change_psw,
+                R.id.nav_complaints,
+                R.id.nav_feedback,
+                R.id.nav_expense,
+                R.id.nav_check_out,
+                R.id.nav_reports,
+                R.id.nav_leads,
+                R.id.nav_inventory,
+                R.id.nav_customers,
+                R.id.nav_payment,
+                R.id.nav_history).setOpenableLayout(drawer).build();
+
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.nav_host_fragment);
+        navController = navHostFragment.getNavController();
+
+        //navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, navController);
+
+        View headerLayout = navigationView.getHeaderView(0);
+        //View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+        TextView name = headerLayout.findViewById(R.id.name);
+        name.setText(mMainViewModel.getUserName());
+
+        navigationView.getMenu().findItem(R.id.nav_settings).setOnMenuItemClickListener(menuItem -> {
+            if (drawer != null) {
+                drawer.closeDrawer(GravityCompat.START);
+            }
+            startActivity(SettingsActivity.getStartIntent(MainActivity.this));
+            return true;
+        });
+
+        navigationView.getMenu().findItem(R.id.nav_logout).setOnMenuItemClickListener(menuItem -> {
+            if (drawer != null) {
+                drawer.closeDrawer(GravityCompat.START);
+            }
+            logout();
+            return true;
+        });
+
+        navigationView.getMenu().findItem(R.id.nav_products).setOnMenuItemClickListener(menu ->{
+            if (drawer != null) {
+                drawer.closeDrawer(GravityCompat.START);
+            }
+            Bundle bundle = new Bundle();
+            bundle.putString("cardCode","");
+            bundle.putString("cardName","");
+            startActivity(ProductsListActivity.getStartIntent(MainActivity.this, bundle));
+           return true;
+        });
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                Fragment currentFragment = fragmentManager.findFragmentById(R.id.nav_host_fragment);
+                currentFragment.onResume();
+            }
+        });
+
+        if (!checkLocationPermission()) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
+        }
+
+        if (!mMainViewModel.getUserType().equalsIgnoreCase("SE")){
+            if (mMainViewModel.getUserType().equalsIgnoreCase("AG")){
+                Menu menu =navigationView.getMenu();
+                MenuItem activity = menu.findItem(R.id.nav_activity);
+                activity.setVisible(false);
+                MenuItem checkOut = menu.findItem(R.id.nav_check_out);
+                checkOut.setVisible(true);
+                MenuItem lead = menu.findItem(R.id.nav_leads);
+                lead.setVisible(false);
+                MenuItem payment = menu.findItem(R.id.nav_payment);
+                payment.setVisible(false);
+                MenuItem expense = menu.findItem(R.id.nav_expense);
+                expense.setVisible(false);
+            }else{
+                Menu menu =navigationView.getMenu();
+                MenuItem activity = menu.findItem(R.id.nav_activity);
+                activity.setVisible(false);
+                MenuItem checkOut = menu.findItem(R.id.nav_check_out);
+                checkOut.setVisible(false);
+                MenuItem lead = menu.findItem(R.id.nav_leads);
+                lead.setVisible(false);
+                MenuItem payment = menu.findItem(R.id.nav_payment);
+                payment.setVisible(false);
+                MenuItem expense = menu.findItem(R.id.nav_expense);
+                expense.setVisible(false);
+            }
+
+        }
+
+
+        // START Worker
+       /* PeriodicWorkRequest periodicWork = new PeriodicWorkRequest.Builder(MyWorkManager.class, 15, TimeUnit.MINUTES)
+                .addTag(TAG)
+                .build();
+        WorkManager.getInstance().enqueueUniquePeriodicWork("Location", ExistingPeriodicWorkPolicy.REPLACE, periodicWork);
+        showSnackBar("Location tracker started");*/
+
+
+    }
+
+    private boolean isWorkScheduled(List<WorkInfo> workInfos) {
+        boolean running = false;
+        if (workInfos == null || workInfos.size() == 0) return false;
+        for (WorkInfo workStatus : workInfos) {
+            running = workStatus.getState() == WorkInfo.State.RUNNING | workStatus.getState() == WorkInfo.State.ENQUEUED;
+        }
+        return running;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_cart:
+                startActivity(CartActivity.newIntent(this));
+                return true;
+            case R.id.action_notification:
+                startActivity(NotificationActivity.newIntent(this));
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void logout() {
+        new AlertDialog.Builder(this)
+                .setMessage("Are you sure you want to exit?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", (dialog, id) -> {
+                    startActivity(LoginActivity.newIntent(MainActivity.this));
+                    finish();
+                })
+                .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
+                .show();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        for (Fragment fragment : fragments) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    /**
+     * All about permission
+     */
+    private boolean checkLocationPermission() {
+        int result3 = ContextCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION);
+        int result4 = ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION);
+        return result3 == PackageManager.PERMISSION_GRANTED &&
+                result4 == PackageManager.PERMISSION_GRANTED;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0) {
+                boolean coarseLocation = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                boolean fineLocation = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                if (coarseLocation && fineLocation)
+                    Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
+                else {
+                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+}

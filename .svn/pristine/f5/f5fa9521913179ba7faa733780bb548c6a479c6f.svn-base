@@ -1,0 +1,105 @@
+package androidx.databinding.library.baseAdapters;
+
+public class BR {
+  public static final int OrderItemList = 1;
+
+  public static final int _all = 0;
+
+  public static final int actViewModel = 2;
+
+  public static final int activityReportViewModel = 3;
+
+  public static final int addCustomerViewModel = 4;
+
+  public static final int addressViewModel = 5;
+
+  public static final int cartViewModel = 6;
+
+  public static final int changePasswordViewModel = 7;
+
+  public static final int checkOutViewModel = 8;
+
+  public static final int complaintReportViewModel = 9;
+
+  public static final int complaintsReportsViewModel = 10;
+
+  public static final int complaintsViewModel = 11;
+
+  public static final int createActivityViewModel = 12;
+
+  public static final int customerHistoryViewModel = 13;
+
+  public static final int customerList = 14;
+
+  public static final int customerViewModel = 15;
+
+  public static final int customers = 16;
+
+  public static final int expenseViewModel = 17;
+
+  public static final int feedbackViewModel = 18;
+
+  public static final int forgotPasswordViewModel = 19;
+
+  public static final int homeViewModel = 20;
+
+  public static final int inventoryViewModel = 21;
+
+  public static final int invoice = 22;
+
+  public static final int invoiceListViewModel = 23;
+
+  public static final int itemDetailsViewModel = 24;
+
+  public static final int items = 25;
+
+  public static final int leadsViewModel = 26;
+
+  public static final int loginViewModel = 27;
+
+  public static final int mainViewModel = 28;
+
+  public static final int myOrders = 29;
+
+  public static final int myOrdersViewModel = 30;
+
+  public static final int notificationViewModel = 31;
+
+  public static final int orderItemListViewModel = 32;
+
+  public static final int outstandingAmt = 33;
+
+  public static final int outstandingViewModel = 34;
+
+  public static final int ownerViewModel = 35;
+
+  public static final int paymentViewModel = 36;
+
+  public static final int products = 37;
+
+  public static final int productsListViewModel = 38;
+
+  public static final int productsViewModel = 39;
+
+  public static final int purchaseManagerViewModel = 40;
+
+  public static final int regionViewModel = 41;
+
+  public static final int reportList = 42;
+
+  public static final int reportListViewModel = 43;
+
+  public static final int salesAnalysisReports = 44;
+
+  public static final int salesAnalysisViewModel = 45;
+
+  public static final int settingsViewModel = 46;
+
+  public static final int splashViewModel = 47;
+
+  public static final int userCheckInViewModel = 48;
+
+  public static final int userCheckOutViewModel = 49;
+
+  public static final int viewModel = 50;
+}

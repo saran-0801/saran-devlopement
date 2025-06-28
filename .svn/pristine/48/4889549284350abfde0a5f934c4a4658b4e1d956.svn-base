@@ -1,0 +1,9 @@
+package com.cbs.snb.ui.payment;
+
+/**
+ * Created by Venkatesh on 15-07-2020.
+ */
+public interface PaymentNavigator {
+
+  //  void addInvoiceList(List<PaymentInvoiceModel> models);
+}

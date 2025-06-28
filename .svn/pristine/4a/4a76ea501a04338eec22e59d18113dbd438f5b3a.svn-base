@@ -1,0 +1,9 @@
+package com.cbs.snb.ui.checkout;
+
+/**
+ * Created by Venkatesh on 13-07-2020.
+ */
+public interface CheckOutNavigator {
+
+
+}

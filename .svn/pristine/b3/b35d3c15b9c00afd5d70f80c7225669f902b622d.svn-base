@@ -1,0 +1,16 @@
+package com.cbs.snb.utils;
+
+/**
+ * Created by Venkatesh on 09-07-2020.
+ */
+public class Constants {
+
+    public static final String SHARED_PREF = "narasus_pref_default";
+    public static final String PREF_NAME = "narasus_pref";
+    public static final String DB_NAME = "narasus_db";
+    public static final int ADAPTER_EMPTY_VIEW = 10;
+    public static final String TIMESTAMP_FORMAT = "yyyyMMdd_HHmmss";
+    public static final String TIMESTAMP_FORMAT_1 = "dd/MM/yyyy";
+    public static final int PERMISSION_LOCATION_REQUEST_CODE = 100;
+    public static final String INTENT_UPDATE_LIST = "UPDATE_LIST";
+}

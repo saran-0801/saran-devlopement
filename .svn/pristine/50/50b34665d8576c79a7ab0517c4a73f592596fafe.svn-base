@@ -1,0 +1,34 @@
+package com.cbs.snb.ui.payment.invoices;
+
+import androidx.lifecycle.LiveData;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.Resource;
+import com.cbs.snb.data.network.models.get.PaymentInvoiceModel;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+
+import javax.inject.Inject;
+
+/**
+ * Created by Venkatesh on 04-09-2020.
+ */
+public class InvoiceViewModel extends BaseViewModel<InvoiceNavigator> {
+
+    @Inject
+    public InvoiceViewModel(Repository repository, PreferenceHelper preferenceHelper, AppDatabase database) {
+        super(repository, preferenceHelper, database);
+
+    }
+
+    public LiveData<Boolean> isLoading(){
+        return getRepository().getIsLoading();
+    }
+
+    public LiveData<Resource<PaymentInvoiceModel>> getInvoiceLiveData(String customerCode){
+        return getRepository().getPaymentInvoices(getPreferenceHelper().getSalesEmpCode(), customerCode);
+    }
+
+
+}

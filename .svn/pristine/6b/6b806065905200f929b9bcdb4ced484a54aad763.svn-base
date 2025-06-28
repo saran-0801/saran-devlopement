@@ -1,0 +1,82 @@
+package com.cbs.snb.ui.complaints;
+
+import android.app.DatePickerDialog;
+import android.content.Context;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import com.cbs.snb.R;
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.ApiService;
+import com.cbs.snb.data.network.Resource;
+import com.cbs.snb.data.network.models.get.ComplaintSubTypeModel;
+import com.cbs.snb.data.network.models.get.ComplaintTypeModel;
+import com.cbs.snb.data.network.models.get.DealerNameModel;
+import com.cbs.snb.data.network.models.get.ProductsByCustomerModel;
+import com.cbs.snb.data.network.models.post.BasePostResponse;
+import com.cbs.snb.data.network.models.post.CustomerComplaintModel;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+import com.cbs.snb.utils.DateUtils;
+import com.cbs.snb.utils.rx.SchedulerProvider;
+
+import java.util.Calendar;
+
+import javax.inject.Inject;
+
+/**
+ * Created by Venkatesh on 13-07-2020.
+ */
+public class ComplaintViewModel extends BaseViewModel<ComplaintNavigator> {
+
+    private MutableLiveData<Resource<DealerNameModel>> dealers;
+
+    @Inject
+    public ComplaintViewModel(Repository repository, SchedulerProvider schedulerProvider,
+                              PreferenceHelper preferenceHelper, AppDatabase database, ApiService service) {
+        super(repository, schedulerProvider, preferenceHelper, database, service);
+        dealers = repository.getDealerNamesBySlpCode(getPreferenceHelper().getSalesEmpCode());
+    }
+
+    public void dateSelection(Context context){
+        Calendar myCalendar = Calendar.getInstance();
+        DatePickerDialog.OnDateSetListener date = (view, year, month, dayOfMonth) -> {
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, month);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            getNavigator().setDate(DateUtils.dateFormat().format(myCalendar.getTime()));
+        };
+
+        DatePickerDialog datePicker = new DatePickerDialog(context, R.style.DialogTheme, date, myCalendar
+                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH));
+        // datePicker.getDatePicker().setMinDate(System.currentTimeMillis());
+        datePicker.show();
+    }
+
+    public LiveData<Boolean> isLoading(){
+        return getRepository().getIsLoading();
+    }
+
+    public MutableLiveData<Resource<ProductsByCustomerModel>> getProducts(String code){
+        return getRepository().getProductsByCustomer(code);
+    }
+
+    public LiveData<Resource<ComplaintTypeModel>> getComplaintType(){
+        return getRepository().getComplaintType();
+    }
+
+    public LiveData<Resource<ComplaintSubTypeModel>> getComplaintSubType(String ctCode){
+        return getRepository().getComplaintSubType(ctCode);
+    }
+
+    public LiveData<Resource<DealerNameModel>> getDealers(){
+        return dealers;
+    }
+
+    public LiveData<Resource<BasePostResponse>> addComplaint(CustomerComplaintModel customerComplaintModel){
+        return getRepository().addComplaint(customerComplaintModel);
+    }
+}

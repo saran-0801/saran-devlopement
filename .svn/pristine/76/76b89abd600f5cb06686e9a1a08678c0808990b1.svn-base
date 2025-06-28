@@ -1,0 +1,242 @@
+[
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_item_details.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\activity_item_details.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_cart_layout.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\activity_cart_layout.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_expense.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\fragment_expense.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\expense_report_adapter.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\expense_report_adapter.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_expense_report.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\activity_expense_report.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_sales_analysis.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\activity_sales_analysis.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_owner_details.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\fragment_owner_details.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\layout_bottom_sheet_payment.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\layout_bottom_sheet_payment.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\customers_home_adapter_layout.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\customers_home_adapter_layout.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\invoice_list_adapter_layout.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\invoice_list_adapter_layout.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\products_adapter_layout.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\products_adapter_layout.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_lead.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\fragment_lead.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\cart_adapter_layout.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\cart_adapter_layout.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_user_checkout.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\fragment_user_checkout.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\order_list_adapter_layout.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\order_list_adapter_layout.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_notification.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\activity_notification.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_main.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_region.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\activity_region.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\inventory_list_adapter.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\inventory_list_adapter.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_login.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\activity_login.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_add_customer.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\activity_add_customer.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_check_in.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\activity_check_in.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_change_password.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\fragment_change_password.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_customers.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\fragment_customers.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_products_list.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\activity_products_list.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\settings_activity.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\settings_activity.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\payment_outstanding_adapter_layout.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\payment_outstanding_adapter_layout.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_create_activity.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\fragment_create_activity.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_check_out.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\activity_check_out.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_report.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\activity_report.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_order_item_list.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\activity_order_item_list.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\customer_adapter_layout.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\customer_adapter_layout.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\empty_adapter.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\empty_adapter.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_customer_history.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\fragment_customer_history.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\customer_history_adapter_layout.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\customer_history_adapter_layout.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_splash_screen.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\activity_splash_screen.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_home.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\fragment_home.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\items_adapter_layout.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\items_adapter_layout.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_products.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\activity_products.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\orders_item_list_adapter_layout.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\orders_item_list_adapter_layout.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_report_list.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\fragment_report_list.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_customer_details.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\fragment_customer_details.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_customer_outstanding.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\activity_customer_outstanding.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_complaint.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\fragment_complaint.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_purchase_manager.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\fragment_purchase_manager.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_invoice_list.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\activity_invoice_list.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\customer_list_adapter_layout.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\customer_list_adapter_layout.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_forgot_password.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\activity_forgot_password.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\my_orders_adapter_layout.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\my_orders_adapter_layout.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_my_orders.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\fragment_my_orders.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_payment.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\fragment_payment.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\complaints_list_adapter.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\complaints_list_adapter.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_list_adapter.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\activity_list_adapter.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\sales_analysis_report_adapter_layout.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\sales_analysis_report_adapter_layout.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\products_list_adapter_layout.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\products_list_adapter_layout.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_address_details.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\fragment_address_details.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_inventory_report.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\activity_inventory_report.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_feedback.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\fragment_feedback.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_inventory.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\fragment_inventory.xml"
+    },
+    {
+        "merged": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_compaints_report.xml",
+        "source": "E:\\AndroidWorkingDirectory\\SNB\\SNB\\app\\src\\main\\res\\layout\\activity_compaints_report.xml"
+    }
+]

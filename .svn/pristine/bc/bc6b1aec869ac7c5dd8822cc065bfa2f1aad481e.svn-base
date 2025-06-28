@@ -1,0 +1,26 @@
+package com.cbs.snb.di.builder;
+
+import com.cbs.snb.ui.attendance.checkin.CheckInActivity;
+import dagger.Binds;
+import dagger.Module;
+import dagger.Subcomponent;
+import dagger.android.AndroidInjector;
+import dagger.multibindings.ClassKey;
+import dagger.multibindings.IntoMap;
+
+@Module(subcomponents = ActivityBuilder_CheckInActivity.CheckInActivitySubcomponent.class)
+public abstract class ActivityBuilder_CheckInActivity {
+  private ActivityBuilder_CheckInActivity() {}
+
+  @Binds
+  @IntoMap
+  @ClassKey(CheckInActivity.class)
+  abstract AndroidInjector.Factory<?> bindAndroidInjectorFactory(
+      CheckInActivitySubcomponent.Factory builder);
+
+  @Subcomponent
+  public interface CheckInActivitySubcomponent extends AndroidInjector<CheckInActivity> {
+    @Subcomponent.Factory
+    interface Factory extends AndroidInjector.Factory<CheckInActivity> {}
+  }
+}

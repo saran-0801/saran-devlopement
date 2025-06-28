@@ -1,0 +1,70 @@
+package com.cbs.snb.ui.products;
+
+import android.util.Log;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.ApiService;
+import com.cbs.snb.data.network.Resource;
+import com.cbs.snb.data.network.models.get.ProductsModel;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+import com.cbs.snb.utils.rx.SchedulerProvider;
+
+import javax.inject.Inject;
+
+/**
+ * Created by Venkatesh on 09-07-2020.
+ */
+public class ProductsViewModel extends BaseViewModel<ProductsNavigator> {
+
+    private static final String TAG = ProductsViewModel.class.getSimpleName();
+    public MutableLiveData<Boolean> progressBar;
+    public MutableLiveData<String> cardCode;
+    public MutableLiveData<Resource<ProductsModel>> productsList;
+
+    @Inject
+    public ProductsViewModel(Repository repository, SchedulerProvider schedulerProvider,
+                             PreferenceHelper preferenceHelper, AppDatabase database, ApiService service) {
+        super(repository, schedulerProvider, preferenceHelper, database, service);
+        progressBar = new MutableLiveData<>();
+        productsList = new MutableLiveData<>();
+        cardCode = new MutableLiveData<>();
+
+    }
+
+    public void setData(String code) {
+        cardCode.setValue(code);
+        init();
+    }
+
+    public void init(){
+        getProductsList();
+    }
+
+    public LiveData<Resource<ProductsModel>> getProducts(){
+        return productsList;
+    }
+
+    private void getProductsList(){
+        progressBar.setValue(true);
+        getCompositeDisposable().add(getApiService()
+                .getProducts(cardCode.getValue())
+                .subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(productsListModel -> {
+                    progressBar.setValue(false);
+                    if (productsListModel.getStatusCode() == 0){
+                        productsList.postValue(Resource.success(productsListModel));
+                    }else {
+                        productsList.postValue(Resource.error(productsListModel.getStatusMessage(),null));
+                    }
+                }, throwable -> {
+                    progressBar.setValue(false);
+                    productsList.postValue(Resource.error(throwable.toString(),null));
+                }));
+    }
+}

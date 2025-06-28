@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+                                                        
+
+    
+
+                                           
+
+                 
+                                           
+                                                                              
+           
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray" android:tag="layout/expense_report_adapter_0" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/inventoryCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="@dimen/dimen2dp"
+            android:layout_marginBottom="@dimen/dimen3dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardCornerRadius="3dp"
+            app:cardElevation="3dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/slpCode"
+                    style="@style/TextStyle.Heading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="5dp"
+                    android:paddingTop="2dp"
+                    android:text="@string/slpCode"
+                    android:textAlignment="viewStart" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/travelTypeTxt"
+                        style="@style/TextStyle.Title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.4"
+                        android:paddingHorizontal="5dp"
+                        android:paddingTop="2dp"
+                        android:text="@string/travelType"
+                        android:textAlignment="viewStart" />
+
+                    <TextView
+                        android:id="@+id/space1"
+                        style="@style/TextStyle.Title.Sub"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:text="@string/space"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/grey_text" />
+
+                    <TextView
+                        android:id="@+id/travelType"
+                        style="@style/TextStyle.Title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingHorizontal="5dp"
+                        android:paddingTop="2dp"
+                        android:text="@string/travelType"
+                        android:textAlignment="viewStart" />
+
+                </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/amountTxt"
+                    style="@style/TextStyle.Title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:paddingHorizontal="5dp"
+                    android:paddingTop="2dp"
+                    android:text="@string/amount"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/grey_text"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/space2"
+                    style="@style/TextStyle.Title.Sub"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    android:text="@string/space"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/grey_text" />
+
+                <TextView
+                    android:id="@+id/amount"
+                    style="@style/TextStyle.Title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingHorizontal="5dp"
+                    android:paddingTop="2dp"
+                    android:text="@string/amount"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/grey_text"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/createDateTxt"
+                    style="@style/TextStyle.Title.Sub"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:paddingHorizontal="5dp"
+                    android:paddingTop="2dp"
+                    android:text="@string/create_date"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/grey_text"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/space3"
+                    style="@style/TextStyle.Title.Sub"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    android:text="@string/space"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/grey_text" />
+
+                <TextView
+                    android:id="@+id/createDate"
+                    style="@style/TextStyle.Title.Sub"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingHorizontal="5dp"
+                    android:paddingTop="2dp"
+                    android:text="@string/create_date"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/grey_text"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+
+
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+         

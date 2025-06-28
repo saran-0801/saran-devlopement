@@ -1,0 +1,60 @@
+package com.cbs.snb.ui.leads;
+
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+
+import com.cbs.snb.ui.leads.address.AddressDetailsFragment;
+import com.cbs.snb.ui.leads.customer.CustomerDetailsFragment;
+import com.cbs.snb.ui.leads.manager.PurchaseManagerFragment;
+import com.cbs.snb.ui.leads.owner.OwnerDetailsFragment;
+
+/**
+ * Created by Venkatesh on 14-07-2020.
+ */
+public class LeadsPagerAdapter extends FragmentStatePagerAdapter {
+
+    //integer to count number of tabs
+    int tabCount;
+    // tab titles
+    private String[] tabTitles = new String[]{"Customer", "Address", "Manager","Owner"};
+
+    public LeadsPagerAdapter(FragmentManager fm,int tabCount) {
+        super(fm);
+        //Initializing tab count
+        this.tabCount= tabCount;
+    }
+
+
+    @Nullable
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return tabTitles[position];
+    }
+
+    @NonNull
+    @Override
+    public Fragment getItem(int position) {
+        //Returning the current tabs
+        switch (position) {
+            case 0:
+                return new CustomerDetailsFragment();
+            case 1:
+                return new AddressDetailsFragment();
+            case 2:
+                return new PurchaseManagerFragment();
+            case 3:
+                return new OwnerDetailsFragment();
+            default:
+                throw new RuntimeException("Invalid tab position");
+        }
+    }
+
+    @Override
+    public int getCount() {
+        return tabCount;
+    }
+}

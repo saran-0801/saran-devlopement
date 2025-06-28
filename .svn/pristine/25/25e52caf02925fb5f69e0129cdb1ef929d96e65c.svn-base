@@ -1,0 +1,14 @@
+package com.cbs.snb.di;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+import javax.inject.Scope;
+
+/**
+ * Created by Venkatesh on 11,November,2019
+ */
+@Scope
+@Retention(RetentionPolicy.RUNTIME)
+public @interface PerActivity {
+}

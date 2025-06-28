@@ -1,0 +1,30 @@
+package com.cbs.snb.di.builder;
+
+import com.cbs.snb.ui.leads.manager.PurchaseManagerFragment;
+import dagger.Binds;
+import dagger.Module;
+import dagger.Subcomponent;
+import dagger.android.AndroidInjector;
+import dagger.multibindings.ClassKey;
+import dagger.multibindings.IntoMap;
+
+@Module(
+  subcomponents =
+      FragmentBuilder_ContributePurchaseManageFragment.PurchaseManagerFragmentSubcomponent.class
+)
+public abstract class FragmentBuilder_ContributePurchaseManageFragment {
+  private FragmentBuilder_ContributePurchaseManageFragment() {}
+
+  @Binds
+  @IntoMap
+  @ClassKey(PurchaseManagerFragment.class)
+  abstract AndroidInjector.Factory<?> bindAndroidInjectorFactory(
+      PurchaseManagerFragmentSubcomponent.Factory builder);
+
+  @Subcomponent
+  public interface PurchaseManagerFragmentSubcomponent
+      extends AndroidInjector<PurchaseManagerFragment> {
+    @Subcomponent.Factory
+    interface Factory extends AndroidInjector.Factory<PurchaseManagerFragment> {}
+  }
+}

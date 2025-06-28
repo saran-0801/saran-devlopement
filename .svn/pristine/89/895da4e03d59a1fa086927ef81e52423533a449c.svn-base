@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="complaintReportViewModel"
+            type="com.cbs.snb.data.network.models.get.ComplaintReportModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/inventoryCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="@dimen/dimen2dp"
+            android:layout_marginBottom="@dimen/dimen1dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardCornerRadius="3dp"
+            app:cardElevation="3dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/dealerName"
+                    style="@style/TextStyle.Heading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="5dp"
+                    android:paddingTop="2dp"
+                    android:text="@string/dealer_name"
+                    android:textAlignment="viewStart" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/itemCodeTxt"
+                        style="@style/TextStyle.Title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+                        android:paddingHorizontal="5dp"
+                        android:paddingTop="2dp"
+                        android:text="@string/item_code"
+                        android:textAlignment="viewStart" />
+
+                    <TextView
+                        android:id="@+id/space1"
+                        style="@style/TextStyle.Title.Sub"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:text="@string/space"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/grey_text" />
+
+                    <TextView
+                        android:id="@+id/itemCode"
+                        style="@style/TextStyle.Title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingHorizontal="5dp"
+                        android:paddingTop="2dp"
+                        android:text="@string/item_code"
+                        android:textAlignment="viewStart" />
+
+                </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/contactPersonTxt"
+                    style="@style/TextStyle.Title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:paddingHorizontal="5dp"
+                    android:paddingTop="2dp"
+                    android:text="@string/contact"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/grey_text"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/space2"
+                    style="@style/TextStyle.Title.Sub"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    android:text="@string/space"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/grey_text" />
+
+
+                <TextView
+                    android:id="@+id/contactPerson"
+                    style="@style/TextStyle.Title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingHorizontal="5dp"
+                    android:paddingTop="2dp"
+                    android:text="@string/contact_person"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/grey_text"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/mobileTxt"
+                    style="@style/TextStyle.Title.Sub"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:paddingHorizontal="5dp"
+                    android:paddingTop="2dp"
+                    android:text="@string/mobile_num"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/grey_text"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/space3"
+                    style="@style/TextStyle.Title.Sub"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    android:text="@string/space"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/grey_text" />
+
+                <TextView
+                    android:id="@+id/mobile"
+                    style="@style/TextStyle.Title.Sub"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingHorizontal="5dp"
+                    android:paddingTop="2dp"
+                    android:text="@string/mobile_num"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/grey_text"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/complaintTxt"
+                    style="@style/TextStyle.Title.Sub"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:paddingHorizontal="5dp"
+                    android:paddingTop="2dp"
+                    android:text="@string/complaint"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/grey_text" />
+
+                <TextView
+                    android:id="@+id/space4"
+                    style="@style/TextStyle.Title.Sub"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    android:text="@string/space"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/grey_text" />
+
+                <TextView
+                    android:id="@+id/complaint"
+                    style="@style/TextStyle.Title.Sub"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingHorizontal="5dp"
+                    android:paddingTop="2dp"
+                    android:text="@string/complaint"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/grey_text" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/datetxt"
+                    style="@style/TextStyle.Title.Sub"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:paddingHorizontal="5dp"
+                    android:paddingTop="2dp"
+                    android:text="@string/date"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/grey_text" />
+
+                <TextView
+                    android:id="@+id/space5"
+                    style="@style/TextStyle.Title.Sub"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    android:text="@string/space"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/grey_text" />
+
+                <TextView
+                    android:id="@+id/date"
+                    style="@style/TextStyle.Title.Sub"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingHorizontal="5dp"
+                    android:paddingTop="2dp"
+                    android:text="@string/date"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/grey_text" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/addressTxt"
+                    style="@style/TextStyle.Title.Sub"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:paddingHorizontal="5dp"
+                    android:paddingTop="2dp"
+                    android:text="@string/address"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/grey_text" />
+
+                <TextView
+                    android:id="@+id/space6"
+                    style="@style/TextStyle.Title.Sub"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    android:text="@string/space"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/grey_text" />
+
+                <TextView
+                    android:id="@+id/address"
+                    style="@style/TextStyle.Title.Sub"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingHorizontal="5dp"
+                    android:paddingTop="2dp"
+                    android:text="@string/address"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/grey_text" />
+
+            </LinearLayout>
+
+
+
+
+
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

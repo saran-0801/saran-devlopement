@@ -1,0 +1,29 @@
+package com.cbs.snb.di.builder;
+
+import com.cbs.snb.ui.reports.salesanalysis.SalesAnalysisActivity;
+import dagger.Binds;
+import dagger.Module;
+import dagger.Subcomponent;
+import dagger.android.AndroidInjector;
+import dagger.multibindings.ClassKey;
+import dagger.multibindings.IntoMap;
+
+@Module(
+  subcomponents = ActivityBuilder_SalesAnalysisActivity.SalesAnalysisActivitySubcomponent.class
+)
+public abstract class ActivityBuilder_SalesAnalysisActivity {
+  private ActivityBuilder_SalesAnalysisActivity() {}
+
+  @Binds
+  @IntoMap
+  @ClassKey(SalesAnalysisActivity.class)
+  abstract AndroidInjector.Factory<?> bindAndroidInjectorFactory(
+      SalesAnalysisActivitySubcomponent.Factory builder);
+
+  @Subcomponent
+  public interface SalesAnalysisActivitySubcomponent
+      extends AndroidInjector<SalesAnalysisActivity> {
+    @Subcomponent.Factory
+    interface Factory extends AndroidInjector.Factory<SalesAnalysisActivity> {}
+  }
+}

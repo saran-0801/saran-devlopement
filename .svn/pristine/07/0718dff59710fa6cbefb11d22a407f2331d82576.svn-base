@@ -1,0 +1,17 @@
+package com.cbs.snb.di.component;
+
+import com.cbs.snb.di.PerService;
+import com.cbs.snb.di.module.ServiceModule;
+import com.cbs.snb.service.LocationService;
+
+import dagger.Component;
+
+/**
+ * Created by Venkatesh on 09-07-2020.
+ */
+@PerService
+@Component(dependencies = AppComponent.class, modules = ServiceModule.class)
+public interface ServiceComponent {
+
+   void inject(LocationService service);
+}

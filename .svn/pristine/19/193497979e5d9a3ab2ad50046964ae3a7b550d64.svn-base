@@ -1,0 +1,101 @@
+package com.cbs.snb.di.builder;
+
+import com.cbs.snb.ui.attendance.checkin.CheckInActivity;
+import com.cbs.snb.ui.cart.CartActivity;
+import com.cbs.snb.ui.checkout.CheckOutActivity;
+import com.cbs.snb.ui.customerhistory.addcustomer.AddCustomerActivity;
+import com.cbs.snb.ui.forgotpassword.ForgotPasswordActivity;
+import com.cbs.snb.ui.orders.orderdetails.OrderItemListActivity;
+import com.cbs.snb.ui.productlist.ProductsListActivity;
+import com.cbs.snb.ui.productdetails.ProductDetailsActivity;
+import com.cbs.snb.ui.login.LoginActivity;
+import com.cbs.snb.ui.main.MainActivity;
+import com.cbs.snb.ui.notification.NotificationActivity;
+import com.cbs.snb.ui.payment.invoices.InvoiceListActivity;
+import com.cbs.snb.ui.products.ProductsActivity;
+import com.cbs.snb.ui.region.RegionActivity;
+import com.cbs.snb.ui.reports.activity.ActivityReportActivity;
+import com.cbs.snb.ui.reports.complaints.ComplaintsReportActivity;
+import com.cbs.snb.ui.reports.customeroutstanding.CustomerOutstandingActivity;
+import com.cbs.snb.ui.reports.expense.ExpenseReportActivity;
+import com.cbs.snb.ui.reports.inventory.InventoryReportActivity;
+import com.cbs.snb.ui.reports.salesanalysis.SalesAnalysisActivity;
+import com.cbs.snb.ui.settings.SettingsActivity;
+import com.cbs.snb.ui.splash.SplashScreenActivity;
+
+import dagger.Module;
+import dagger.android.ContributesAndroidInjector;
+
+/**
+ * Created by Venkatesh on 09-07-2020.
+ */
+@Module
+public abstract class ActivityBuilder {
+
+    @ContributesAndroidInjector
+    abstract SplashScreenActivity splashScreenActivity();
+
+    @ContributesAndroidInjector
+    abstract LoginActivity loginActivity();
+
+    @ContributesAndroidInjector
+    abstract ForgotPasswordActivity forgotPasswordActivity();
+
+    @ContributesAndroidInjector
+    abstract RegionActivity regionActivity();
+
+    @ContributesAndroidInjector(modules = FragmentBuilder.class)
+    abstract MainActivity mainActivity();
+
+    @ContributesAndroidInjector
+    abstract SettingsActivity settingsActivity();
+
+    @ContributesAndroidInjector
+    abstract ProductDetailsActivity itemDetailsActivity();
+
+    @ContributesAndroidInjector
+    abstract CartActivity cartActivity();
+
+    @ContributesAndroidInjector
+    abstract CheckOutActivity checkOutActivity();
+
+    @ContributesAndroidInjector
+    abstract CustomerOutstandingActivity customerOutstandingActivity();
+
+    @ContributesAndroidInjector
+    abstract ExpenseReportActivity expenseReportActivity();
+
+    @ContributesAndroidInjector
+    abstract SalesAnalysisActivity salesAnalysisActivity();
+
+    @ContributesAndroidInjector
+    abstract InventoryReportActivity inventoryReportActivity();
+
+    @ContributesAndroidInjector
+    abstract ComplaintsReportActivity complaintsReportActivity();
+
+    @ContributesAndroidInjector
+    abstract AddCustomerActivity addCustomerActivity();
+
+    @ContributesAndroidInjector
+    abstract CheckInActivity checkInActivity();
+
+    @ContributesAndroidInjector
+    abstract NotificationActivity notificationActivity();
+
+    @ContributesAndroidInjector
+    abstract InvoiceListActivity invoiceListActivity();
+
+    @ContributesAndroidInjector
+    abstract ActivityReportActivity activityReportActivity();
+
+    @ContributesAndroidInjector
+    abstract ProductsActivity productsActivity();
+
+    @ContributesAndroidInjector
+    abstract ProductsListActivity productsListActivity();
+
+    @ContributesAndroidInjector
+    abstract OrderItemListActivity orderItemListActivity();
+
+}

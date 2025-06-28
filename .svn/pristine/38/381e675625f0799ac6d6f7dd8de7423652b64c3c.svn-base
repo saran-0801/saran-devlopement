@@ -1,0 +1,162 @@
+package com.cbs.snb.ui.payment.invoices;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.view.View;
+
+import com.cbs.snb.BR;
+import com.cbs.snb.R;
+import com.cbs.snb.data.network.models.get.PaymentInvoiceModel;
+import com.cbs.snb.databinding.ActivityInvoiceListBinding;
+import com.cbs.snb.ui.ViewModelProviderFactory;
+import com.cbs.snb.ui.base.BaseActivity;
+import com.cbs.snb.ui.payment.PaymentBottomSheet;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
+public class InvoiceListActivity extends BaseActivity<InvoiceViewModel, ActivityInvoiceListBinding> implements InvoiceNavigator, InvoiceListAdapter.Callback {
+
+    @Inject
+    ViewModelProviderFactory factory;
+
+    @Inject
+    InvoiceListAdapter mAdapter;
+
+    InvoiceViewModel viewModel;
+    private String customerCode, customerName,paymentName,paymentCode;
+
+    @Override
+    public int getBindingVariable() {
+        return BR.invoiceListViewModel;
+    }
+
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.activity_invoice_list;
+    }
+
+    @Override
+    protected InvoiceViewModel getViewModel() {
+        viewModel = new ViewModelProvider(this, factory).get(InvoiceViewModel.class);
+        return viewModel;
+    }
+
+    public static Intent newIntent(Context context) {
+        return new Intent(context, InvoiceListActivity.class);
+
+    }
+
+    public static Intent getStartIntent(Context context, Bundle bundle) {
+        Intent intent = new Intent(context, InvoiceListActivity.class);
+        intent.putExtras(bundle);
+        return intent;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        viewModel.setNavigator(this);
+        mAdapter.setOnClick(this);
+        setUp();
+    }
+
+    private void setUp() {
+        setSupportActionBar(dataBinding.toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Invoice Details");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        dataBinding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        dataBinding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            customerCode = bundle.getString("code");
+            customerName = bundle.getString("name");
+            paymentName = bundle.getString("paymentName");
+            paymentCode = bundle.getString("paymentCode");
+        }
+
+      /*  dataBinding.btnContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });*/
+
+        dataBinding.invoiceListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        dataBinding.invoiceListRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        dataBinding.invoiceListRecyclerView.setAdapter(mAdapter);
+
+        getInvoices();
+
+    }
+
+    private void getInvoices() {
+        viewModel.setData(customerCode);
+
+        viewModel.progressBar.observe(this,aBoolean -> {
+            if (aBoolean){
+                showLoading();
+            }else {
+                hideLoading();
+            }
+        });
+
+        viewModel.getInvoiceLiveData().observe(this, paymentInvoiceModelResource -> {
+            switch (paymentInvoiceModelResource.status) {
+                case LOADING:
+                    showLoading();
+                    break;
+                case SUCCESS:
+                    hideLoading();
+                    setInvoice(paymentInvoiceModelResource.data.getResponseObject());
+                    break;
+                case ERROR:
+                    hideLoading();
+                    showSnackBar(paymentInvoiceModelResource.getMessage());
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
+
+    private void setInvoice(List<PaymentInvoiceModel.ResponseObject> invoice) {
+        if(mAdapter != null)
+            mAdapter.clearList();
+        mAdapter.addData(invoice);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onClick(int position, PaymentInvoiceModel.ResponseObject model,ArrayList<PaymentInvoiceModel.ResponseObject> mSelectedInvoiceModel) {
+        PaymentBottomSheet bottomSheet = new PaymentBottomSheet();
+        Bundle bundle = new Bundle();
+        bundle.putString("docDate", model.getInvoiceDocumentDate());
+        bundle.putString("dueDate", model.getInvoiceDueDate());
+        bundle.putString("amount", String.valueOf(model.getValue()));
+        bundle.putString("openAmount", String.valueOf(model.getOpenValue()));
+        bundle.putString("status", model.getStatus());
+        bundle.putString("num", String.valueOf(model.getInvoiceNumber()));
+        bundle.putString("entry", String.valueOf(model.getInvoiceEntry()));
+        bundle.putString("code", customerCode);
+        bundle.putString("paymentCode", paymentCode);
+        bundle.putString("paymentName", paymentName);
+        bundle.putParcelableArrayList("list", mSelectedInvoiceModel);
+        bottomSheet.setArguments(bundle);
+        bottomSheet.show(((AppCompatActivity) this).getSupportFragmentManager(), bottomSheet.getTag());
+    }
+}

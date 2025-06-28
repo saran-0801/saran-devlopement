@@ -1,0 +1,155 @@
+package com.cbs.snb.ui.payment;
+
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.cbs.snb.BR;
+import com.cbs.snb.R;
+import com.cbs.snb.data.network.models.get.PaymentDetailsModel;
+import com.cbs.snb.databinding.FragmentPaymentBinding;
+import com.cbs.snb.ui.base.BaseFragment;
+import com.cbs.snb.ui.payment.adapter.PaymentOutstandingAdapter;
+import com.cbs.snb.ui.payment.invoices.InvoiceListActivity;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link PaymentFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class PaymentFragment extends BaseFragment<PaymentViewModel, FragmentPaymentBinding>
+        implements PaymentNavigator,PaymentOutstandingAdapter.Callback {
+
+    @Inject
+    PaymentOutstandingAdapter mAdapter;
+
+    public static PaymentFragment newInstance() {
+        PaymentFragment fragment = new PaymentFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public int getBindingVariable() {
+        return BR.paymentViewModel;
+    }
+
+    @Override
+    public int getLayoutRes() {
+        return R.layout.fragment_payment;
+    }
+
+    @Override
+    protected Class<PaymentViewModel> getViewModel() {
+        return PaymentViewModel.class;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        setHasOptionsMenu(true);
+        viewModel.setNavigator(this);
+        mAdapter.setOnClick(this);
+        setUp();
+        return dataBinding.getRoot();
+    }
+
+    public void setUp() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        dataBinding.invoiceRecyclerView.setLayoutManager(linearLayoutManager);
+        dataBinding.invoiceRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        dataBinding.invoiceRecyclerView.setAdapter(mAdapter);
+
+        viewModel.isLoading().observe(getViewLifecycleOwner(),aBoolean -> {
+            if (aBoolean){
+                showLoading();
+            }else {
+                hideLoading();
+            }
+        });
+
+        viewModel.getPaymentLiveData().observe(getViewLifecycleOwner(), paymentDetailsModelResource -> {
+            switch (paymentDetailsModelResource.status) {
+                case LOADING:
+                    showLoading();
+                    break;
+                case SUCCESS:
+                    hideLoading();
+                    addInvoiceList(paymentDetailsModelResource.data.getResponseObject());
+                    break;
+                case ERROR:
+                    hideLoading();
+                    showSnackBar(paymentDetailsModelResource.getMessage(),getResources().getColor(R.color.red));
+                    break;
+                default:
+                    break;
+
+            }
+        });
+
+        dataBinding.searchInvoice.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mAdapter.getFilter().filter(newText);
+                return true;
+            }
+        });
+    }
+
+
+    public void addInvoiceList(List<PaymentDetailsModel.ResponseObject> models) {
+        if(mAdapter != null)
+            mAdapter.clearList();
+        mAdapter.addInvoices(models);
+        mAdapter.notifyDataSetChanged();
+        //dataBinding.invoiceRecyclerView.setAdapter(new PaymentOutstandingAdapter(models,getActivity()));
+    }
+
+
+    @Override
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        MenuItem item = menu.findItem(R.id.action_cart);
+
+        if (item != null)
+            item.setVisible(false);
+
+    }
+
+    @Override
+    public void onClick(int position, PaymentDetailsModel.ResponseObject model) {
+        Bundle bundle = new Bundle();
+        bundle.putString("code", model.getCardCode());
+        bundle.putString("name", model.getCardName());
+        bundle.putString("paymentName", model.getPymntGroup());
+        bundle.putString("paymentCode", model.getGroupNum());
+        startActivity(InvoiceListActivity.getStartIntent(getActivity(),bundle));
+    }
+}

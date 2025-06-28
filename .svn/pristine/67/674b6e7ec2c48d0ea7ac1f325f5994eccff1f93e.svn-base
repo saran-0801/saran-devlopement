@@ -1,0 +1,71 @@
+package com.cbs.snb.ui.complaints.adapter;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.cbs.snb.R;
+import com.cbs.snb.data.network.models.get.ComplaintSubTypeModel;
+
+import java.util.List;
+
+import javax.security.auth.callback.Callback;
+
+/**
+ * Created by Venkatesh on 24-09-2020.
+ */
+public class ComplaintsSubTypeAdapter extends ArrayAdapter<ComplaintSubTypeModel.ResponseObject> {
+
+    private Callback mCallback;
+
+    private List<ComplaintSubTypeModel.ResponseObject> productsModel;
+    private Context mContext;
+
+    private OnItemClicked onClick;
+
+    public interface OnItemClicked {
+        void onItemClick(int position, ComplaintSubTypeModel.ResponseObject model);
+    }
+
+
+    public ComplaintsSubTypeAdapter(@NonNull Context context, List<ComplaintSubTypeModel.ResponseObject> wList) {
+        super(context, R.layout.custom_search,wList);
+        this.productsModel = wList;
+        this.mContext = context;
+    }
+
+    @NonNull
+    @Override
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        ViewHolder viewHolder;
+
+        if (convertView == null) {
+            LayoutInflater inflater = LayoutInflater.from(mContext);
+            convertView = inflater.inflate(R.layout.custom_search, null);
+            viewHolder = new ViewHolder();
+            viewHolder.items =  convertView.findViewById(R.id.tvCode);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+
+        ComplaintSubTypeModel.ResponseObject myDataItem = getItem(position);
+        viewHolder.items.setText(myDataItem.getName());
+
+        return convertView;
+    }
+
+    public class ViewHolder {
+        TextView items;
+    }
+
+    public void setOnClick(OnItemClicked onClick) {
+        this.onClick=onClick;
+    }
+}

@@ -1,0 +1,7 @@
+package com.cbs.snb.ui.reports.expense;
+
+/**
+ * Created by Venkatesh on 14-07-2020.
+ */
+public interface ExpenseReportNavigator {
+}

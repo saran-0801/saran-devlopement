@@ -1,0 +1,7 @@
+package com.cbs.snb.ui.reports.activity;
+
+/**
+ * Created by Venkatesh on 24-09-2020.
+ */
+public interface ActivityReportNavigator {
+}

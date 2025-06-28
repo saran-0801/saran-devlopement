@@ -1,0 +1,117 @@
+package com.cbs.snb.ui.reports.activity;
+
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+
+import com.cbs.snb.BR;
+import com.cbs.snb.R;
+import com.cbs.snb.data.network.models.get.ActivityReportModel;
+import com.cbs.snb.databinding.ActivityReportBinding;
+import com.cbs.snb.ui.ViewModelProviderFactory;
+import com.cbs.snb.ui.base.BaseActivity;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+public class ActivityReportActivity extends BaseActivity<ActivityReportViewModel, ActivityReportBinding>
+        implements ActivityReportNavigator {
+
+    @Inject
+    ViewModelProviderFactory factory;
+
+    ActivityReportViewModel mViewModel;
+
+    @Override
+    public int getBindingVariable() {
+        return BR.activityReportViewModel;
+    }
+
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.activity_report;
+    }
+
+    @Override
+    protected ActivityReportViewModel getViewModel() {
+        mViewModel = new ViewModelProvider(this, factory).get(ActivityReportViewModel.class);
+        return mViewModel;
+    }
+
+    public static Intent newIntent(Context context) {
+        Intent intent = new Intent(context, ActivityReportActivity.class);
+        return intent;
+    }
+
+    public static Intent getStartIntent(Context context, Bundle bundle) {
+        Intent intent = new Intent(context, ActivityReportActivity.class);
+        intent.putExtras(bundle);
+        return intent;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mViewModel.setNavigator(this);
+        setUp();
+    }
+
+    public void setUp() {
+        setSupportActionBar(dataBinding.toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Activity");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        dataBinding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        dataBinding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
+        isLoading();
+        getActivity();
+
+    }
+
+    private void isLoading(){
+        mViewModel.isLoading().observe(this,aBoolean -> {
+            if (aBoolean){
+                showLoading();
+            }else{
+                hideLoading();
+            }
+        });
+    }
+
+    private void getActivity(){
+        mViewModel.getActivityReport().observe(this,activityReportModelResource -> {
+            switch (activityReportModelResource.status){
+                case LOADING:
+                    showLoading();
+                    break;
+                case SUCCESS:
+                    hideLoading();
+                    setActivityReport(activityReportModelResource.data.getResponseObject());
+                    break;
+                case ERROR:
+                    hideLoading();
+                    showSnackBar(activityReportModelResource.getMessage(),getResources().getColor(R.color.red));
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
+
+    private void setActivityReport(List<ActivityReportModel.ResponseObject> list){
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        dataBinding.activityReportRecyclerView.setLayoutManager(linearLayoutManager);
+        dataBinding.activityReportRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        dataBinding.activityReportRecyclerView.setAdapter(new ActivityReportAdapter(list,this));
+    }
+}

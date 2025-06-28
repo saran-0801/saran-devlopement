@@ -1,0 +1,77 @@
+package com.cbs.snb.data.network.models.post
+
+
+import android.annotation.SuppressLint
+import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
+import android.os.Parcelable
+
+@SuppressLint("ParcelCreator")
+@Parcelize
+data class CustomerCreationPojo(
+        @SerializedName("address")
+    val address: List<Addres>,
+        @SerializedName("adharCardNumber")
+    val adharCardNumber: Int, // null
+        @SerializedName("docDate")
+    val docDate: String, // null
+        @SerializedName("attach")
+    val attach: String, // null
+        @SerializedName("cardCode")
+    val cardCode: String,
+        @SerializedName("creditLimit")
+    val creditLimit: Double, // 0.0
+        @SerializedName("customerCode")
+    val customerCode: Int, // null
+        @SerializedName("customerGroup")
+    val customerGroup: Int, // 0
+        @SerializedName("customerName")
+    val customerName: String,
+        @SerializedName("emailID")
+    val emailID: String, // null
+        @SerializedName("geoLocation")
+    val geoLocation: String, // null
+        @SerializedName("gstType")
+    val gstType: String, // null
+        @SerializedName("gstinno")
+    val gstinno: String, // null
+        @SerializedName("mobileNumber")
+    val mobileNumber: String, // null
+        @SerializedName("ownerName")
+    val ownerName: String,
+        @SerializedName("panCardNumber")
+    val panCardNumber: String, // null
+        @SerializedName("paymentTerms")
+    val paymentTerms: Int, // 0
+        @SerializedName("salesEmployeeCode")
+    val salesEmployeeCode: Int, // 0
+        @SerializedName("type")
+    val type: String // null
+) : Parcelable {
+    @SuppressLint("ParcelCreator")
+    @Parcelize
+    open class Addres(
+        @SerializedName("address1")
+        val address1: String, // null
+        @SerializedName("address2")
+        val address2: String, // null
+        @SerializedName("addressType")
+        val addressType: String, // null
+        @SerializedName("areaCode")
+        val areaCode: String, // null
+        @SerializedName("areaName")
+        val areaName: String, // null
+        @SerializedName("block")
+        val block: String, // null
+        @SerializedName("city")
+        val city: String, // null
+        @SerializedName("countryCode")
+        val countryCode: String, // null
+        @SerializedName("stateCode")
+        val stateCode: String, // null
+        @SerializedName("street")
+        val street: String, // null
+        @SerializedName("zipCode")
+        val zipCode: String // null
+    ) : Parcelable
+}

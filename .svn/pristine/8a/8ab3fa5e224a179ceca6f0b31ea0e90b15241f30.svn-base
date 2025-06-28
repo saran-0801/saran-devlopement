@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="products"
+            type="com.cbs.snb.data.network.models.get.ProductsListModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/productsCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen2dp"
+            android:layout_marginEnd="@dimen/dimen2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="@dimen/dimen1dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardCornerRadius="3dp"
+            app:cardElevation="3dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="@dimen/dimen58dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/imgProduct"
+                    android:layout_width="@dimen/dimen56dp"
+                    android:layout_height="@dimen/dimen56dp"
+                    android:contentDescription="@string/item_poster"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_404_image"
+                    app:layout_constraintDimensionRatio="w,2.5:2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="8"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/itemName"
+                            style="@style/TextStyle.Heading"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.5"
+                            android:paddingHorizontal="5dp"
+                            android:paddingTop="2dp"
+                            android:text="@string/item_desc"
+                            android:textAlignment="viewStart" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/itemCodeTxt"
+                                style="@style/TextStyle.Title.Sub"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.3"
+                                android:paddingHorizontal="5dp"
+                                android:paddingTop="2dp"
+                                android:text="@string/item_code"
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/vDarkGray" />
+
+                            <TextView
+                                android:id="@+id/space"
+                                style="@style/TextStyle.Title.Sub"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.1"
+                                android:paddingHorizontal="5dp"
+                                android:paddingTop="2dp"
+                                android:text="@string/space"
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/grey_text" />
+
+                            <TextView
+                                android:id="@+id/itemCode"
+                                style="@style/TextStyle.Title.Sub"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:paddingHorizontal="5dp"
+                                android:paddingTop="2dp"
+                                android:text="@string/item_code"
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/vDarkGray" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/itemUomTxt"
+                                style="@style/TextStyle.Title.Sub"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.3"
+                                android:paddingHorizontal="5dp"
+                                android:paddingTop="2dp"
+                                android:text="@string/uom"
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/vDarkGray" />
+
+                            <TextView
+                                android:id="@+id/space2"
+                                style="@style/TextStyle.Title.Sub"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.1"
+                                android:paddingHorizontal="5dp"
+                                android:paddingTop="2dp"
+                                android:text="@string/space"
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/grey_text" />
+
+                            <TextView
+                                android:id="@+id/itemUom"
+                                style="@style/TextStyle.Title.Sub"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:paddingHorizontal="5dp"
+                                android:paddingTop="2dp"
+                                android:text="@string/uom"
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/vDarkGray" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</layout>

@@ -1,0 +1,244 @@
+package com.cbs.snb.databinding;
+import com.cbs.snb.R;
+import com.cbs.snb.BR;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import android.view.View;
+@SuppressWarnings("unchecked")
+public class ActivityAddCustomerBindingImpl extends ActivityAddCustomerBinding  {
+
+    @Nullable
+    private static final androidx.databinding.ViewDataBinding.IncludedLayouts sIncludes;
+    @Nullable
+    private static final android.util.SparseIntArray sViewsWithIds;
+    static {
+        sIncludes = null;
+        sViewsWithIds = new android.util.SparseIntArray();
+        sViewsWithIds.put(R.id.tintAppBarLayout, 1);
+        sViewsWithIds.put(R.id.toolbar, 2);
+        sViewsWithIds.put(R.id.scrollView, 3);
+        sViewsWithIds.put(R.id.mainLayout, 4);
+        sViewsWithIds.put(R.id.leadLayout, 5);
+        sViewsWithIds.put(R.id.cardView, 6);
+        sViewsWithIds.put(R.id.tvCustomerNameText, 7);
+        sViewsWithIds.put(R.id.etCustomerNameLayout, 8);
+        sViewsWithIds.put(R.id.etCustomerName, 9);
+        sViewsWithIds.put(R.id.tvOwnerNameText, 10);
+        sViewsWithIds.put(R.id.etOwnerNameLayout, 11);
+        sViewsWithIds.put(R.id.etOwnerName, 12);
+        sViewsWithIds.put(R.id.tvGroupText, 13);
+        sViewsWithIds.put(R.id.GroupLayout, 14);
+        sViewsWithIds.put(R.id.spGroup, 15);
+        sViewsWithIds.put(R.id.tvTypeText, 16);
+        sViewsWithIds.put(R.id.typeLayout, 17);
+        sViewsWithIds.put(R.id.spType, 18);
+        sViewsWithIds.put(R.id.tvPayTermsText, 19);
+        sViewsWithIds.put(R.id.payTermsLayout, 20);
+        sViewsWithIds.put(R.id.spPayTerms, 21);
+        sViewsWithIds.put(R.id.tvCreditLimitText, 22);
+        sViewsWithIds.put(R.id.etCreditLimitLayout, 23);
+        sViewsWithIds.put(R.id.etCreditLimit, 24);
+        sViewsWithIds.put(R.id.tvMobileText, 25);
+        sViewsWithIds.put(R.id.etMobileNoLayout, 26);
+        sViewsWithIds.put(R.id.etMobileNo, 27);
+        sViewsWithIds.put(R.id.tvEmailText, 28);
+        sViewsWithIds.put(R.id.etEmailIdLayout, 29);
+        sViewsWithIds.put(R.id.etEmailId, 30);
+        sViewsWithIds.put(R.id.tvBlockText, 31);
+        sViewsWithIds.put(R.id.etBlockLayout, 32);
+        sViewsWithIds.put(R.id.etBlock, 33);
+        sViewsWithIds.put(R.id.tvStreetText, 34);
+        sViewsWithIds.put(R.id.etStreetLayout, 35);
+        sViewsWithIds.put(R.id.etStreet, 36);
+        sViewsWithIds.put(R.id.tvAddress1Text, 37);
+        sViewsWithIds.put(R.id.etAddress1Layout, 38);
+        sViewsWithIds.put(R.id.etAddress1, 39);
+        sViewsWithIds.put(R.id.tvAddress2Text, 40);
+        sViewsWithIds.put(R.id.etAddress2Layout, 41);
+        sViewsWithIds.put(R.id.etAddress2, 42);
+        sViewsWithIds.put(R.id.tvStateText, 43);
+        sViewsWithIds.put(R.id.stateLayout, 44);
+        sViewsWithIds.put(R.id.spState, 45);
+        sViewsWithIds.put(R.id.tvCountryText, 46);
+        sViewsWithIds.put(R.id.etCountryLayout, 47);
+        sViewsWithIds.put(R.id.etCountry, 48);
+        sViewsWithIds.put(R.id.tvPinCodeText, 49);
+        sViewsWithIds.put(R.id.etPinCodeLayout, 50);
+        sViewsWithIds.put(R.id.etPinCode, 51);
+        sViewsWithIds.put(R.id.tvLocationText, 52);
+        sViewsWithIds.put(R.id.etLocationLayout, 53);
+        sViewsWithIds.put(R.id.etLocation, 54);
+        sViewsWithIds.put(R.id.tvGstTypeText, 55);
+        sViewsWithIds.put(R.id.gstTypeLayout, 56);
+        sViewsWithIds.put(R.id.spGstType, 57);
+        sViewsWithIds.put(R.id.tvGstInNoText, 58);
+        sViewsWithIds.put(R.id.etGstInNoLayout, 59);
+        sViewsWithIds.put(R.id.etGstInNo, 60);
+        sViewsWithIds.put(R.id.tvAdharNoText, 61);
+        sViewsWithIds.put(R.id.etAdharNoLayout, 62);
+        sViewsWithIds.put(R.id.etAdharNo, 63);
+        sViewsWithIds.put(R.id.tvPanNoText, 64);
+        sViewsWithIds.put(R.id.etPanNoLayout, 65);
+        sViewsWithIds.put(R.id.etPanNo, 66);
+        sViewsWithIds.put(R.id.tvRemarksText, 67);
+        sViewsWithIds.put(R.id.etRemarksLayout, 68);
+        sViewsWithIds.put(R.id.etRemarks, 69);
+        sViewsWithIds.put(R.id.tvAttachmentText, 70);
+        sViewsWithIds.put(R.id.imageView, 71);
+        sViewsWithIds.put(R.id.addImage, 72);
+        sViewsWithIds.put(R.id.submit, 73);
+    }
+    // views
+    @NonNull
+    private final androidx.constraintlayout.widget.ConstraintLayout mboundView0;
+    // variables
+    // values
+    // listeners
+    // Inverse Binding Event Handlers
+
+    public ActivityAddCustomerBindingImpl(@Nullable androidx.databinding.DataBindingComponent bindingComponent, @NonNull View root) {
+        this(bindingComponent, root, mapBindings(bindingComponent, root, 74, sIncludes, sViewsWithIds));
+    }
+    private ActivityAddCustomerBindingImpl(androidx.databinding.DataBindingComponent bindingComponent, View root, Object[] bindings) {
+        super(bindingComponent, root, 0
+            , (android.widget.RelativeLayout) bindings[14]
+            , (android.widget.ImageView) bindings[72]
+            , (androidx.cardview.widget.CardView) bindings[6]
+            , (android.widget.EditText) bindings[39]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[38]
+            , (android.widget.EditText) bindings[42]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[41]
+            , (android.widget.EditText) bindings[63]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[62]
+            , (android.widget.EditText) bindings[33]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[32]
+            , (android.widget.EditText) bindings[48]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[47]
+            , (android.widget.EditText) bindings[24]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[23]
+            , (android.widget.EditText) bindings[9]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[8]
+            , (android.widget.EditText) bindings[30]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[29]
+            , (android.widget.EditText) bindings[60]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[59]
+            , (android.widget.EditText) bindings[54]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[53]
+            , (android.widget.EditText) bindings[27]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[26]
+            , (android.widget.EditText) bindings[12]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[11]
+            , (android.widget.EditText) bindings[66]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[65]
+            , (android.widget.EditText) bindings[51]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[50]
+            , (android.widget.EditText) bindings[69]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[68]
+            , (android.widget.EditText) bindings[36]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[35]
+            , (android.widget.RelativeLayout) bindings[56]
+            , (android.widget.ImageView) bindings[71]
+            , (android.widget.LinearLayout) bindings[5]
+            , (androidx.constraintlayout.widget.ConstraintLayout) bindings[4]
+            , (android.widget.RelativeLayout) bindings[20]
+            , (androidx.core.widget.NestedScrollView) bindings[3]
+            , (com.toptoche.searchablespinnerlibrary.SearchableSpinner) bindings[15]
+            , (com.toptoche.searchablespinnerlibrary.SearchableSpinner) bindings[57]
+            , (com.toptoche.searchablespinnerlibrary.SearchableSpinner) bindings[21]
+            , (com.toptoche.searchablespinnerlibrary.SearchableSpinner) bindings[45]
+            , (com.toptoche.searchablespinnerlibrary.SearchableSpinner) bindings[18]
+            , (android.widget.RelativeLayout) bindings[44]
+            , (android.widget.Button) bindings[73]
+            , (com.google.android.material.appbar.AppBarLayout) bindings[1]
+            , (androidx.appcompat.widget.Toolbar) bindings[2]
+            , (android.widget.TextView) bindings[37]
+            , (android.widget.TextView) bindings[40]
+            , (android.widget.TextView) bindings[61]
+            , (android.widget.TextView) bindings[70]
+            , (android.widget.TextView) bindings[31]
+            , (android.widget.TextView) bindings[46]
+            , (android.widget.TextView) bindings[22]
+            , (android.widget.TextView) bindings[7]
+            , (android.widget.TextView) bindings[28]
+            , (android.widget.TextView) bindings[13]
+            , (android.widget.TextView) bindings[58]
+            , (android.widget.TextView) bindings[55]
+            , (android.widget.TextView) bindings[52]
+            , (android.widget.TextView) bindings[25]
+            , (android.widget.TextView) bindings[10]
+            , (android.widget.TextView) bindings[64]
+            , (android.widget.TextView) bindings[19]
+            , (android.widget.TextView) bindings[49]
+            , (android.widget.TextView) bindings[67]
+            , (android.widget.TextView) bindings[43]
+            , (android.widget.TextView) bindings[34]
+            , (android.widget.TextView) bindings[16]
+            , (android.widget.RelativeLayout) bindings[17]
+            );
+        this.mboundView0 = (androidx.constraintlayout.widget.ConstraintLayout) bindings[0];
+        this.mboundView0.setTag(null);
+        setRootTag(root);
+        // listeners
+        invalidateAll();
+    }
+
+    @Override
+    public void invalidateAll() {
+        synchronized(this) {
+                mDirtyFlags = 0x2L;
+        }
+        requestRebind();
+    }
+
+    @Override
+    public boolean hasPendingBindings() {
+        synchronized(this) {
+            if (mDirtyFlags != 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean setVariable(int variableId, @Nullable Object variable)  {
+        boolean variableSet = true;
+        if (BR.addCustomerViewModel == variableId) {
+            setAddCustomerViewModel((com.cbs.snb.ui.customerhistory.addcustomer.AddCustomerViewModel) variable);
+        }
+        else {
+            variableSet = false;
+        }
+            return variableSet;
+    }
+
+    public void setAddCustomerViewModel(@Nullable com.cbs.snb.ui.customerhistory.addcustomer.AddCustomerViewModel AddCustomerViewModel) {
+        this.mAddCustomerViewModel = AddCustomerViewModel;
+    }
+
+    @Override
+    protected boolean onFieldChange(int localFieldId, Object object, int fieldId) {
+        switch (localFieldId) {
+        }
+        return false;
+    }
+
+    @Override
+    protected void executeBindings() {
+        long dirtyFlags = 0;
+        synchronized(this) {
+            dirtyFlags = mDirtyFlags;
+            mDirtyFlags = 0;
+        }
+        // batch finished
+    }
+    // Listener Stub Implementations
+    // callback impls
+    // dirty flag
+    private  long mDirtyFlags = 0xffffffffffffffffL;
+    /* flag mapping
+        flag 0 (0x1L): addCustomerViewModel
+        flag 1 (0x2L): null
+    flag mapping end*/
+    //end
+}

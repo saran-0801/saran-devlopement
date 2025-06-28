@@ -1,0 +1,240 @@
+package com.cbs.snb.ui.leads;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.ApiService;
+import com.cbs.snb.data.network.Resource;
+import com.cbs.snb.data.network.models.get.CustomerDetailsModel;
+import com.cbs.snb.data.network.models.get.CustomerGroupModel;
+import com.cbs.snb.data.network.models.get.DistributorModel;
+import com.cbs.snb.data.network.models.get.GstTypeModel;
+import com.cbs.snb.data.network.models.get.PaymentTermsModel;
+import com.cbs.snb.data.network.models.get.StateModel;
+import com.cbs.snb.data.network.models.post.BasePostResponse;
+import com.cbs.snb.data.network.models.post.CheckInOut;
+import com.cbs.snb.data.network.models.post.LeadCreationModel;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+import com.cbs.snb.utils.rx.SchedulerProvider;
+
+import javax.inject.Inject;
+
+import okhttp3.MultipartBody;
+import retrofit2.http.Multipart;
+
+/**
+ * Created by Venkatesh on 14-07-2020.
+ */
+public class LeadsViewModel extends BaseViewModel<LeadsNavigator> {
+
+    public MutableLiveData<Resource<CustomerGroupModel>> customerModel;
+    public MutableLiveData<Resource<PaymentTermsModel>> paymentTerms;
+    public MutableLiveData<Resource<GstTypeModel>> gstType;
+    public MutableLiveData<Resource<StateModel>> states;
+    public MutableLiveData<Resource<DistributorModel>> distributors;
+    public MutableLiveData<Resource<BasePostResponse>> leadCreation;
+    public MutableLiveData<Boolean> progressBar;
+    public MutableLiveData<Boolean> isSecondary;
+    public MutableLiveData<LeadCreationModel> leadCreationModel;
+    public MutableLiveData<MultipartBody.Part> image;
+
+    @Inject
+    public LeadsViewModel(Repository repository, SchedulerProvider schedulerProvider,
+                          PreferenceHelper preferenceHelper, AppDatabase database, ApiService service) {
+        super(repository, schedulerProvider, preferenceHelper, database, service);
+        progressBar = new MutableLiveData<>(false);
+        customerModel = new MutableLiveData<>();
+        paymentTerms = new MutableLiveData<>();
+        gstType = new MutableLiveData<>();
+        states = new MutableLiveData<>();
+        distributors = new MutableLiveData<>();
+        isSecondary = new MutableLiveData<>();
+        leadCreation = new MutableLiveData<>();
+        leadCreationModel = new MutableLiveData<>();
+        image = new MutableLiveData<>();
+        init();
+    }
+
+    public void setIsSecondary(boolean isChecked){
+        isSecondary.setValue(isChecked);
+    }
+
+    public void setData(LeadCreationModel model) {
+        leadCreationModel.setValue(model);
+    }
+    public void setImage(MultipartBody.Part mImageFile){
+        image.setValue(mImageFile);
+    }
+
+    private void init(){
+        getCustomerGroup();
+        getPaymentTermsApi();
+        getGstTypeApi();
+        getStatesApi();
+        getDistributorsApi();
+       /* if (isSecondary.getValue()){
+            getDistributorsApi();
+        }*/
+    }
+
+
+
+    public LiveData<Resource<CustomerGroupModel>> getCustomerCode(){
+        return customerModel;
+    }
+
+    public LiveData<Resource<PaymentTermsModel>> getPaymentTerms(){
+        return paymentTerms;
+    }
+
+    public LiveData<Resource<GstTypeModel>> getGstType(){
+        return gstType;
+    }
+
+    public LiveData<Boolean> isLoading(){
+        return getRepository().getIsLoading();
+    }
+
+
+    public LiveData<Resource<StateModel>> getState(){
+        return states;
+    }
+
+    public LiveData<Resource<DistributorModel>> getDistributors(){
+        return distributors;
+    }
+
+    /*public LiveData<Resource<BasePostResponse>> addLead(LeadCreationModel leadCreationModel,MultipartBody.Part mImageFile){
+        //leadCreation = getRepository().addLeads(leadCreationModel,mImageFile);
+        return leadCreation;
+    }*/
+
+    public LiveData<Resource<BasePostResponse>> addLead(){
+        return leadCreation;
+    }
+
+    public String empCode(){
+        return getPreferenceHelper().getSalesEmpCode();
+    }
+
+
+    private void getCustomerGroup() {
+        progressBar.setValue(true);
+        getCompositeDisposable().add(getApiService()
+                .getCustomerGroup()
+                .subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(customerGroupModel -> {
+                    progressBar.setValue(false);
+                    if (customerGroupModel.getStatusCode() == 0) {
+                        customerModel.postValue(Resource.success(customerGroupModel));
+                    } else {
+                        customerModel.postValue(Resource.error(customerGroupModel.getStatusMessage(), null));
+                    }
+                }, throwable -> {
+                    progressBar.setValue(false);
+                    customerModel.postValue(Resource.error(throwable.toString(), null));
+                }));
+    }
+
+    private void getPaymentTermsApi() {
+        progressBar.setValue(true);
+        getCompositeDisposable().add(getApiService()
+                .getPaymentTerms()
+                .subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(paymentTermsModel -> {
+                    progressBar.setValue(false);
+                    if (paymentTermsModel.getStatusCode() == 0) {
+                        paymentTerms.postValue(Resource.success(paymentTermsModel));
+                    } else {
+                        paymentTerms.postValue(Resource.error(paymentTermsModel.getStatusMessage(), null));
+                    }
+                }, throwable -> {
+                    progressBar.setValue(false);
+                    paymentTerms.postValue(Resource.error(throwable.toString(), null));
+                }));
+    }
+
+    private void getGstTypeApi() {
+        progressBar.setValue(true);
+        getCompositeDisposable().add(getApiService()
+                .getGstType()
+                .subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(gstTypeModel -> {
+                    progressBar.setValue(false);
+                    if (gstTypeModel.getStatusCode() == 0) {
+                        gstType.postValue(Resource.success(gstTypeModel));
+                    } else {
+                        gstType.postValue(Resource.error(gstTypeModel.getStatusMessage(), null));
+                    }
+                }, throwable -> {
+                    progressBar.setValue(false);
+                    gstType.postValue(Resource.error(throwable.toString(), null));
+                }));
+    }
+
+    private void getStatesApi() {
+        progressBar.setValue(true);
+        getCompositeDisposable().add(getApiService()
+                .getState()
+                .subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(stateModel -> {
+                    progressBar.setValue(false);
+                    if (stateModel.getStatusCode() == 0) {
+                        states.postValue(Resource.success(stateModel));
+                    } else {
+                        states.postValue(Resource.error(stateModel.getStatusMessage(), null));
+                    }
+                }, throwable -> {
+                    progressBar.setValue(false);
+                    states.postValue(Resource.error(throwable.toString(), null));
+                }));
+    }
+
+    private void getDistributorsApi() {
+        progressBar.setValue(true);
+        getCompositeDisposable().add(getApiService()
+                .getOnlyDistributor(getPreferenceHelper().getSalesEmpCode())
+                .subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(distributorModel -> {
+                    progressBar.setValue(false);
+                    if (distributorModel.getStatusCode() == 0) {
+                        distributors.postValue(Resource.success(distributorModel));
+                    } else {
+                        distributors.postValue(Resource.error(distributorModel.getStatusMessage(), null));
+                    }
+                }, throwable -> {
+                    progressBar.setValue(false);
+                    distributors.postValue(Resource.error(throwable.toString(), null));
+                }));
+    }
+
+    public void postLeadData() {
+        progressBar.setValue(true);
+        getCompositeDisposable().add(getApiService()
+                .addLeads(leadCreationModel.getValue(),image.getValue())
+                .subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(basePostResponse -> {
+                    progressBar.setValue(false);
+                    if (basePostResponse.getStatusCode() == 0) {
+                        leadCreation.postValue(Resource.success(basePostResponse));
+                    } else if (basePostResponse.getStatusMessage() == null){
+                        leadCreation.postValue(Resource.error("Something went wrong,please try later", null));
+                    }else {
+                        leadCreation.postValue(Resource.error(basePostResponse.getStatusMessage(), null));
+                    }
+                }, throwable -> {
+                    progressBar.setValue(false);
+                    leadCreation.postValue(Resource.error(throwable.toString(), null));
+                }));
+    }
+
+}

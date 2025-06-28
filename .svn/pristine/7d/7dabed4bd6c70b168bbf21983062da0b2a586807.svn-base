@@ -1,0 +1,26 @@
+package com.cbs.snb.di.builder;
+
+import com.cbs.snb.ui.expense.ExpenseFragment;
+import dagger.Binds;
+import dagger.Module;
+import dagger.Subcomponent;
+import dagger.android.AndroidInjector;
+import dagger.multibindings.ClassKey;
+import dagger.multibindings.IntoMap;
+
+@Module(subcomponents = FragmentBuilder_ContributeExpenseFragment.ExpenseFragmentSubcomponent.class)
+public abstract class FragmentBuilder_ContributeExpenseFragment {
+  private FragmentBuilder_ContributeExpenseFragment() {}
+
+  @Binds
+  @IntoMap
+  @ClassKey(ExpenseFragment.class)
+  abstract AndroidInjector.Factory<?> bindAndroidInjectorFactory(
+      ExpenseFragmentSubcomponent.Factory builder);
+
+  @Subcomponent
+  public interface ExpenseFragmentSubcomponent extends AndroidInjector<ExpenseFragment> {
+    @Subcomponent.Factory
+    interface Factory extends AndroidInjector.Factory<ExpenseFragment> {}
+  }
+}

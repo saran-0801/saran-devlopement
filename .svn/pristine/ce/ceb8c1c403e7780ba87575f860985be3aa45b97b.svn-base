@@ -1,0 +1,1270 @@
+package com.cbs.snb.data.network.repository;
+
+import android.util.Log;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.database.entities.CartItem;
+import com.cbs.snb.data.database.entities.ProductDetails;
+import com.cbs.snb.data.network.ApiService;
+import com.cbs.snb.data.network.Resource;
+import com.cbs.snb.data.network.models.get.ActivityReportModel;
+import com.cbs.snb.data.network.models.get.ActivityTypeModel;
+import com.cbs.snb.data.network.models.get.ComplaintReportModel;
+import com.cbs.snb.data.network.models.get.ComplaintSubTypeModel;
+import com.cbs.snb.data.network.models.get.ComplaintTypeModel;
+import com.cbs.snb.data.network.models.get.CustomerDetailsModel;
+import com.cbs.snb.data.network.models.get.CustomerGroupModel;
+import com.cbs.snb.data.network.models.get.CustomerOutstandingModel;
+import com.cbs.snb.data.network.models.get.DealerNameModel;
+import com.cbs.snb.data.network.models.get.ExpenseReportModel;
+import com.cbs.snb.data.network.models.get.GstTypeModel;
+import com.cbs.snb.data.network.models.get.InventoryModel;
+import com.cbs.snb.data.network.models.get.LoginModel;
+import com.cbs.snb.data.network.models.get.MyOrdersModel;
+import com.cbs.snb.data.network.models.get.OrderItemListModel;
+import com.cbs.snb.data.network.models.get.PaymentDetailsModel;
+import com.cbs.snb.data.network.models.get.PaymentInvoiceModel;
+import com.cbs.snb.data.network.models.get.PaymentTermsModel;
+import com.cbs.snb.data.network.models.get.ProductsByCustomerModel;
+import com.cbs.snb.data.network.models.get.ProductsListModel;
+import com.cbs.snb.data.network.models.get.ProductsModel;
+import com.cbs.snb.data.network.models.get.ReportListModel;
+import com.cbs.snb.data.network.models.get.SalesAnalysisReportModel;
+import com.cbs.snb.data.network.models.get.StateModel;
+import com.cbs.snb.data.network.models.get.WarehouseModel;
+import com.cbs.snb.data.network.models.post.BasePostResponse;
+import com.cbs.snb.data.network.models.post.CheckInOut;
+import com.cbs.snb.data.network.models.post.CreateActivityModel;
+import com.cbs.snb.data.network.models.post.CustomerComplaintModel;
+import com.cbs.snb.data.network.models.post.CustomerCreationModel;
+import com.cbs.snb.data.network.models.post.LeadCreationModel;
+import com.cbs.snb.data.network.models.post.PostExpense;
+import com.cbs.snb.data.network.models.post.SalesOrderCreationModel;
+import com.cbs.snb.ui.worker.UpdateCart;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import okhttp3.MultipartBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+/**
+ * Created by Venkatesh on 09-07-2020.
+ */
+@Singleton
+public class Repository {
+
+    private static final String TAG = Repository.class.getSimpleName();
+    private ApiService apiService;
+    private final MutableLiveData<Resource<BasePostResponse>> mutablePostResponse;
+    private final MutableLiveData<Resource<LoginModel>> mutableLoginResponse = new MutableLiveData<>();;
+    private final MutableLiveData<Resource<ProductsModel>> mutableProductsResponse;
+    private final MutableLiveData<Resource<ProductsListModel>> mutableProductsListResponse;
+    private final MutableLiveData<Resource<ProductsByCustomerModel>> mutableProductsByCustomerResponse;
+    private final MutableLiveData<Resource<MyOrdersModel>> mutableMyOrdersResponse;
+    private final MutableLiveData<Resource<ReportListModel>> mutableReportList;
+    private final MutableLiveData<Resource<SalesAnalysisReportModel>> mutableSalesAnalysisReport;
+    private final MutableLiveData<Resource<CustomerOutstandingModel>> mutableCustomerOutstanding;
+    private final MutableLiveData<Resource<CustomerGroupModel>> mutableCustomerGroupModel;
+    private final MutableLiveData<Resource<ActivityTypeModel>> mutableActivityTypeModel;
+    private final MutableLiveData<Resource<CustomerDetailsModel>> mutableCustomerDetailsModel;
+    private final MutableLiveData<Resource<PaymentTermsModel>> mutablePaymentTermsModel;
+    private final MutableLiveData<Resource<PaymentDetailsModel>> mutablePaymentDetailsModel;
+    private final MutableLiveData<Resource<PaymentInvoiceModel>> mutableInvoiceModel;
+    private final MutableLiveData<Resource<OrderItemListModel>> mutableOrderItemList;
+    private final MediatorLiveData<Boolean> progressbarObservable;
+    private final MutableLiveData<Resource<WarehouseModel>> mutableWarehouseModel;
+    private final MutableLiveData<Resource<InventoryModel>> mutableInventoryModel;
+    private final MutableLiveData<Resource<GstTypeModel>> mutableGstTypeModel;
+    private final MutableLiveData<Resource<ActivityReportModel>> mutableActivityReportModel;
+    private final MutableLiveData<Resource<ComplaintTypeModel>> mutableComplaintTypeModel;
+    private final MutableLiveData<Resource<ComplaintSubTypeModel>> mutableComplaintSubTypeModel;
+    private final MutableLiveData<Resource<DealerNameModel>> mutableDealerNameModel;
+    private final MutableLiveData<Resource<ComplaintReportModel>> mutableComplaintReportModel;
+    private final MutableLiveData<Resource<ExpenseReportModel>> mutableExpenseReportModel;
+    private final MutableLiveData<Resource<StateModel>> mutableStateModel;
+
+    @Inject
+    public Repository(ApiService apiService) {
+        this.apiService = apiService;
+        mutablePostResponse = new MutableLiveData<>();
+       // mutableLoginResponse = new MutableLiveData<>();
+        mutableProductsResponse = new MutableLiveData<>();
+        mutableProductsListResponse = new MutableLiveData<>();
+        mutableMyOrdersResponse = new MutableLiveData<>();
+        mutableReportList = new MutableLiveData<>();
+        mutableSalesAnalysisReport = new MutableLiveData<>();
+        mutableCustomerGroupModel = new MutableLiveData<>();
+        mutablePaymentTermsModel = new MutableLiveData<>();
+        progressbarObservable = new MediatorLiveData<>();
+        mutableCustomerOutstanding = new MutableLiveData<>();
+        mutablePaymentDetailsModel = new MutableLiveData<>();
+        mutableInvoiceModel = new MutableLiveData<>();
+        mutableOrderItemList = new MutableLiveData<>();
+        mutableCustomerDetailsModel = new MutableLiveData<>();
+        mutableActivityTypeModel = new MutableLiveData<>();
+        mutableWarehouseModel = new MutableLiveData<>();
+        mutableInventoryModel = new MutableLiveData<>();
+        mutableGstTypeModel = new MutableLiveData<>();
+        mutableActivityReportModel = new MutableLiveData<>();
+        mutableComplaintTypeModel = new MutableLiveData<>();
+        mutableComplaintSubTypeModel = new MutableLiveData<>();
+        mutableDealerNameModel = new MutableLiveData<>();
+        mutableComplaintReportModel = new MutableLiveData<>();
+        mutableProductsByCustomerResponse = new MutableLiveData<>();
+        mutableExpenseReportModel = new MutableLiveData<>();
+        mutableStateModel = new MutableLiveData<>();
+    }
+
+    public MediatorLiveData<Boolean> getIsLoading() {
+        return progressbarObservable;
+    }
+
+    public void updateCart(final AppDatabase db, ProductDetails productDetails) {
+        new UpdateCart(db).execute(productDetails);
+    }
+
+    public LiveData<Integer> getCount(AppDatabase database) {
+        return database.ProductDetailsDao().getCount();
+    }
+
+
+    public LiveData<List<CartItem>> getCartData(AppDatabase database) {
+        return database.cartItemDao().getCartItems();
+    }
+
+    public void delete(AppDatabase database) {
+        database.cartItemDao().deleteAllItem();
+    }
+
+    //start Login
+    public MutableLiveData<Resource<LoginModel>> doLogin(String userName, String password) {
+        progressbarObservable.setValue(true);
+        apiService.login(userName, password).enqueue(new Callback<LoginModel>() {
+            @Override
+            public void onResponse(@NotNull Call<LoginModel> call, @NotNull Response<LoginModel> response) {
+                Log.d(TAG, "onResponse response:: " + response);
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body().getStatusCode() == 0) {
+                        Log.e("succ",response.body().getStatusMessage());
+                        mutableLoginResponse.postValue(Resource.success(response.body()));
+                    } else {
+                        Log.e("err",response.body().getStatusMessage());
+                        mutableLoginResponse.postValue(Resource.error(response.body().getStatusMessage(), null));
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<LoginModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutableLoginResponse.postValue(Resource.error(t.getMessage(), null));
+            }
+        });
+
+
+
+        return mutableLoginResponse;
+    }
+    //end Login
+
+    //start products
+    public LiveData<Resource<ProductsModel>> getProducts(String cardCode) {
+        progressbarObservable.setValue(true);
+        apiService.getProducts(cardCode).enqueue(new Callback<ProductsModel>() {
+            @Override
+            public void onResponse(@NotNull Call<ProductsModel> call, @NotNull Response<ProductsModel> response) {
+                Log.d(TAG, "getProducts(): " + response);
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutableProductsResponse.postValue(Resource.success(response.body()));
+                        } else {
+                            mutableProductsResponse.postValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutableProductsResponse.setValue(Resource.error("No data found", null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<ProductsModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutableProductsResponse.setValue(Resource.error(t.getMessage(), null));
+                Log.d(TAG, "error(): " + t.getMessage());
+            }
+        });
+        return mutableProductsResponse;
+    }
+    //end products
+
+    // start products List
+    public LiveData<Resource<ProductsListModel>> getProductsList() {
+        progressbarObservable.setValue(true);
+        apiService.getAllProducts().enqueue(new Callback<ProductsListModel>() {
+            @Override
+            public void onResponse(@NotNull Call<ProductsListModel> call, @NotNull Response<ProductsListModel> response) {
+                Log.d(TAG, "getProducts(): " + response);
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutableProductsListResponse.postValue(Resource.success(response.body()));
+                        } else {
+                            mutableProductsListResponse.postValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutableProductsListResponse.setValue(Resource.error("No data found", null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<ProductsListModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutableProductsListResponse.setValue(Resource.error(t.getMessage(), null));
+                Log.d(TAG, "error(): " + t.getMessage());
+            }
+        });
+        return mutableProductsListResponse;
+    }
+    //end products
+
+    //start ProductsByCustomer
+    public MutableLiveData<Resource<ProductsByCustomerModel>> getProductsByCustomer(String code) {
+        progressbarObservable.setValue(true);
+        apiService.getProductsByCustomer(code).enqueue(new Callback<ProductsByCustomerModel>() {
+            @Override
+            public void onResponse(@NotNull Call<ProductsByCustomerModel> call, @NotNull Response<ProductsByCustomerModel> response) {
+                Log.d(TAG, "getProducts(): " + response);
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutableProductsByCustomerResponse.postValue(Resource.success(response.body()));
+                        } else {
+                            mutableProductsByCustomerResponse.postValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutableProductsByCustomerResponse.setValue(Resource.error("No data found", null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<ProductsByCustomerModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutableProductsByCustomerResponse.setValue(Resource.error(t.getMessage(), null));
+                Log.d(TAG, "error(): " + t.getMessage());
+            }
+        });
+        return mutableProductsByCustomerResponse;
+    }
+    //end ProductsByCustomer
+
+
+    //start ExpenseReport
+    public LiveData<Resource<ExpenseReportModel>> getExpenseReport(String code) {
+        progressbarObservable.setValue(true);
+        apiService.getExpenseReport(code).enqueue(new Callback<ExpenseReportModel>() {
+            @Override
+            public void onResponse(@NotNull Call<ExpenseReportModel> call, @NotNull Response<ExpenseReportModel> response) {
+                Log.d(TAG, "getProducts(): " + response);
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutableExpenseReportModel.postValue(Resource.success(response.body()));
+                        } else {
+                            mutableExpenseReportModel.postValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutableExpenseReportModel.setValue(Resource.error("No data found", null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<ExpenseReportModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutableExpenseReportModel.setValue(Resource.error(t.getMessage(), null));
+                Log.d(TAG, "error(): " + t.getMessage());
+            }
+        });
+        return mutableExpenseReportModel;
+    }
+    //end ExpenseReport
+
+    //start my orders
+    public LiveData<Resource<MyOrdersModel>> getMyOrders(String empCode,String fromDate,String toDate) {
+        progressbarObservable.setValue(true);
+        apiService.getOrders(empCode,fromDate,toDate).enqueue(new Callback<MyOrdersModel>() {
+            @Override
+            public void onResponse(@NotNull Call<MyOrdersModel> call, @NotNull Response<MyOrdersModel> response) {
+                Log.d(TAG, "getMyOrders(): " + response);
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutableMyOrdersResponse.setValue(Resource.success(response.body()));
+                        } else {
+                            mutableMyOrdersResponse.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutableMyOrdersResponse.setValue(Resource.error("No data found", null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<MyOrdersModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutableMyOrdersResponse.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+        return mutableMyOrdersResponse;
+    }
+
+    //end my orders
+    //
+    // report list
+    public LiveData<Resource<ReportListModel>> getReportList() {
+        progressbarObservable.setValue(true);
+        apiService.getReportList().enqueue(new Callback<ReportListModel>() {
+            @Override
+            public void onResponse(@NotNull Call<ReportListModel> call, @NotNull Response<ReportListModel> response) {
+                Log.d(TAG, "getReportList(): " + response);
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutableReportList.setValue(Resource.success(response.body()));
+                        } else {
+                            mutableReportList.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutableReportList.setValue(Resource.error("No data found", null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<ReportListModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutableReportList.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+        return mutableReportList;
+    }
+
+    //end my orders
+
+    //start Customer
+    public MutableLiveData<Resource<CustomerDetailsModel>> getCustomer(String type,String slpCode) {
+        progressbarObservable.setValue(true);
+        apiService.getCustomer(type,slpCode).enqueue(new Callback<CustomerDetailsModel>() {
+            @Override
+            public void onResponse(@NotNull Call<CustomerDetailsModel> call, @NotNull Response<CustomerDetailsModel> response) {
+                Log.d(TAG, "getCustomer(): " + response);
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutableCustomerDetailsModel.setValue(Resource.success(response.body()));
+                        } else {
+                            mutableCustomerDetailsModel.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutableCustomerDetailsModel.setValue(Resource.error(response.message(), null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<CustomerDetailsModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutableCustomerDetailsModel.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+        return mutableCustomerDetailsModel;
+    }
+
+    //end Customer
+
+
+    //start Customer group
+    public LiveData<Resource<ActivityTypeModel>> getActivityType() {
+        progressbarObservable.setValue(true);
+        apiService.getActivityType().enqueue(new Callback<ActivityTypeModel>() {
+            @Override
+            public void onResponse(@NotNull Call<ActivityTypeModel> call, @NotNull Response<ActivityTypeModel> response) {
+                Log.d(TAG, "getActivityType(): " + response);
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutableActivityTypeModel.setValue(Resource.success(response.body()));
+                        } else {
+                            mutableActivityTypeModel.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutableActivityTypeModel.setValue(Resource.error(response.message(), null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<ActivityTypeModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutableActivityTypeModel.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+        return mutableActivityTypeModel;
+    }
+
+    //end Customer group
+
+    //start Customer group
+    public LiveData<Resource<CustomerGroupModel>> getCustomerGroup() {
+        progressbarObservable.setValue(true);
+        apiService.getCustomerGroup().enqueue(new Callback<CustomerGroupModel>() {
+            @Override
+            public void onResponse(@NotNull Call<CustomerGroupModel> call, @NotNull Response<CustomerGroupModel> response) {
+                Log.d(TAG, "getCustomerGroup(): " + response);
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutableCustomerGroupModel.setValue(Resource.success(response.body()));
+                        } else {
+                            mutableCustomerGroupModel.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutableCustomerGroupModel.setValue(Resource.error("No data found", null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<CustomerGroupModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutableCustomerGroupModel.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+        return mutableCustomerGroupModel;
+    }
+
+    //end Customer group
+
+    //start Payment terms
+    public LiveData<Resource<PaymentTermsModel>> getPaymentTerms() {
+        progressbarObservable.setValue(true);
+        apiService.getPaymentTerms().enqueue(new Callback<PaymentTermsModel>() {
+            @Override
+            public void onResponse(@NotNull Call<PaymentTermsModel> call, @NotNull Response<PaymentTermsModel> response) {
+                Log.d(TAG, "getPaymentTerms(): " + response);
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutablePaymentTermsModel.setValue(Resource.success(response.body()));
+                        } else {
+                            mutablePaymentTermsModel.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutablePaymentTermsModel.setValue(Resource.error("No data found", null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<PaymentTermsModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutablePaymentTermsModel.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+        return mutablePaymentTermsModel;
+    }
+
+    //end Payment terms
+
+    //start customer outstanding
+
+    public LiveData<Resource<CustomerOutstandingModel>> getCustomerOutstanding() {
+        progressbarObservable.setValue(true);
+        apiService.getCustomerOutstanding().enqueue(new Callback<CustomerOutstandingModel>() {
+            @Override
+            public void onResponse(@NotNull Call<CustomerOutstandingModel> call, @NotNull Response<CustomerOutstandingModel> response) {
+                Log.d(TAG, "getCustomerOutstanding(): " + response);
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutableCustomerOutstanding.setValue(Resource.success(response.body()));
+                        } else {
+                            mutableCustomerOutstanding.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutableCustomerOutstanding.setValue(Resource.error("No data found", null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<CustomerOutstandingModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutableCustomerOutstanding.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+        return mutableCustomerOutstanding;
+    }
+
+    //end customer outstanding
+
+    //start warehouse
+    public LiveData<Resource<WarehouseModel>> getWarehouse(String slpCode) {
+        progressbarObservable.setValue(true);
+        apiService.getWareHouse(slpCode).enqueue(new Callback<WarehouseModel>() {
+            @Override
+            public void onResponse(@NotNull Call<WarehouseModel> call, @NotNull Response<WarehouseModel> response) {
+                Log.d(TAG, "getWarehouse(): " + response);
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutableWarehouseModel.setValue(Resource.success(response.body()));
+                        } else {
+                            mutableWarehouseModel.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutableCustomerOutstanding.setValue(Resource.error("No data found", null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<WarehouseModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutableWarehouseModel.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+        return mutableWarehouseModel;
+    }
+
+    //end warehouse
+    //
+    // start warehouse
+    public LiveData<Resource<WarehouseModel>> getInventoryWareHouse(String slpCode) {
+        progressbarObservable.setValue(true);
+        apiService.getInventoryWareHouse(slpCode).enqueue(new Callback<WarehouseModel>() {
+            @Override
+            public void onResponse(@NotNull Call<WarehouseModel> call, @NotNull Response<WarehouseModel> response) {
+                Log.d(TAG, "getWarehouse(): " + response);
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutableWarehouseModel.setValue(Resource.success(response.body()));
+                        } else {
+                            mutableWarehouseModel.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutableCustomerOutstanding.setValue(Resource.error("No data found", null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<WarehouseModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutableWarehouseModel.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+        return mutableWarehouseModel;
+    }
+
+    //end warehouse
+
+    //start state
+    public LiveData<Resource<StateModel>> getState() {
+        progressbarObservable.setValue(true);
+        apiService.getState().enqueue(new Callback<StateModel>() {
+            @Override
+            public void onResponse(@NotNull Call<StateModel> call, @NotNull Response<StateModel> response) {
+                Log.d(TAG, "states: " + response);
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutableStateModel.setValue(Resource.success(response.body()));
+                        } else {
+                            mutableStateModel.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutableStateModel.setValue(Resource.error("No data found", null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<StateModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutableStateModel.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+        return mutableStateModel;
+    }
+
+    //end state
+
+    //start ComplaintType
+    public LiveData<Resource<ComplaintTypeModel>> getComplaintType() {
+        progressbarObservable.setValue(true);
+        apiService.getComplaintType().enqueue(new Callback<ComplaintTypeModel>() {
+            @Override
+            public void onResponse(@NotNull Call<ComplaintTypeModel> call, @NotNull Response<ComplaintTypeModel> response) {
+                Log.d(TAG, "getWarehouse(): " + response);
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutableComplaintTypeModel.setValue(Resource.success(response.body()));
+                        } else {
+                            mutableComplaintTypeModel.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutableComplaintTypeModel.setValue(Resource.error("No data found", null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<ComplaintTypeModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutableComplaintTypeModel.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+        return mutableComplaintTypeModel;
+    }
+
+    //end ComplaintType
+
+    //start ComplaintSubType
+    public LiveData<Resource<ComplaintSubTypeModel>> getComplaintSubType(String ctCode) {
+        progressbarObservable.setValue(true);
+        apiService.getComplaintSubType(ctCode).enqueue(new Callback<ComplaintSubTypeModel>() {
+            @Override
+            public void onResponse(@NotNull Call<ComplaintSubTypeModel> call, @NotNull Response<ComplaintSubTypeModel> response) {
+                Log.d(TAG, "getWarehouse(): " + response);
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutableComplaintSubTypeModel.setValue(Resource.success(response.body()));
+                        } else {
+                            mutableComplaintSubTypeModel.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutableComplaintSubTypeModel.setValue(Resource.error("No data found", null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<ComplaintSubTypeModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutableComplaintSubTypeModel.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+        return mutableComplaintSubTypeModel;
+    }
+
+    //end ComplaintSubType
+
+    //start DealerName
+    public MutableLiveData<Resource<DealerNameModel>> getDealerNames() {
+        progressbarObservable.setValue(true);
+        apiService.getDealerName().enqueue(new Callback<DealerNameModel>() {
+            @Override
+            public void onResponse(@NotNull Call<DealerNameModel> call, @NotNull Response<DealerNameModel> response) {
+                Log.d(TAG, "getWarehouse(): " + response);
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutableDealerNameModel.setValue(Resource.success(response.body()));
+                        } else {
+                            mutableDealerNameModel.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutableDealerNameModel.setValue(Resource.error("No data found", null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<DealerNameModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutableDealerNameModel.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+        return mutableDealerNameModel;
+    }
+
+    //end DealerName
+
+    // start DealerNameBySlpCode
+    public MutableLiveData<Resource<DealerNameModel>> getDealerNamesBySlpCode(String SlpCode) {
+        progressbarObservable.setValue(true);
+        apiService.getDealerNameBySlpCode(SlpCode).enqueue(new Callback<DealerNameModel>() {
+            @Override
+            public void onResponse(@NotNull Call<DealerNameModel> call, @NotNull Response<DealerNameModel> response) {
+                Log.d(TAG, "getWarehouse(): " + response);
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutableDealerNameModel.setValue(Resource.success(response.body()));
+                        } else {
+                            mutableDealerNameModel.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutableDealerNameModel.setValue(Resource.error("No data found", null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<DealerNameModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutableDealerNameModel.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+        return mutableDealerNameModel;
+    }
+
+    //end DealerNameBySlpCode
+
+    //start Inventory
+    public LiveData<Resource<InventoryModel>> getInventory(String slpCode) {
+        progressbarObservable.setValue(true);
+        apiService.getInventory(slpCode).enqueue(new Callback<InventoryModel>() {
+            @Override
+            public void onResponse(@NotNull Call<InventoryModel> call, @NotNull Response<InventoryModel> response) {
+                Log.d(TAG, "getInventory(): " + response);
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutableInventoryModel.setValue(Resource.success(response.body()));
+                        } else {
+                            mutableInventoryModel.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutableInventoryModel.setValue(Resource.error(response.message(), null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<InventoryModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutableInventoryModel.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+        return mutableInventoryModel;
+    }
+
+    //end Inventory
+    //
+    // start Inventory whs wise
+    public LiveData<Resource<InventoryModel>> getInventoryWhs(String slpCode, String wCode) {
+        progressbarObservable.setValue(true);
+        apiService.getInventoryWhs(slpCode, wCode).enqueue(new Callback<InventoryModel>() {
+            @Override
+            public void onResponse(@NotNull Call<InventoryModel> call, @NotNull Response<InventoryModel> response) {
+                Log.d(TAG, "getInventory(): " + response);
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutableInventoryModel.setValue(Resource.success(response.body()));
+                        } else {
+                            mutableInventoryModel.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutableInventoryModel.setValue(Resource.error(response.message(), null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<InventoryModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutableInventoryModel.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+        return mutableInventoryModel;
+    }
+
+    //end Inventory whs wise
+
+
+    //start Activity
+    public LiveData<Resource<ActivityReportModel>> getActivityReport() {
+        progressbarObservable.setValue(true);
+        apiService.getActivityReport().enqueue(new Callback<ActivityReportModel>() {
+            @Override
+            public void onResponse(@NotNull Call<ActivityReportModel> call, @NotNull Response<ActivityReportModel> response) {
+                Log.d(TAG, "getInventory(): " + response);
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutableActivityReportModel.setValue(Resource.success(response.body()));
+                        } else {
+                            mutableActivityReportModel.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutableActivityReportModel.setValue(Resource.error(response.message(), null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<ActivityReportModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutableActivityReportModel.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+        return mutableActivityReportModel;
+    }
+
+    //end Activity
+
+    //start Payment details
+    public LiveData<Resource<PaymentDetailsModel>> getPaymentDetails() {
+        progressbarObservable.setValue(true);
+        apiService.getPaymentDetails().enqueue(new Callback<PaymentDetailsModel>() {
+            @Override
+            public void onResponse(@NotNull Call<PaymentDetailsModel> call, @NotNull Response<PaymentDetailsModel> response) {
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutablePaymentDetailsModel.setValue(Resource.success(response.body()));
+                        } else {
+                            mutablePaymentDetailsModel.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutablePaymentDetailsModel.setValue(Resource.error(response.message(), null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<PaymentDetailsModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutablePaymentDetailsModel.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+        return mutablePaymentDetailsModel;
+    }
+
+    //end Payment details
+
+    //start Payment invoices
+    public LiveData<Resource<PaymentInvoiceModel>> getPaymentInvoices(String empCode, String customerCode) {
+        progressbarObservable.setValue(true);
+        apiService.getPaymentInvoice(empCode, customerCode).enqueue(new Callback<PaymentInvoiceModel>() {
+            @Override
+            public void onResponse(@NotNull Call<PaymentInvoiceModel> call, @NotNull Response<PaymentInvoiceModel> response) {
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutableInvoiceModel.setValue(Resource.success(response.body()));
+                        } else {
+                            mutableInvoiceModel.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutableInvoiceModel.setValue(Resource.error(response.message(), null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<PaymentInvoiceModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutableInvoiceModel.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+        return mutableInvoiceModel;
+    }
+    //end Payment invoices
+
+    //start Order details view
+    public LiveData<Resource<OrderItemListModel>> getOrderDetails(String OrderEntry) {
+        progressbarObservable.setValue(true);
+        apiService.getOrderDetails(OrderEntry).enqueue(new Callback<OrderItemListModel>() {
+            @Override
+            public void onResponse(@NotNull Call<OrderItemListModel> call, @NotNull Response<OrderItemListModel> response) {
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutableOrderItemList.setValue(Resource.success(response.body()));
+                        } else {
+                            mutableOrderItemList.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutableOrderItemList.setValue(Resource.error(response.message(), null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<OrderItemListModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutableOrderItemList.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+        return mutableOrderItemList;
+    }
+
+    //end Order details view
+
+    //start Sales Analysis Report
+    public LiveData<Resource<SalesAnalysisReportModel>> getSalesAnalysisReport(String cardCode,String fromDate,String toDate) {
+        progressbarObservable.setValue(true);
+        apiService.getSalesAnalysisReport(cardCode, fromDate, toDate).enqueue(new Callback<SalesAnalysisReportModel>() {
+            @Override
+            public void onResponse(@NotNull Call<SalesAnalysisReportModel> call, @NotNull Response<SalesAnalysisReportModel> response) {
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutableSalesAnalysisReport.setValue(Resource.success(response.body()));
+                        } else {
+                            mutableSalesAnalysisReport.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutableSalesAnalysisReport.setValue(Resource.error("No data found", null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<SalesAnalysisReportModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutableSalesAnalysisReport.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+        return mutableSalesAnalysisReport;
+    }
+
+    //end Sales Analysis Report
+
+
+    //start Complaint Report
+    public LiveData<Resource<ComplaintReportModel>> getComplaintReport(String salesEmp) {
+        progressbarObservable.setValue(true);
+        apiService.getComplaintsReport(salesEmp).enqueue(new Callback<ComplaintReportModel>() {
+            @Override
+            public void onResponse(@NotNull Call<ComplaintReportModel> call, @NotNull Response<ComplaintReportModel> response) {
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutableComplaintReportModel.setValue(Resource.success(response.body()));
+                        } else {
+                            mutableComplaintReportModel.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutableComplaintReportModel.setValue(Resource.error("No data found", null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<ComplaintReportModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutableComplaintReportModel.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+        return mutableComplaintReportModel;
+    }
+    //end Complaint Report
+
+    //start GstType
+    public LiveData<Resource<GstTypeModel>> getGstType() {
+        progressbarObservable.setValue(true);
+        apiService.getGstType().enqueue(new Callback<GstTypeModel>() {
+            @Override
+            public void onResponse(@NotNull Call<GstTypeModel> call, @NotNull Response<GstTypeModel> response) {
+                progressbarObservable.setValue(false);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutableGstTypeModel.setValue(Resource.success(response.body()));
+                        } else {
+                            mutableGstTypeModel.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutableGstTypeModel.setValue(Resource.error("No data found", null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<GstTypeModel> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutableGstTypeModel.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+        return mutableGstTypeModel;
+    }
+
+    //end GstType
+
+    //start Customer
+    public LiveData<Resource<BasePostResponse>> addCustomers(CustomerCreationModel customerCreationModel, MultipartBody.Part mImageFile) {
+        progressbarObservable.setValue(true);
+        apiService.addCustomers(customerCreationModel, mImageFile).enqueue(new Callback<BasePostResponse>() {
+            @Override
+            public void onResponse(@NotNull Call<BasePostResponse> call, @NotNull Response<BasePostResponse> response) {
+                progressbarObservable.setValue(false);
+                Log.d(TAG, "onResponse response:: " + response);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutablePostResponse.setValue(Resource.success(response.body()));
+                        } else {
+                            mutablePostResponse.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutablePostResponse.setValue(Resource.error(response.message(), null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<BasePostResponse> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutablePostResponse.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+        return mutablePostResponse;
+    }
+
+    //end Customer
+
+    //start Activity
+    public MutableLiveData<Resource<BasePostResponse>> addActivity(CreateActivityModel createActivityModel,MultipartBody.Part mImageFile) {
+        progressbarObservable.setValue(true);
+        apiService.addActivity(createActivityModel,mImageFile).enqueue(new Callback<BasePostResponse>() {
+            @Override
+            public void onResponse(@NotNull Call<BasePostResponse> call, @NotNull Response<BasePostResponse> response) {
+                progressbarObservable.setValue(false);
+                Log.d(TAG, "onResponse response:: " + response);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutablePostResponse.setValue(Resource.success(response.body()));
+                        } else {
+                            mutablePostResponse.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutablePostResponse.setValue(Resource.error(response.message(), null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<BasePostResponse> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutablePostResponse.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+        return mutablePostResponse;
+    }
+    //end Activity
+
+    //start Leads
+    public LiveData<Resource<BasePostResponse>> addLeads(LeadCreationModel leadCreationModel, MultipartBody.Part mImageFile) {
+        progressbarObservable.setValue(true);
+        apiService.addLeads(leadCreationModel, mImageFile).enqueue(new Callback<BasePostResponse>() {
+            @Override
+            public void onResponse(@NotNull Call<BasePostResponse> call, @NotNull Response<BasePostResponse> response) {
+                progressbarObservable.setValue(false);
+                Log.d(TAG, "onResponse response:: " + response);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutablePostResponse.setValue(Resource.success(response.body()));
+                        } else {
+                            mutablePostResponse.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutablePostResponse.setValue(Resource.error(response.message(), null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<BasePostResponse> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutablePostResponse.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+        return mutablePostResponse;
+    }
+    //end Leads
+
+    //start Expenses
+    public LiveData<Resource<BasePostResponse>> addExpense(PostExpense postExpense,MultipartBody.Part image1,MultipartBody.Part image2,
+                                                           MultipartBody.Part image3,MultipartBody.Part image4,MultipartBody.Part image5,
+                                                           MultipartBody.Part image6,MultipartBody.Part image7) {
+        progressbarObservable.setValue(true);
+        apiService.addExpenses(postExpense,image1,image2,image3,image4,image5,image6,image7).enqueue(new Callback<BasePostResponse>() {
+            @Override
+            public void onResponse(@NotNull Call<BasePostResponse> call, @NotNull Response<BasePostResponse> response) {
+                progressbarObservable.setValue(false);
+                Log.d(TAG, "onResponse response:: " + response);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutablePostResponse.setValue(Resource.success(response.body()));
+                        } else {
+                            mutablePostResponse.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutablePostResponse.setValue(Resource.error(response.message(), null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<BasePostResponse> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutablePostResponse.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+        return mutablePostResponse;
+    }
+    //end Expenses
+
+    //start sales order
+    public LiveData<Resource<BasePostResponse>> addSalesOrder(SalesOrderCreationModel salesOrderCreationModel) {
+        progressbarObservable.setValue(true);
+        apiService.addSalesOrder(salesOrderCreationModel).enqueue(new Callback<BasePostResponse>() {
+            @Override
+            public void onResponse(@NotNull Call<BasePostResponse> call, @NotNull Response<BasePostResponse> response) {
+                progressbarObservable.setValue(false);
+                Log.d(TAG, "onResponse response:: " + response);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutablePostResponse.setValue(Resource.success(response.body()));
+                        } else {
+                            mutablePostResponse.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutablePostResponse.setValue(Resource.error(response.message(), null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<BasePostResponse> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutablePostResponse.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+
+        return mutablePostResponse;
+    }
+
+    //end sales order
+
+
+    //start complaints order
+    public LiveData<Resource<BasePostResponse>> addComplaint(CustomerComplaintModel customerComplaintModel) {
+        progressbarObservable.setValue(true);
+        apiService.addComplaint(customerComplaintModel).enqueue(new Callback<BasePostResponse>() {
+            @Override
+            public void onResponse(@NotNull Call<BasePostResponse> call, @NotNull Response<BasePostResponse> response) {
+                progressbarObservable.setValue(false);
+                Log.d(TAG, "onResponse response:: " + response);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutablePostResponse.setValue(Resource.success(response.body()));
+                        } else {
+                            mutablePostResponse.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutablePostResponse.setValue(Resource.error(response.message(), null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<BasePostResponse> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutablePostResponse.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+
+        return mutablePostResponse;
+    }
+
+    //end complaints order
+
+    //start CheckInOut
+    public LiveData<Resource<BasePostResponse>> checkInOut(CheckInOut checkInOut) {
+        progressbarObservable.setValue(true);
+        apiService.checkInOut(checkInOut).enqueue(new Callback<BasePostResponse>() {
+            @Override
+            public void onResponse(@NotNull Call<BasePostResponse> call, @NotNull Response<BasePostResponse> response) {
+                progressbarObservable.setValue(false);
+                Log.d(TAG, "onResponse response:: " + response);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusCode() == 0) {
+                            mutablePostResponse.setValue(Resource.success(response.body()));
+                        } else {
+                            mutablePostResponse.setValue(Resource.error(response.body().getStatusMessage(), null));
+                        }
+                    }
+                } else {
+                    mutablePostResponse.setValue(Resource.error(response.message(), null));
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<BasePostResponse> call, @NotNull Throwable t) {
+                progressbarObservable.setValue(false);
+                mutablePostResponse.setValue(Resource.error(t.getMessage(), null));
+            }
+        });
+
+        return mutablePostResponse;
+    }
+
+    //end CheckInOut
+}

@@ -1,0 +1,341 @@
+package com.cbs.snb.databinding;
+import com.cbs.snb.R;
+import com.cbs.snb.BR;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import android.view.View;
+@SuppressWarnings("unchecked")
+public class ActivityLoginBindingImpl extends ActivityLoginBinding implements com.cbs.snb.generated.callback.OnClickListener.Listener {
+
+    @Nullable
+    private static final androidx.databinding.ViewDataBinding.IncludedLayouts sIncludes;
+    @Nullable
+    private static final android.util.SparseIntArray sViewsWithIds;
+    static {
+        sIncludes = null;
+        sViewsWithIds = new android.util.SparseIntArray();
+        sViewsWithIds.put(R.id.image, 5);
+        sViewsWithIds.put(R.id.header, 6);
+        sViewsWithIds.put(R.id.ilUsername, 7);
+        sViewsWithIds.put(R.id.ilPassword, 8);
+        sViewsWithIds.put(R.id.btnServerLogin, 9);
+    }
+    // views
+    @NonNull
+    private final androidx.core.widget.NestedScrollView mboundView0;
+    // variables
+    @Nullable
+    private final android.view.View.OnClickListener mCallback9;
+    // values
+    // listeners
+    // Inverse Binding Event Handlers
+    private androidx.databinding.InverseBindingListener etEmailandroidTextAttrChanged = new androidx.databinding.InverseBindingListener() {
+        @Override
+        public void onChange() {
+            // Inverse of loginViewModel.EmailAddress.getValue()
+            //         is loginViewModel.EmailAddress.setValue((java.lang.String) callbackArg_0)
+            java.lang.String callbackArg_0 = androidx.databinding.adapters.TextViewBindingAdapter.getTextString(etEmail);
+            // localize variables for thread safety
+            // loginViewModel != null
+            boolean loginViewModelJavaLangObjectNull = false;
+            // loginViewModel.EmailAddress.getValue()
+            java.lang.String loginViewModelEmailAddressGetValue = null;
+            // loginViewModel.EmailAddress
+            androidx.lifecycle.MutableLiveData<java.lang.String> loginViewModelEmailAddress = null;
+            // loginViewModel.EmailAddress != null
+            boolean loginViewModelEmailAddressJavaLangObjectNull = false;
+            // loginViewModel
+            com.cbs.snb.ui.login.LoginViewModel loginViewModel = mLoginViewModel;
+
+
+
+            loginViewModelJavaLangObjectNull = (loginViewModel) != (null);
+            if (loginViewModelJavaLangObjectNull) {
+
+
+                loginViewModelEmailAddress = loginViewModel.EmailAddress;
+
+                loginViewModelEmailAddressJavaLangObjectNull = (loginViewModelEmailAddress) != (null);
+                if (loginViewModelEmailAddressJavaLangObjectNull) {
+
+
+
+
+                    loginViewModelEmailAddress.setValue(((java.lang.String) (callbackArg_0)));
+                }
+            }
+        }
+    };
+    private androidx.databinding.InverseBindingListener etPasswordandroidTextAttrChanged = new androidx.databinding.InverseBindingListener() {
+        @Override
+        public void onChange() {
+            // Inverse of loginViewModel.Password.getValue()
+            //         is loginViewModel.Password.setValue((java.lang.String) callbackArg_0)
+            java.lang.String callbackArg_0 = androidx.databinding.adapters.TextViewBindingAdapter.getTextString(etPassword);
+            // localize variables for thread safety
+            // loginViewModel.Password.getValue()
+            java.lang.String loginViewModelPasswordGetValue = null;
+            // loginViewModel != null
+            boolean loginViewModelJavaLangObjectNull = false;
+            // loginViewModel.Password != null
+            boolean loginViewModelPasswordJavaLangObjectNull = false;
+            // loginViewModel.Password
+            androidx.lifecycle.MutableLiveData<java.lang.String> loginViewModelPassword = null;
+            // loginViewModel
+            com.cbs.snb.ui.login.LoginViewModel loginViewModel = mLoginViewModel;
+
+
+
+            loginViewModelJavaLangObjectNull = (loginViewModel) != (null);
+            if (loginViewModelJavaLangObjectNull) {
+
+
+                loginViewModelPassword = loginViewModel.Password;
+
+                loginViewModelPasswordJavaLangObjectNull = (loginViewModelPassword) != (null);
+                if (loginViewModelPasswordJavaLangObjectNull) {
+
+
+
+
+                    loginViewModelPassword.setValue(((java.lang.String) (callbackArg_0)));
+                }
+            }
+        }
+    };
+
+    public ActivityLoginBindingImpl(@Nullable androidx.databinding.DataBindingComponent bindingComponent, @NonNull View root) {
+        this(bindingComponent, root, mapBindings(bindingComponent, root, 10, sIncludes, sViewsWithIds));
+    }
+    private ActivityLoginBindingImpl(androidx.databinding.DataBindingComponent bindingComponent, View root, Object[] bindings) {
+        super(bindingComponent, root, 3
+            , (android.widget.Button) bindings[9]
+            , (com.google.android.material.textfield.TextInputEditText) bindings[1]
+            , (com.google.android.material.textfield.TextInputEditText) bindings[2]
+            , (android.widget.TextView) bindings[6]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[8]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[7]
+            , (android.widget.ImageView) bindings[5]
+            , (androidx.core.widget.ContentLoadingProgressBar) bindings[4]
+            , (android.widget.TextView) bindings[3]
+            );
+        this.etEmail.setTag(null);
+        this.etPassword.setTag(null);
+        this.mboundView0 = (androidx.core.widget.NestedScrollView) bindings[0];
+        this.mboundView0.setTag(null);
+        this.progressBar.setTag(null);
+        this.tvForgetPassword.setTag(null);
+        setRootTag(root);
+        // listeners
+        mCallback9 = new com.cbs.snb.generated.callback.OnClickListener(this, 1);
+        invalidateAll();
+    }
+
+    @Override
+    public void invalidateAll() {
+        synchronized(this) {
+                mDirtyFlags = 0x10L;
+        }
+        requestRebind();
+    }
+
+    @Override
+    public boolean hasPendingBindings() {
+        synchronized(this) {
+            if (mDirtyFlags != 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean setVariable(int variableId, @Nullable Object variable)  {
+        boolean variableSet = true;
+        if (BR.loginViewModel == variableId) {
+            setLoginViewModel((com.cbs.snb.ui.login.LoginViewModel) variable);
+        }
+        else {
+            variableSet = false;
+        }
+            return variableSet;
+    }
+
+    public void setLoginViewModel(@Nullable com.cbs.snb.ui.login.LoginViewModel LoginViewModel) {
+        this.mLoginViewModel = LoginViewModel;
+        synchronized(this) {
+            mDirtyFlags |= 0x8L;
+        }
+        notifyPropertyChanged(BR.loginViewModel);
+        super.requestRebind();
+    }
+
+    @Override
+    protected boolean onFieldChange(int localFieldId, Object object, int fieldId) {
+        switch (localFieldId) {
+            case 0 :
+                return onChangeLoginViewModelEmailAddress((androidx.lifecycle.MutableLiveData<java.lang.String>) object, fieldId);
+            case 1 :
+                return onChangeLoginViewModelPassword((androidx.lifecycle.MutableLiveData<java.lang.String>) object, fieldId);
+            case 2 :
+                return onChangeLoginViewModelIsLoading((androidx.databinding.ObservableBoolean) object, fieldId);
+        }
+        return false;
+    }
+    private boolean onChangeLoginViewModelEmailAddress(androidx.lifecycle.MutableLiveData<java.lang.String> LoginViewModelEmailAddress, int fieldId) {
+        if (fieldId == BR._all) {
+            synchronized(this) {
+                    mDirtyFlags |= 0x1L;
+            }
+            return true;
+        }
+        return false;
+    }
+    private boolean onChangeLoginViewModelPassword(androidx.lifecycle.MutableLiveData<java.lang.String> LoginViewModelPassword, int fieldId) {
+        if (fieldId == BR._all) {
+            synchronized(this) {
+                    mDirtyFlags |= 0x2L;
+            }
+            return true;
+        }
+        return false;
+    }
+    private boolean onChangeLoginViewModelIsLoading(androidx.databinding.ObservableBoolean LoginViewModelIsLoading, int fieldId) {
+        if (fieldId == BR._all) {
+            synchronized(this) {
+                    mDirtyFlags |= 0x4L;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    protected void executeBindings() {
+        long dirtyFlags = 0;
+        synchronized(this) {
+            dirtyFlags = mDirtyFlags;
+            mDirtyFlags = 0;
+        }
+        androidx.lifecycle.MutableLiveData<java.lang.String> loginViewModelEmailAddress = null;
+        androidx.lifecycle.MutableLiveData<java.lang.String> loginViewModelPassword = null;
+        androidx.databinding.ObservableBoolean loginViewModelIsLoading = null;
+        java.lang.String loginViewModelPasswordGetValue = null;
+        java.lang.String loginViewModelEmailAddressGetValue = null;
+        boolean loginViewModelIsLoadingGet = false;
+        int loginViewModelIsLoadingViewVISIBLEViewGONE = 0;
+        com.cbs.snb.ui.login.LoginViewModel loginViewModel = mLoginViewModel;
+
+        if ((dirtyFlags & 0x1fL) != 0) {
+
+
+            if ((dirtyFlags & 0x19L) != 0) {
+
+                    if (loginViewModel != null) {
+                        // read loginViewModel.EmailAddress
+                        loginViewModelEmailAddress = loginViewModel.EmailAddress;
+                    }
+                    updateLiveDataRegistration(0, loginViewModelEmailAddress);
+
+
+                    if (loginViewModelEmailAddress != null) {
+                        // read loginViewModel.EmailAddress.getValue()
+                        loginViewModelEmailAddressGetValue = loginViewModelEmailAddress.getValue();
+                    }
+            }
+            if ((dirtyFlags & 0x1aL) != 0) {
+
+                    if (loginViewModel != null) {
+                        // read loginViewModel.Password
+                        loginViewModelPassword = loginViewModel.Password;
+                    }
+                    updateLiveDataRegistration(1, loginViewModelPassword);
+
+
+                    if (loginViewModelPassword != null) {
+                        // read loginViewModel.Password.getValue()
+                        loginViewModelPasswordGetValue = loginViewModelPassword.getValue();
+                    }
+            }
+            if ((dirtyFlags & 0x1cL) != 0) {
+
+                    if (loginViewModel != null) {
+                        // read loginViewModel.isLoading
+                        loginViewModelIsLoading = loginViewModel.getIsLoading();
+                    }
+                    updateRegistration(2, loginViewModelIsLoading);
+
+
+                    if (loginViewModelIsLoading != null) {
+                        // read loginViewModel.isLoading.get()
+                        loginViewModelIsLoadingGet = loginViewModelIsLoading.get();
+                    }
+                if((dirtyFlags & 0x1cL) != 0) {
+                    if(loginViewModelIsLoadingGet) {
+                            dirtyFlags |= 0x40L;
+                    }
+                    else {
+                            dirtyFlags |= 0x20L;
+                    }
+                }
+
+
+                    // read loginViewModel.isLoading.get() ? View.VISIBLE : View.GONE
+                    loginViewModelIsLoadingViewVISIBLEViewGONE = ((loginViewModelIsLoadingGet) ? (android.view.View.VISIBLE) : (android.view.View.GONE));
+            }
+        }
+        // batch finished
+        if ((dirtyFlags & 0x19L) != 0) {
+            // api target 1
+
+            androidx.databinding.adapters.TextViewBindingAdapter.setText(this.etEmail, loginViewModelEmailAddressGetValue);
+        }
+        if ((dirtyFlags & 0x10L) != 0) {
+            // api target 1
+
+            androidx.databinding.adapters.TextViewBindingAdapter.setTextWatcher(this.etEmail, (androidx.databinding.adapters.TextViewBindingAdapter.BeforeTextChanged)null, (androidx.databinding.adapters.TextViewBindingAdapter.OnTextChanged)null, (androidx.databinding.adapters.TextViewBindingAdapter.AfterTextChanged)null, etEmailandroidTextAttrChanged);
+            androidx.databinding.adapters.TextViewBindingAdapter.setTextWatcher(this.etPassword, (androidx.databinding.adapters.TextViewBindingAdapter.BeforeTextChanged)null, (androidx.databinding.adapters.TextViewBindingAdapter.OnTextChanged)null, (androidx.databinding.adapters.TextViewBindingAdapter.AfterTextChanged)null, etPasswordandroidTextAttrChanged);
+            this.tvForgetPassword.setOnClickListener(mCallback9);
+        }
+        if ((dirtyFlags & 0x1aL) != 0) {
+            // api target 1
+
+            androidx.databinding.adapters.TextViewBindingAdapter.setText(this.etPassword, loginViewModelPasswordGetValue);
+        }
+        if ((dirtyFlags & 0x1cL) != 0) {
+            // api target 1
+
+            this.progressBar.setVisibility(loginViewModelIsLoadingViewVISIBLEViewGONE);
+        }
+    }
+    // Listener Stub Implementations
+    // callback impls
+    public final void _internalCallbackOnClick(int sourceId , android.view.View callbackArg_0) {
+        // localize variables for thread safety
+        // loginViewModel != null
+        boolean loginViewModelJavaLangObjectNull = false;
+        // loginViewModel
+        com.cbs.snb.ui.login.LoginViewModel loginViewModel = mLoginViewModel;
+
+
+
+        loginViewModelJavaLangObjectNull = (loginViewModel) != (null);
+        if (loginViewModelJavaLangObjectNull) {
+
+
+            loginViewModel.forgotPassword();
+        }
+    }
+    // dirty flag
+    private  long mDirtyFlags = 0xffffffffffffffffL;
+    /* flag mapping
+        flag 0 (0x1L): loginViewModel.EmailAddress
+        flag 1 (0x2L): loginViewModel.Password
+        flag 2 (0x3L): loginViewModel.isLoading
+        flag 3 (0x4L): loginViewModel
+        flag 4 (0x5L): null
+        flag 5 (0x6L): loginViewModel.isLoading.get() ? View.VISIBLE : View.GONE
+        flag 6 (0x7L): loginViewModel.isLoading.get() ? View.VISIBLE : View.GONE
+    flag mapping end*/
+    //end
+}

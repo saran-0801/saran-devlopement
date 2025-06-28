@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_border_background"
+    android:orientation="horizontal"
+    android:weightSum="3"
+    android:paddingVertical="6dp">
+
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="0.75"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ems="2"
+        android:fontFamily="@font/poppins_medium"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:text="Sl.No"
+        android:textColor="#181C32"
+        android:textSize="12sp" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="1.5"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:ems="6"
+        android:fontFamily="@font/poppins_medium"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:text="Bar Code Number"
+        android:textColor="#181C32"
+        android:textSize="12sp" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="0.75"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:ems="2"
+        android:fontFamily="@font/poppins_medium"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:text="Action"
+        android:textAlignment="center"
+        android:textColor="#181C32"
+        android:textSize="12sp" />
+
+</LinearLayout>

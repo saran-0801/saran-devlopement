@@ -1,0 +1,79 @@
+package com.cbs.snb.ui.reports.salesanalysis;
+
+import android.app.DatePickerDialog;
+import android.content.Context;
+
+import androidx.lifecycle.LiveData;
+
+import com.cbs.snb.R;
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.ApiService;
+import com.cbs.snb.data.network.Resource;
+import com.cbs.snb.data.network.models.get.DealerNameModel;
+import com.cbs.snb.data.network.models.get.SalesAnalysisReportModel;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+import com.cbs.snb.utils.DateUtils;
+import com.cbs.snb.utils.rx.SchedulerProvider;
+
+import java.util.Calendar;
+
+import javax.inject.Inject;
+
+/**
+ * Created by Venkatesh on 14-07-2020.
+ */
+public class SalesAnalysisViewModel extends BaseViewModel<SalesAnalysisNavigator> {
+
+    @Inject
+    public SalesAnalysisViewModel(Repository repository, SchedulerProvider schedulerProvider,
+                                  PreferenceHelper preferenceHelper, AppDatabase database, ApiService service) {
+        super(repository, schedulerProvider, preferenceHelper, database, service);
+    }
+
+    public LiveData<Boolean> isLoading(){
+        return getRepository().getIsLoading();
+    }
+
+    public LiveData<Resource<SalesAnalysisReportModel>> getSalesAnalysisReport(String cardCode,String fromDate,String toDate){
+        return getRepository().getSalesAnalysisReport(cardCode,fromDate,toDate);
+    }
+
+
+    public LiveData<Resource<DealerNameModel>> getDealers(){
+        return getRepository().getDealerNames();
+    }
+
+    public void fromDate(Context context){
+        Calendar myCalendar = Calendar.getInstance();
+        DatePickerDialog.OnDateSetListener date = (view, year, month, dayOfMonth) -> {
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, month);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            getNavigator().fromDate(DateUtils.dateFormat().format(myCalendar.getTime()));
+        };
+
+        DatePickerDialog datePicker = new DatePickerDialog(context, R.style.DialogTheme, date, myCalendar
+                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH));
+        // datePicker.getDatePicker().setMinDate(System.currentTimeMillis());
+        datePicker.show();
+    }
+
+    public void toDate(Context context){
+        Calendar myCalendar = Calendar.getInstance();
+        DatePickerDialog.OnDateSetListener date = (view, year, month, dayOfMonth) -> {
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, month);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            getNavigator().toDate(DateUtils.dateFormat().format(myCalendar.getTime()));
+        };
+
+        DatePickerDialog datePicker = new DatePickerDialog(context, R.style.DialogTheme, date, myCalendar
+                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH));
+        // datePicker.getDatePicker().setMinDate(System.currentTimeMillis());
+        datePicker.show();
+    }
+}

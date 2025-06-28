@@ -1,0 +1,53 @@
+package com.cbs.snb.data.preferences;
+
+/**
+ * Created by Venkatesh on 11,November,2019
+ */
+public interface PreferenceHelper {
+
+    int getUserLoggedInMode();
+
+   // void setUserLoggedIn(LoggedInMode mode);
+
+    String getUserEmail();
+
+    void setUserEmail(String userId);
+
+    String getFirstName();
+
+    void setFirstName(String firstName);
+
+    String getLastName();
+
+    void setLastName(String lastName);
+
+    String getSalesEmpCode();
+
+    void setSalesEmpCode(String empCode);
+
+    String getEmpTypeCode();
+
+    void setEmpTypeCode(String typeCode);
+
+    String getEmpTypeName();
+
+    void setEmpTypeName(String typeName);
+
+    String getMobileNo();
+
+    void setMobileNo(String mobileNo);
+
+    String getDbName();
+
+    void setDbName(String dbName);
+
+    String getPassword();
+
+    void setPassword(String password);
+
+    void deleteUserName();
+
+    void deleteUserPassword();
+
+    void deletePreferences();
+}

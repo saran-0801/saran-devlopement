@@ -1,0 +1,31 @@
+package com.cbs.snb.data.network.models.get
+
+
+import android.annotation.SuppressLint
+import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
+import android.os.Parcelable
+
+@SuppressLint("ParcelCreator")
+@Parcelize
+data class ProductsByCustomerModel(
+    @SerializedName("responseObject")
+    val responseObject: List<ResponseObject>,
+    @SerializedName("statusCode")
+    val statusCode: Int, // 0
+    @SerializedName("statusMessage")
+    val statusMessage: String // Success
+) : Parcelable {
+    @SuppressLint("ParcelCreator")
+    @Parcelize
+    data class ResponseObject(
+        @SerializedName("Dscription")
+        val dscription: String, // Maida (Narasu's Blue) 50 kg
+        @SerializedName("ItemCode")
+        val itemCode: String // 1312
+    ) : Parcelable{
+        override fun toString(): String {
+            return dscription
+        }
+    }
+}

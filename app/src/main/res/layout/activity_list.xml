@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.gate.GateActivity">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="gateListViewModel"
+            type="com.covalsys.ttss_barcode.ui.gate.GateViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/activity_list_nested_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:scrollbars="vertical"
+            android:layout_alignTop="@+id/activity_list_nested_linear">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/activity_list_ll_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    android:visibility="invisible">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/activity_list_btn_show_header"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="Show Header"
+                        android:textAllCaps="false"
+                        android:textColor="@color/app_color"
+                        android:textSize="12sp"
+                        app:strokeColor="@color/app_color" />
+
+                    <LinearLayout
+                        android:id="@+id/activity_list_layout_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margins"
+                        android:background="@drawable/border_background"
+                        android:orientation="vertical"
+                        android:padding="1dp">
+
+                        <HorizontalScrollView
+                            android:id="@+id/activity_list_horizontal_scrollview"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scrollbars="horizontal">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/activity_list_rv_list"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:scrollbars="vertical"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                tools:listitem="@layout/recyclerview_item_layout" />
+
+                        </HorizontalScrollView>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/activity_list_ll_total"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="16dp"
+                            android:layout_marginTop="16dp"
+                            android:gravity="end"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.8"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="Total PCs"
+                                android:textColor="@color/disabled_color"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:id="@+id/activity_list_tv_total_psc"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.7"
+                                android:fontFamily="@font/poppins_semi_bold"
+                                android:text=""
+                                android:textAlignment="textEnd"
+                                android:textColor="@color/grey_950"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="16dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="end"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.8"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="Total Net WT"
+                                android:textColor="@color/disabled_color"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:id="@+id/activity_list_tv_total_net_wt"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.7"
+                                android:fontFamily="@font/poppins_semi_bold"
+                                android:text=""
+                                android:textAlignment="textEnd"
+                                android:textColor="@color/grey_950"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="16dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="end"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.8"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="Total Gross WT"
+                                android:textColor="@color/disabled_color"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:id="@+id/activity_list_tv_total_gross_wt"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.7"
+                                android:fontFamily="@font/poppins_semi_bold"
+                                android:text=""
+                                android:textAlignment="textEnd"
+                                android:textColor="@color/grey_950"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <LinearLayout
+            android:id="@+id/activity_list_nested_linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:orientation="vertical">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/activity_list_fab_doc_scan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginVertical="16dp"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/app_color"
+                android:contentDescription="@string/scanDoc"
+                android:src="@drawable/ic_add"
+                app:elevation="0dp"
+                app:fabSize="mini" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/activity_list_btn_batch_scan"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="0.9"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Batch Scan"
+                    android:textAllCaps="false"
+                    android:textColor="@color/app_color"
+                    android:textSize="12sp"
+                    app:strokeColor="@color/app_color" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/activity_list_btn_add_or_update"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="0.9"
+                    android:backgroundTint="@color/app_color"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Add"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/activity_list_btn_exit"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="0.9"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Exit App"
+                    android:textAllCaps="false"
+                    android:textColor="@color/app_color"
+                    android:textSize="12sp"
+                    app:strokeColor="@color/app_color" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/activity_list_btn_new_document"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="0.9"
+                    android:autoSizeMaxTextSize="12sp"
+                    android:autoSizeMinTextSize="10sp"
+                    android:autoSizeStepGranularity="2sp"
+                    android:autoSizeTextType="uniform"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="New Document"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textColor="@color/app_color"
+                    android:textSize="12sp"
+                    app:strokeColor="@color/app_color" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>
+

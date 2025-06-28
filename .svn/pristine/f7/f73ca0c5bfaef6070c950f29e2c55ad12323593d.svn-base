@@ -1,0 +1,7 @@
+package com.cbs.snb.ui.customerhistory.viewcustomer;
+
+/**
+ * Created by Venkatesh on 14-07-2020.
+ */
+public interface CustomerHistoryNavigator {
+}

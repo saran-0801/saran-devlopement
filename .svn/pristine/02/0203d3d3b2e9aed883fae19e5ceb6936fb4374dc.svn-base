@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+                                                        
+
+    
+
+                                           
+
+                 
+                                    
+                                                               
+           
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" android:tag="layout/settings_activity_0" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/tintAppBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="?attr/btnBackground"
+                app:elevation="4dp"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/layoutYellow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingRight="20dp">
+
+                    <ImageView
+                        android:id="@+id/theme_yellow"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@color/md_yellow_500"
+                        android:scaleType="centerInside" />
+
+                    <TextView
+                        android:id="@+id/tvYellowTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="start"
+                        android:padding="10dp"
+                        android:text="@string/yellow"
+                        android:textColor="@color/md_yellow_500" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/layout_bg" />
+
+                <LinearLayout
+                    android:id="@+id/layoutGreen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingRight="20dp">
+
+                    <ImageView
+                        android:id="@+id/theme_green"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@color/md_green_500"
+                        android:scaleType="centerInside" />
+
+                    <TextView
+                        android:id="@+id/tvGreenTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="start"
+                        android:padding="10dp"
+                        android:text="@string/green"
+                        android:textColor="@color/md_green_500" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/layout_bg" />
+
+
+                <LinearLayout
+                    android:id="@+id/layoutRed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingRight="20dp">
+
+                    <ImageView
+                        android:id="@+id/theme_red"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@color/md_red_500"
+                        android:scaleType="centerInside" />
+
+                    <TextView
+                        android:id="@+id/tvRedTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="start"
+                        android:padding="10dp"
+                        android:text="@string/red"
+                        android:textColor="@color/md_red_500" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/layout_bg" />
+
+                <LinearLayout
+                    android:id="@+id/layoutPurple"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingRight="20dp">
+
+                    <ImageView
+                        android:id="@+id/theme_purple"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@color/md_purple_500"
+                        android:scaleType="centerInside" />
+
+                    <TextView
+                        android:id="@+id/tvPurpleTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="start"
+                        android:padding="10dp"
+                        android:text="@string/purple"
+                        android:textColor="@color/md_purple_500" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/layout_bg" />
+
+                <LinearLayout
+                    android:id="@+id/layoutBlue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingRight="20dp">
+
+                    <ImageView
+                        android:id="@+id/theme_blue"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@color/md_dark_blue_500"
+                        android:scaleType="centerInside" />
+
+                    <TextView
+                        android:id="@+id/tvBlueTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="start"
+                        android:padding="10dp"
+                        android:text="@string/blue"
+                        android:textColor="@color/md_dark_blue_500" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/layout_bg" />
+
+                <LinearLayout
+                    android:id="@+id/layoutOrange"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingRight="20dp">
+
+                    <ImageView
+                        android:id="@+id/theme_orange"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@color/md_deep_orange_500"
+                        android:scaleType="centerInside" />
+
+                    <TextView
+                        android:id="@+id/tvOrangeTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="start"
+                        android:padding="10dp"
+                        android:text="@string/orange"
+                        android:textColor="@color/md_deep_orange_500" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/layout_bg" />
+
+                <LinearLayout
+                    android:id="@+id/layoutPink"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingRight="20dp">
+
+                    <ImageView
+                        android:id="@+id/theme_pink"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@color/md_pink_500"
+                        android:scaleType="centerInside" />
+
+                    <TextView
+                        android:id="@+id/tvPinkTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="start"
+                        android:padding="10dp"
+                        android:text="@string/pink"
+                        android:textColor="@color/md_pink_500" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/layout_bg" />
+
+                <LinearLayout
+                    android:id="@+id/layoutIndigo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingRight="20dp">
+
+                    <ImageView
+                        android:id="@+id/theme_indigo"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@color/md_indigo_500"
+                        android:scaleType="centerInside" />
+
+                    <TextView
+                        android:id="@+id/tvIndigoTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="start"
+                        android:padding="10dp"
+                        android:text="@string/indigo"
+                        android:textColor="@color/md_indigo_500" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/layout_bg" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+
+    </LinearLayout>
+
+         
+
+

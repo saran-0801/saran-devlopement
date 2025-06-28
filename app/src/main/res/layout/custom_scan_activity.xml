@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/tintAppBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/txToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:elevation="4dp"
+            android:background="@color/white"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                style="@style/TextAppearance.AppCompat.Headline"
+                android:textColor="@color/gray_dark"
+                android:text="Document"/>
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout >
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/dimen50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/manualClick"
+            android:layout_width="@dimen/dimen0dp"
+            android:layout_weight="10"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/dimen45dp"
+                android:layout_height="@dimen/dimen70dp"
+                android:src="@drawable/manual"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Headline"
+                android:text="Manual"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/scanClick"
+            android:layout_width="@dimen/dimen0dp"
+            android:layout_weight="10"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/dimen45dp"
+                android:layout_height="@dimen/dimen70dp"
+                android:src="@drawable/qrcode"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Headline"
+                android:text="Scanner"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <com.budiyev.android.codescanner.CodeScannerView
+                android:id="@+id/scanner_view"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        <LinearLayout
+            android:id="@+id/manual_la"
+            android:visibility="visible"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/dimen45dp"
+                android:layout_height="@dimen/dimen70dp"
+                android:src="@drawable/barcode"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Headline"
+                android:text="Type Barcode Scanner"/>
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_margin="@dimen/dimen10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/inputText"
+                style="@style/profileEditText"
+                android:background="@drawable/button_corner_bg"
+                android:inputType="number|textAutoComplete"
+                android:layout_width="0dp"
+                android:layout_weight="7"
+                android:layout_height="48dp"/>
+
+                <ImageView
+                    android:id="@+id/okText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dimen45dp"
+                    android:layout_weight="2"
+                    android:src="@drawable/checkmark"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

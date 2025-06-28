@@ -1,0 +1,46 @@
+package com.cbs.snb.ui.productdetails;
+
+import androidx.lifecycle.LiveData;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.database.entities.ProductDetails;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+
+import javax.inject.Inject;
+
+/**
+ * Created by Venkatesh on 11-07-2020.
+ */
+public class ProductDetailsViewModel extends BaseViewModel<ProductDetailsNavigator> {
+
+    LiveData<Integer> count;
+
+    @Inject
+    public ProductDetailsViewModel(Repository repository, PreferenceHelper preferenceHelper, AppDatabase database) {
+        super(repository, preferenceHelper,database);
+       count = repository.getCount(database);
+    }
+
+    public void addToCart(){
+        getNavigator().addItemsToCart();
+    }
+
+    public void itemAdd(){
+        getNavigator().addItemCount();
+    }
+
+    public void itemRemove(){
+        getNavigator().removeItemCount();
+    }
+
+    public void updateCart(ProductDetails productDetails){
+        getRepository().updateCart(getDatabase(),productDetails);
+        getDatabase().ProductDetailsDao().save(productDetails);
+    }
+
+    public LiveData<Integer> getItemCount(){
+        return count;
+    }
+}

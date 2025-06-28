@@ -1,0 +1,26 @@
+package com.cbs.snb.data.network.models.post
+
+
+import android.annotation.SuppressLint
+import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
+import android.os.Parcelable
+
+@SuppressLint("ParcelCreator")
+@Parcelize
+data class CheckInOut(
+    @SerializedName("CheckType")
+    val checkType: String, // CheckOut
+    @SerializedName("CurrentDate")
+    val currentDate: String, // 2020-09-18
+    @SerializedName("CurrentTime")
+    val currentTime: String, // 10:53
+    @SerializedName("lat")
+    val lat: String, // 78147623472634.23423547
+    @SerializedName("lng")
+    val lng: String, // 846834.2387468723
+    @SerializedName("Name")
+    val name: String, // cbs
+    @SerializedName("SLPCode")
+    val sLPCode: String // 1
+) : Parcelable

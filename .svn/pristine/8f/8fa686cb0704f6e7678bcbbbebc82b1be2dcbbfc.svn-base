@@ -1,0 +1,29 @@
+package com.cbs.snb.di.builder;
+
+import com.cbs.snb.ui.attendance.UserCheckOutFragment;
+import dagger.Binds;
+import dagger.Module;
+import dagger.Subcomponent;
+import dagger.android.AndroidInjector;
+import dagger.multibindings.ClassKey;
+import dagger.multibindings.IntoMap;
+
+@Module(
+  subcomponents =
+      FragmentBuilder_ContributeUserCheckOutFragment.UserCheckOutFragmentSubcomponent.class
+)
+public abstract class FragmentBuilder_ContributeUserCheckOutFragment {
+  private FragmentBuilder_ContributeUserCheckOutFragment() {}
+
+  @Binds
+  @IntoMap
+  @ClassKey(UserCheckOutFragment.class)
+  abstract AndroidInjector.Factory<?> bindAndroidInjectorFactory(
+      UserCheckOutFragmentSubcomponent.Factory builder);
+
+  @Subcomponent
+  public interface UserCheckOutFragmentSubcomponent extends AndroidInjector<UserCheckOutFragment> {
+    @Subcomponent.Factory
+    interface Factory extends AndroidInjector.Factory<UserCheckOutFragment> {}
+  }
+}

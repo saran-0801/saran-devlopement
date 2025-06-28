@@ -1,0 +1,6 @@
+package com.cbs.snb;
+
+import androidx.databinding.BindingBuildInfo;
+
+@BindingBuildInfo
+public class DataBindingInfo {}

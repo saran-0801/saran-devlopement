@@ -1,0 +1,37 @@
+package com.cbs.snb.data.network.models.get
+
+
+import android.annotation.SuppressLint
+import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
+import android.os.Parcelable
+
+@SuppressLint("ParcelCreator")
+@Parcelize
+data class PaymentInvoiceModel(
+        @SerializedName("responseObject")
+    val responseObject: List<ResponseObject>,
+        @SerializedName("statusCode")
+    val statusCode: Int, // 0
+        @SerializedName("statusMessage")
+    val statusMessage: String // Success
+) : Parcelable {
+    @SuppressLint("ParcelCreator")
+    @Parcelize
+    data class ResponseObject(
+        @SerializedName("InvoiceDocumentDate")
+        val invoiceDocumentDate: String, // 07/20/2020
+        @SerializedName("InvoiceDueDate")
+        val invoiceDueDate: String, // 08/19/2020
+        @SerializedName("InvoiceNumber")
+        val invoiceNumber: Int, // 337257
+        @SerializedName("InvoiceEntry")
+        val invoiceEntry: Int, // 337258
+        @SerializedName("OpenValue")
+        val openValue: Int, // 161910
+        @SerializedName("Status")
+        val status: String, // UN-PAID
+        @SerializedName("Value")
+        val value: Int // 161910
+    ) : Parcelable
+}

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera" android:required="false"/>
+    <uses-permission android:name="com.honeywell.decode.permission.DECODE" />
+
+    <application
+        android:name="com.covalsys.ttss_barcode.MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning">
+
+        <provider android:name="androidx.core.content.FileProvider"
+            android:authorities="com.covalsys.ttss_barcode.provider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
+
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"
+                tools:replace="android:resource" />
+
+        </provider>
+
+        <activity android:name="com.covalsys.ttss_barcode.ui.splash.SplashScreenActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.covalsys.ttss_barcode.ui.login.LoginActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/title_activity_login"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name="com.covalsys.ttss_barcode.ui.scan.ScanActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="QR Scan"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name="com.covalsys.ttss_barcode.ui.scan.stock.StockCountBatchScanActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="QR Scan"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name="com.covalsys.ttss_barcode.ui.scan.asset.AssetCountBatchScanActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="QR Scan"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name="com.covalsys.ttss_barcode.ui.scan.CustomScanActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="QR Scan"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name="com.covalsys.ttss_barcode.ui.main.MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_main"
+            android:launchMode="standard"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.covalsys.ttss_barcode.ui.main.MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".ui.gate.GateActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.gate.GateListActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.gate.activity.ScannerActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.gate.activity.BatchScannerActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait" />
+
+    </application>
+</manifest>

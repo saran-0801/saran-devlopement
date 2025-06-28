@@ -1,0 +1,39 @@
+package com.cbs.snb.data.database.dao;
+
+import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
+import androidx.room.Insert;
+import androidx.room.Query;
+
+import com.cbs.snb.data.database.entities.CartItem;
+
+import java.util.List;
+
+import static androidx.room.OnConflictStrategy.REPLACE;
+
+/**
+ * Created by Venkatesh on 03-09-2020.
+ */
+@Dao
+public interface CartItemDao {
+
+    @Query("SELECT * FROM cartitem")
+    LiveData<List<CartItem>> getCartItems();
+
+    @Insert(onConflict = REPLACE)
+    void add(CartItem cartItem);
+
+    @Query("DELETE FROM cartitem WHERE itemName = :name")
+    void deleteCartItem(String name);
+
+    @Query("SELECT quantity FROM cartitem WHERE itemName = :name")
+    int getCartCount(String name);
+
+    @Query("SELECT COUNT(itemName) FROM cartitem")
+    LiveData<Integer> getRowCount();
+
+    @Query("DELETE FROM cartitem")
+    void deleteAllItem();
+}
+
+

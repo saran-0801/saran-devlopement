@@ -1,0 +1,34 @@
+package com.cbs.snb.ui.orders.order_details;
+
+import androidx.lifecycle.LiveData;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.Resource;
+import com.cbs.snb.data.network.models.get.OrderItemListModel;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+import com.cbs.snb.ui.payment.invoices.InvoiceNavigator;
+
+import javax.inject.Inject;
+
+/**
+ * Created by Venkatesh on 04-09-2020.
+ */
+public class OrderItemViewModel extends BaseViewModel<InvoiceNavigator> {
+
+    @Inject
+    public OrderItemViewModel(Repository repository, PreferenceHelper preferenceHelper, AppDatabase database) {
+        super(repository, preferenceHelper, database);
+    }
+
+    public LiveData<Boolean> isLoading(){
+        return getRepository().getIsLoading();
+    }
+
+    public LiveData<Resource<OrderItemListModel>> getInvoiceLiveData(String orderEntry){
+        return getRepository().getOrderDetails(orderEntry);
+    }
+
+
+}

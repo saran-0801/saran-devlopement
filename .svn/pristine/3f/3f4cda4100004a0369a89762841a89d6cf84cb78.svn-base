@@ -1,0 +1,37 @@
+package com.cbs.snb.ui.payment;
+
+import androidx.lifecycle.LiveData;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.Resource;
+import com.cbs.snb.data.network.models.get.PaymentDetailsModel;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+
+import javax.inject.Inject;
+
+/**
+ * Created by Venkatesh on 15-07-2020.
+ */
+public class PaymentViewModel extends BaseViewModel<PaymentNavigator> {
+
+
+    LiveData<Resource<PaymentDetailsModel>> paymentLiveData;
+
+    @Inject
+    public PaymentViewModel(Repository repository, PreferenceHelper preferenceHelper, AppDatabase database) {
+        super(repository, preferenceHelper,database);
+        paymentLiveData = repository.getPaymentDetails();
+    }
+
+
+    public LiveData<Resource<PaymentDetailsModel>> getPaymentLiveData(){
+        return paymentLiveData;
+    }
+
+    public LiveData<Boolean> isLoading(){
+        return getRepository().getIsLoading();
+    }
+
+}

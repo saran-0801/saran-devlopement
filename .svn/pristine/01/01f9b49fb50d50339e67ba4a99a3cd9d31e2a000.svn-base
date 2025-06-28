@@ -1,0 +1,20 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.kk121:File-Loader:1.2@aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/598b20a5d366c85161a7832d7ed3e7a7/jetified-File-Loader-1.2/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/45c9ae717e8a9aef65c5d9f7e805e037/jetified-File-Loader-1.2/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/598b20a5d366c85161a7832d7ed3e7a7/jetified-File-Loader-1.2/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/598b20a5d366c85161a7832d7ed3e7a7/jetified-File-Loader-1.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/598b20a5d366c85161a7832d7ed3e7a7/jetified-File-Loader-1.2/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/45c9ae717e8a9aef65c5d9f7e805e037/jetified-File-Loader-1.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/45c9ae717e8a9aef65c5d9f7e805e037/jetified-File-Loader-1.2/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/45c9ae717e8a9aef65c5d9f7e805e037/jetified-File-Loader-1.2/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.kk121/File-Loader/1.2/fca4c570d5230952baa4c82aee52419c3b346a4b/File-Loader-1.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

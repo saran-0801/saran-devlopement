@@ -1,0 +1,10 @@
+package com.cbs.snb.data.network;
+
+/**
+ * Created by Venkatesh on 09-07-2020.
+ */
+public enum Status {
+    SUCCESS,
+    ERROR,
+    LOADING
+}

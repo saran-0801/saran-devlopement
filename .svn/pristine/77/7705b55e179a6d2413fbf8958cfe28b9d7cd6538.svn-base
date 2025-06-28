@@ -1,0 +1,47 @@
+package com.cbs.snb.ui.main;
+
+import androidx.databinding.ObservableField;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.ApiService;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+import com.cbs.snb.ui.home.HomeNavigator;
+import com.cbs.snb.utils.rx.SchedulerProvider;
+
+import javax.inject.Inject;
+
+/**
+ * Created by Venkatesh on 09-07-2020.
+ */
+public class MainViewModel extends BaseViewModel<HomeNavigator> {
+    private static final String TAG = "MainViewModel";
+
+    public static final int NO_ACTION = -1, ACTION_ADD_ALL = 0, ACTION_DELETE_SINGLE = 1;
+
+    private final ObservableField<String> appVersion = new ObservableField<>();
+
+    private final ObservableField<String> userEmail = new ObservableField<>();
+
+    private final ObservableField<String> userName = new ObservableField<>();
+
+    private final ObservableField<String> userProfilePicUrl = new ObservableField<>();
+
+
+    @Inject
+    public MainViewModel(Repository repository, SchedulerProvider schedulerProvider,
+                         PreferenceHelper preferenceHelper, AppDatabase database, ApiService service) {
+        super(repository, schedulerProvider, preferenceHelper, database, service);
+    }
+
+
+    public String getUserName(){
+        return getPreferenceHelper().getFirstName();
+    }
+
+
+    public String getUserType(){
+        return getPreferenceHelper().getEmpTypeCode();
+    }
+}

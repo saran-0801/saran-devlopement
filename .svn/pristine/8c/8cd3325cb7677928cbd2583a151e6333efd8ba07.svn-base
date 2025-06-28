@@ -1,0 +1,177 @@
+package com.cbs.snb.ui.customers;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.cbs.snb.data.network.models.get.CustomerDetailsModel;
+import com.cbs.snb.databinding.CustomerListAdapterLayoutBinding;
+import com.cbs.snb.databinding.EmptyAdapterBinding;
+import com.cbs.snb.databinding.ProductsAdapterLayoutBinding;
+import com.cbs.snb.ui.base.BaseViewHolder;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by Venkatesh on 31-08-2020.
+ */
+public class CustomerAdapter extends RecyclerView.Adapter<BaseViewHolder> implements Filterable {
+
+   // public static final int VIEW_TYPE_EMPTY = 0;
+   // public static final int VIEW_TYPE_NORMAL = 1;
+    private Callback mCallback;
+    private List<CustomerDetailsModel.ResponseObject> mCustomersModel;
+    private List<CustomerDetailsModel.ResponseObject> mFilterdCustomersModel;
+    private Context mContext;
+
+    public interface Callback {
+        void onClick(int position, CustomerDetailsModel.ResponseObject models);
+    }
+
+    public CustomerAdapter(List<CustomerDetailsModel.ResponseObject> mCustomersModel, Context mContext) {
+        this.mCustomersModel = mCustomersModel;
+        this.mContext = mContext;
+        this.mFilterdCustomersModel = mCustomersModel;
+    }
+
+    @NonNull
+    @Override
+    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        CustomerListAdapterLayoutBinding binding = CustomerListAdapterLayoutBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
+        return new CustomersViewHolder(binding);
+
+        /*
+        switch (viewType) {
+            case VIEW_TYPE_NORMAL:
+                ProductsAdapterLayoutBinding binding = ProductsAdapterLayoutBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
+                return new ProductsViewHolder(binding);
+            case VIEW_TYPE_EMPTY:
+            default:
+                EmptyAdapterBinding emptyViewBinding = EmptyAdapterBinding.inflate(LayoutInflater.from(parent.getContext()),
+                        parent, false);
+                return new EmptyViewHolder(emptyViewBinding);
+        }
+*/
+
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
+        holder.onBind(position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return mFilterdCustomersModel.size();
+      /*  if (mProductsModel != null && mProductsModel.size() > 0) {
+            return mProductsModel.size();
+        } else {
+            return 1;
+        }*/
+    }
+
+    public void addCustomer(List<CustomerDetailsModel.ResponseObject> list) {
+        mCustomersModel.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public void clearList() {
+        mFilterdCustomersModel.clear();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String charString = constraint.toString();
+                if (charString.isEmpty()) {
+                    mFilterdCustomersModel = mCustomersModel;
+                } else {
+                    List<CustomerDetailsModel.ResponseObject> filteredList = new ArrayList<>();
+                    for (CustomerDetailsModel.ResponseObject row : mCustomersModel) {
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for ItemName or ItemCode match
+                        if (row.getCardName().toLowerCase().contains(charString.toLowerCase()) ||
+                                row.getCardCode().contains(constraint)) {
+                            filteredList.add(row);
+                        }
+                    }
+
+                    mFilterdCustomersModel = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mFilterdCustomersModel;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                mFilterdCustomersModel = (List<CustomerDetailsModel.ResponseObject>) results.values;
+                notifyDataSetChanged();
+
+            }
+        };
+    }
+
+   /* @Override
+    public int getItemViewType(int position) {
+        if (mProductsModel != null && !mProductsModel.isEmpty()) {
+            return VIEW_TYPE_NORMAL;
+        } else {
+            return VIEW_TYPE_EMPTY;
+        }
+    }*/
+
+    public class CustomersViewHolder extends BaseViewHolder {
+
+        CustomerListAdapterLayoutBinding binding;
+
+        public CustomersViewHolder(@NonNull CustomerListAdapterLayoutBinding itemView) {
+            super(itemView.getRoot());
+            this.binding = itemView;
+        }
+
+        @Override
+        public void onBind(int position) {
+            CustomerDetailsModel.ResponseObject model = mFilterdCustomersModel.get(position);
+            binding.customerName.setText(model.getCardName());
+            binding.customerCode.setText(model.getCardCode());
+            binding.gstRegnNo.setText(model.getGstRegnNo());
+            binding.address.setText(model.getAddress());
+            binding.street.setText(model.getStreet());
+            binding.block.setText(model.getBlock());
+            binding.zipCode.setText(model.getZipCode());
+
+            binding.customerCard.setOnClickListener(v -> mCallback.onClick(position,model));
+
+        }
+    }
+
+    public static class EmptyViewHolder extends BaseViewHolder{
+
+        private EmptyAdapterBinding mBinding;
+
+        public EmptyViewHolder(EmptyAdapterBinding binding) {
+            super(binding.getRoot());
+            this.mBinding = binding;
+        }
+
+        @Override
+        public void onBind(int position) {
+
+        }
+    }
+
+    public void setOnClick(Callback onClick) {
+        this.mCallback = onClick;
+    }
+}

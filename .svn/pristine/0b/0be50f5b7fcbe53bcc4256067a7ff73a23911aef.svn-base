@@ -1,0 +1,33 @@
+package com.cbs.snb.ui.products;
+
+import androidx.lifecycle.LiveData;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.Resource;
+import com.cbs.snb.data.network.models.get.ProductsModel;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+
+import javax.inject.Inject;
+
+/**
+ * Created by Venkatesh on 09-07-2020.
+ */
+public class ProductsViewModel extends BaseViewModel<ProductsNavigator> {
+
+
+    @Inject
+    public ProductsViewModel(Repository repository, PreferenceHelper preferenceHelper, AppDatabase database) {
+        super(repository, preferenceHelper,database);
+    }
+
+
+    public LiveData<Resource<ProductsModel>> getProductsResponse(String cardCode){
+        return getRepository().getProducts(cardCode);
+    }
+
+    public LiveData<Boolean> isLoading(){
+        return getRepository().getIsLoading();
+    }
+}

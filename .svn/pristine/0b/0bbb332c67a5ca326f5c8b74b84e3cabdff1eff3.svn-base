@@ -1,0 +1,125 @@
+package com.cbs.snb.ui.reports.expense;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.cbs.snb.data.network.models.get.ExpenseReportModel;
+import com.cbs.snb.databinding.EmptyAdapterBinding;
+import com.cbs.snb.databinding.ExpenseReportAdapterBinding;
+import com.cbs.snb.ui.base.BaseViewHolder;
+import com.cbs.snb.utils.DateUtils;
+
+
+import java.util.List;
+
+/**
+ * Created by Venkatesh on 24-09-2020.
+ */
+public class ExpenseReportAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+
+    private Callback mCallback;
+    public static final int VIEW_TYPE_EMPTY = 0;
+    public static final int VIEW_TYPE_NORMAL = 1;
+    private List<ExpenseReportModel.ResponseObject> responseObjects;
+    private Context mContext;
+
+    public interface Callback {
+        void onClick(int position, ExpenseReportModel.ResponseObject models);
+
+    }
+
+    public ExpenseReportAdapter(List<ExpenseReportModel.ResponseObject> mInventoryModel, Context mContext) {
+        this.responseObjects = mInventoryModel;
+        this.mContext = mContext;
+    }
+
+    @NonNull
+    @Override
+    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case VIEW_TYPE_NORMAL:
+                ExpenseReportAdapterBinding binding = ExpenseReportAdapterBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+                return new ExpenseReportViewHolder(binding);
+            case VIEW_TYPE_EMPTY:
+            default:
+                EmptyAdapterBinding emptyViewBinding = EmptyAdapterBinding.inflate(LayoutInflater.from(parent.getContext()),
+                        parent, false);
+                return new EmptyViewHolder(emptyViewBinding);
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
+        holder.onBind(position);
+    }
+
+    @Override
+    public int getItemCount() {
+        if (responseObjects != null && responseObjects.size() > 0) {
+            return responseObjects.size();
+        } else {
+            return 1;
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (responseObjects != null && !responseObjects.isEmpty()) {
+            return VIEW_TYPE_NORMAL;
+        } else {
+            return VIEW_TYPE_EMPTY;
+        }
+    }
+
+    public void addData(List<ExpenseReportModel.ResponseObject> list) {
+        responseObjects.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public void clearList() {
+        responseObjects.clear();
+    }
+
+    public class ExpenseReportViewHolder extends BaseViewHolder {
+
+        ExpenseReportAdapterBinding binding;
+
+        public ExpenseReportViewHolder(@NonNull ExpenseReportAdapterBinding itemView) {
+            super(itemView.getRoot());
+            this.binding = itemView;
+
+        }
+
+        @Override
+        public void onBind(int position) {
+            ExpenseReportModel.ResponseObject model = responseObjects.get(position);
+            binding.slpCode.setText(model.getSlpCode());
+            binding.travelType.setText(model.getTravelType());
+            binding.amount.setText(String.valueOf("₹ " + model.getAmount()));
+            binding.createDate.setText(DateUtils.convertDateFormat11(model.getCreateDate()));
+        }
+    }
+
+    public static class EmptyViewHolder extends BaseViewHolder {
+
+        private EmptyAdapterBinding mBinding;
+
+        public EmptyViewHolder(EmptyAdapterBinding binding) {
+            super(binding.getRoot());
+            this.mBinding = binding;
+        }
+
+        @Override
+        public void onBind(int position) {
+
+        }
+    }
+
+    public void setOnClick(Callback onClick) {
+        this.mCallback = onClick;
+    }
+}

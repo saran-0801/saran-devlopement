@@ -1,0 +1,60 @@
+package com.cbs.snb.ui.reports.customeroutstanding;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.ApiService;
+import com.cbs.snb.data.network.Resource;
+import com.cbs.snb.data.network.models.get.PaymentDetailsModel;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+import com.cbs.snb.utils.rx.SchedulerProvider;
+
+import javax.inject.Inject;
+
+/**
+ * Created by Venkatesh on 14-07-2020.
+ */
+public class CustomerOutstandingViewModel extends BaseViewModel<CustomerOutstandingNavigator> {
+
+    public MutableLiveData<Resource<PaymentDetailsModel>> paymentLiveData;
+    public MutableLiveData<Boolean> progressBar;
+
+    @Inject
+    public CustomerOutstandingViewModel(Repository repository, SchedulerProvider schedulerProvider,
+                                        PreferenceHelper preferenceHelper, AppDatabase database, ApiService service) {
+        super(repository, schedulerProvider, preferenceHelper, database, service);
+        paymentLiveData = new MutableLiveData<>();
+        progressBar = new MutableLiveData<>();
+        init();
+    }
+
+    private void init() {
+        getOutStandingDetails();
+    }
+
+    public LiveData<Resource<PaymentDetailsModel>> getOutStandingLiveData() {
+        return paymentLiveData;
+    }
+
+    private void getOutStandingDetails() {
+        progressBar.setValue(true);
+        getCompositeDisposable().add(getApiService()
+                .getPaymentDetails()
+                .subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(paymentDetailsModel -> {
+                    progressBar.setValue(false);
+                    if (paymentDetailsModel.getStatusCode() == 0) {
+                        paymentLiveData.postValue(Resource.success(paymentDetailsModel));
+                    } else {
+                        paymentLiveData.postValue(Resource.error(paymentDetailsModel.getStatusMessage(), null));
+                    }
+                }, throwable -> {
+                    progressBar.setValue(false);
+                    paymentLiveData.postValue(Resource.error(throwable.toString(), null));
+                }));
+    }
+}

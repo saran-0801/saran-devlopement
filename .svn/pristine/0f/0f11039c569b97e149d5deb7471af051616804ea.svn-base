@@ -1,0 +1,43 @@
+package com.cbs.snb.ui.inventory;
+
+import androidx.lifecycle.LiveData;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.ApiService;
+import com.cbs.snb.data.network.Resource;
+import com.cbs.snb.data.network.models.get.InventoryModel;
+import com.cbs.snb.data.network.models.get.WarehouseModel;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+import com.cbs.snb.utils.rx.SchedulerProvider;
+
+import javax.inject.Inject;
+
+/**
+ * Created by Venkatesh on 14-07-2020.
+ */
+public class InventoryViewModel extends BaseViewModel<InventoryNavigator> {
+
+    LiveData<Resource<WarehouseModel>> wareHouseLiveData;
+
+    @Inject
+    public InventoryViewModel(Repository repository, SchedulerProvider schedulerProvider,
+                              PreferenceHelper preferenceHelper, AppDatabase database, ApiService service) {
+        super(repository, schedulerProvider, preferenceHelper, database, service);
+        wareHouseLiveData = repository.getInventoryWareHouse(preferenceHelper.getSalesEmpCode());
+    }
+
+    public LiveData<Boolean> isLoading(){
+        return getRepository().getIsLoading();
+    }
+
+    public LiveData<Resource<WarehouseModel>> getWareHouseLiveData(){
+        return wareHouseLiveData;
+    }
+
+    public LiveData<Resource<InventoryModel>> getInventory(String wCode){
+        return getRepository().getInventoryWhs(getPreferenceHelper().getSalesEmpCode(), wCode);
+    }
+
+}

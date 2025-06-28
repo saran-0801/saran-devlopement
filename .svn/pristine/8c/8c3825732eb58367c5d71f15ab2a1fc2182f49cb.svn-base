@@ -1,0 +1,112 @@
+package com.cbs.snb.ui.reports.salesanalysis;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.cbs.snb.R;
+import com.cbs.snb.data.network.models.get.SalesAnalysisReportModel;
+import com.cbs.snb.databinding.EmptyAdapterBinding;
+import com.cbs.snb.databinding.SalesAnalysisReportAdapterLayoutBinding;
+import com.cbs.snb.ui.base.BaseViewHolder;
+import com.squareup.picasso.Picasso;
+
+import java.text.DecimalFormat;
+import java.util.List;
+
+/**
+ * Created by Venkatesh on 31-08-2020.
+ */
+public class SalesAnalysisAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+
+    public static final int VIEW_TYPE_EMPTY = 0;
+    public static final int VIEW_TYPE_NORMAL = 1;
+    private List<SalesAnalysisReportModel.ResponseObject> mSalesAnalysisReportModel;
+    private Context mContext;
+
+    public SalesAnalysisAdapter(List<SalesAnalysisReportModel.ResponseObject> mSalesAnalysisReportModel, Context mContext) {
+        this.mSalesAnalysisReportModel = mSalesAnalysisReportModel;
+        this.mContext = mContext;
+    }
+
+    @NonNull
+    @Override
+    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        switch (viewType){
+            case VIEW_TYPE_NORMAL:
+                SalesAnalysisReportAdapterLayoutBinding binding = SalesAnalysisReportAdapterLayoutBinding.inflate(
+                        LayoutInflater.from(parent.getContext()),parent,false);
+                return new SalesAnalysisViewHolder(binding);
+            case VIEW_TYPE_EMPTY:
+            default:
+                EmptyAdapterBinding emptyViewBinding = EmptyAdapterBinding.inflate(LayoutInflater.from(parent.getContext()),
+                        parent, false);
+                return new EmptyViewHolder(emptyViewBinding);
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
+        holder.onBind(position);
+    }
+
+    @Override
+    public int getItemCount() {
+        if (mSalesAnalysisReportModel != null && mSalesAnalysisReportModel.size() > 0) {
+            return mSalesAnalysisReportModel.size();
+        } else {
+            return 1;
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (mSalesAnalysisReportModel != null && !mSalesAnalysisReportModel.isEmpty()) {
+            return VIEW_TYPE_NORMAL;
+        } else {
+            return VIEW_TYPE_EMPTY;
+        }
+    }
+
+    public class SalesAnalysisViewHolder extends BaseViewHolder {
+
+        SalesAnalysisReportAdapterLayoutBinding binding;
+
+        public SalesAnalysisViewHolder(@NonNull SalesAnalysisReportAdapterLayoutBinding itemView) {
+            super(itemView.getRoot());
+            this.binding = itemView;
+        }
+
+        @Override
+        public void onBind(int position) {
+            SalesAnalysisReportModel.ResponseObject model = mSalesAnalysisReportModel.get(position);
+            binding.slpName.setText(model.getSlpName());
+            binding.cardName.setText(model.getCardName());
+            StringBuilder sb = new StringBuilder(mContext.getResources().getString(R.string.rupee));
+            sb.append(new DecimalFormat("##.00").format(model.getAmount()));
+            binding.amount.setText(sb);
+            binding.qty.setText(new DecimalFormat("##.00").format(model.getQuantity()));
+        }
+    }
+
+    public class EmptyViewHolder extends BaseViewHolder{
+
+        private EmptyAdapterBinding mBinding;
+
+        public EmptyViewHolder(EmptyAdapterBinding binding) {
+            super(binding.getRoot());
+            this.mBinding = binding;
+        }
+
+        @Override
+        public void onBind(int position) {
+            Picasso.get()
+                    .load(String.valueOf(mContext.getResources().getDrawable(R.drawable.no_data)))
+                    .into(mBinding.imageViewEmpty);
+
+        }
+    }
+}

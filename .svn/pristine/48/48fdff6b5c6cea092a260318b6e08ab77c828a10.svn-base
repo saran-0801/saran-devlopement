@@ -1,0 +1,1173 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+                                                       
+                                                   
+
+    
+
+                                           
+
+                 
+                                 
+                                                         
+           
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/lightGray"
+        tools:context=".ui.leads.LeadFragment" android:tag="layout/fragment_lead_0" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/mainLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:id="@+id/leadLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginEnd="3dp"
+                        android:layout_marginRight="3dp"
+                        app:cardCornerRadius="2dp"
+                        app:cardElevation="1dp"
+                        app:cardUseCompatPadding="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.281">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/tvCustomerNameText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/dimen20dp"
+                                android:text="@string/dealer_name"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                           <!-- <RelativeLayout
+                                android:id="@+id/customerLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dimen45dp"
+                                android:layout_marginHorizontal="@dimen/dimen20dp"
+                                android:layout_marginTop="@dimen/dimen5dp"
+                                android:layout_marginBottom="-5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/spinner_bg"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvCustomerNameText">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:contentDescription="@string/drop_down_menu"
+                                    android:src="@drawable/ic_drop_down" />
+
+                                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                                    android:id="@+id/dealerSp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:background="@android:color/transparent"
+                                    android:gravity="center"
+                                    android:spinnerMode="dropdown"
+                                    tools:layout_editor_absoluteX="0dp"
+                                    tools:layout_editor_absoluteY="75dp" />
+                            </RelativeLayout>-->
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/etDealerNameLayout"
+                                style="@style/TextInputLayoutStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/dimen5dp"
+                                android:layout_marginBottom="-5dp"
+                                android:paddingStart="@dimen/dimen15dp"
+                                android:paddingEnd="@dimen/dimen15dp"
+                                app:boxStrokeColor="?attr/colorPrimary"
+                                app:boxStrokeWidth="1dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvCustomerNameText">
+
+                                <EditText
+                                    android:id="@+id/etDealerName"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="45dp"
+                                    android:layout_margin="@dimen/dimen5dp"
+                                    android:hint="@string/enter_dealer_name"
+                                    android:imeOptions="actionUnspecified"
+                                    android:inputType="text"
+                                    android:maxLines="1"
+                                    android:padding="@dimen/dimen5dp"
+                                    android:paddingStart="@dimen/dimen10dp"
+                                    android:paddingEnd="@dimen/dimen10dp"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <TextView
+                                android:id="@+id/tvOwnerNameText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/dimen20dp"
+                                android:layout_marginTop="@dimen/dimen5dp"
+                                android:text="@string/owner_name_lead"
+                                app:layout_constraintTop_toBottomOf="@+id/etDealerNameLayout" />
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/etOwnerNameLayout"
+                                style="@style/TextInputLayoutStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/dimen5dp"
+                                android:layout_marginBottom="-5dp"
+                                android:paddingStart="@dimen/dimen15dp"
+                                android:paddingEnd="@dimen/dimen15dp"
+                                app:boxStrokeColor="?attr/colorPrimary"
+                                app:boxStrokeWidth="1dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvOwnerNameText">
+
+                                <EditText
+                                    android:id="@+id/etOwnerName"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="45dp"
+                                    android:layout_margin="@dimen/dimen5dp"
+                                    android:hint="@string/enter_owner_name"
+                                    android:imeOptions="actionUnspecified"
+                                    android:inputType="text"
+                                    android:maxLines="1"
+                                    android:padding="@dimen/dimen5dp"
+                                    android:paddingStart="@dimen/dimen10dp"
+                                    android:paddingEnd="@dimen/dimen10dp"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+
+                            <TextView
+                                android:id="@+id/tvGroupText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/dimen20dp"
+                                android:text="@string/select_group"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/etOwnerNameLayout" />
+
+
+                            <RelativeLayout
+                                android:id="@+id/groupLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dimen45dp"
+                                android:layout_marginHorizontal="@dimen/dimen20dp"
+                                android:layout_marginTop="@dimen/dimen5dp"
+                                android:layout_marginBottom="-5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/spinner_bg"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvGroupText">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:contentDescription="@string/drop_down_menu"
+                                    android:src="@drawable/ic_drop_down" />
+
+                                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                                    android:id="@+id/spGroup"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:background="@android:color/transparent"
+                                    android:gravity="center"
+                                    android:spinnerMode="dropdown"
+                                    tools:layout_editor_absoluteX="0dp"
+                                    tools:layout_editor_absoluteY="75dp" />
+                            </RelativeLayout>
+
+
+                            <TextView
+                                android:id="@+id/tvTypeText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/dimen15dp"
+                                android:text="@string/select_type"
+                                android:visibility="gone"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/groupLayout" />
+
+
+                            <RelativeLayout
+                                android:id="@+id/typeLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dimen45dp"
+                                android:layout_marginHorizontal="@dimen/dimen20dp"
+                                android:layout_marginTop="@dimen/dimen5dp"
+                                android:layout_marginBottom="-5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/spinner_bg"
+                                android:visibility="gone"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvTypeText">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:contentDescription="@string/drop_down_menu"
+                                    android:src="@drawable/ic_drop_down" />
+
+                                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                                    android:id="@+id/spType"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:background="@android:color/transparent"
+                                    android:gravity="center"
+                                    android:spinnerMode="dropdown"
+                                    tools:layout_editor_absoluteX="0dp"
+                                    tools:layout_editor_absoluteY="75dp" />
+                            </RelativeLayout>
+
+
+                            <!--  <TextView
+                                  android:id="@+id/tvRegNoText"
+                                  android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:layout_margin="@dimen/dimen5dp"
+                                  android:layout_marginStart="@dimen/dimen5dp"
+                                  android:layout_marginTop="@dimen/dimen28dp"
+                                  android:layout_marginEnd="@dimen/dimen5dp"
+                                  android:text="@string/reg_no"
+                                  app:layout_constraintEnd_toEndOf="parent"
+                                  app:layout_constraintStart_toStartOf="parent"
+                                  app:layout_constraintTop_toBottomOf="@+id/typeLayout" />
+
+                              <EditText
+                                  android:id="@+id/etRegNo"
+                                  android:layout_width="match_parent"
+                                  android:layout_height="@dimen/dimen45dp"
+                                  android:layout_margin="@dimen/dimen5dp"
+                                  android:layout_marginStart="5dp"
+                                  android:layout_marginTop="@dimen/dimen28dp"
+                                  android:layout_marginEnd="5dp"
+                                  android:background="@drawable/remarks_et_bg"
+                                  android:hint="@string/enter_reg_no"
+                                  android:padding="@dimen/dimen5dp"
+                                  app:layout_constraintEnd_toEndOf="parent"
+                                  app:layout_constraintStart_toStartOf="parent"
+                                  app:layout_constraintTop_toBottomOf="@+id/tvRegNoText" />
+
+
+                              <TextView
+                                  android:id="@+id/tvVatText"
+                                  android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:layout_margin="@dimen/dimen5dp"
+                                  android:layout_marginStart="@dimen/dimen5dp"
+                                  android:layout_marginTop="@dimen/dimen28dp"
+                                  android:layout_marginEnd="@dimen/dimen5dp"
+                                  android:text="@string/vat_no"
+                                  app:layout_constraintEnd_toEndOf="parent"
+                                  app:layout_constraintStart_toStartOf="parent"
+                                  app:layout_constraintTop_toBottomOf="@+id/etRegNo" />
+
+                              <EditText
+                                  android:id="@+id/etVatNo"
+                                  android:layout_width="match_parent"
+                                  android:layout_height="@dimen/dimen45dp"
+                                  android:layout_margin="@dimen/dimen5dp"
+                                  android:layout_marginStart="5dp"
+                                  android:layout_marginTop="@dimen/dimen28dp"
+                                  android:layout_marginEnd="5dp"
+                                  android:background="@drawable/remarks_et_bg"
+                                  android:hint="@string/enter_vat_no"
+                                  android:padding="@dimen/dimen5dp"
+                                  app:layout_constraintEnd_toEndOf="parent"
+                                  app:layout_constraintStart_toStartOf="parent"
+                                  app:layout_constraintTop_toBottomOf="@+id/tvVatText" />-->
+
+
+                            <TextView
+                                android:id="@+id/tvPayTermsText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/dimen15dp"
+                                android:text="@string/select_terms"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/typeLayout" />
+
+
+                            <RelativeLayout
+                                android:id="@+id/payTermsLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dimen45dp"
+                                android:layout_marginHorizontal="@dimen/dimen20dp"
+                                android:layout_marginTop="@dimen/dimen5dp"
+                                android:layout_marginBottom="-5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/spinner_bg"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvPayTermsText">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:contentDescription="@string/drop_down_menu"
+                                    android:src="@drawable/ic_drop_down" />
+
+                                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                                    android:id="@+id/spPayTerms"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:background="@android:color/transparent"
+                                    android:gravity="center"
+                                    android:spinnerMode="dropdown"
+                                    tools:layout_editor_absoluteX="0dp"
+                                    tools:layout_editor_absoluteY="75dp" />
+                            </RelativeLayout>
+
+
+                            <TextView
+                                android:id="@+id/tvCreditLimitText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/dimen15dp"
+                                android:text="@string/credit_limit"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/payTermsLayout" />
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/etCreditLimitLayout"
+                                style="@style/TextInputLayoutStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/dimen5dp"
+                                android:layout_marginBottom="-5dp"
+                                android:paddingStart="@dimen/dimen15dp"
+                                android:paddingEnd="@dimen/dimen15dp"
+                                app:boxStrokeColor="?attr/colorPrimary"
+                                app:boxStrokeWidth="1dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvCreditLimitText">
+
+                                <EditText
+                                    android:id="@+id/etCreditLimit"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="45dp"
+                                    android:layout_margin="@dimen/dimen5dp"
+                                    android:hint="@string/enter_credit_limit"
+                                    android:imeOptions="actionUnspecified"
+                                    android:inputType="numberDecimal"
+                                    android:maxLines="1"
+                                    android:padding="@dimen/dimen5dp"
+                                    android:paddingStart="@dimen/dimen10dp"
+                                    android:paddingEnd="@dimen/dimen10dp"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <TextView
+                                android:id="@+id/tvMobileText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/dimen15dp"
+                                android:text="@string/mobile_num"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/etCreditLimitLayout" />
+
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/etMobileNoLayout"
+                                style="@style/TextInputLayoutStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/dimen5dp"
+                                android:layout_marginBottom="-5dp"
+                                android:paddingStart="@dimen/dimen15dp"
+                                android:paddingEnd="@dimen/dimen15dp"
+                                app:boxStrokeColor="?attr/colorPrimary"
+                                app:boxStrokeWidth="1dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvMobileText">
+
+                                <EditText
+                                    android:id="@+id/etMobileNo"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="45dp"
+                                    android:layout_margin="@dimen/dimen5dp"
+                                    android:hint="@string/enter_mobile_no"
+                                    android:imeOptions="actionUnspecified"
+                                    android:inputType="phone"
+                                    android:maxLength="10"
+                                    android:padding="@dimen/dimen5dp"
+                                    android:paddingStart="@dimen/dimen10dp"
+                                    android:paddingEnd="@dimen/dimen10dp"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+
+                            <TextView
+                                android:id="@+id/tvEmailText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/dimen15dp"
+                                android:text="@string/email_id"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/etMobileNoLayout" />
+
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/etEmailIdLayout"
+                                style="@style/TextInputLayoutStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/dimen5dp"
+                                android:layout_marginBottom="-5dp"
+                                android:paddingStart="@dimen/dimen15dp"
+                                android:paddingEnd="@dimen/dimen15dp"
+                                app:boxStrokeColor="?attr/colorPrimary"
+                                app:boxStrokeWidth="1dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvEmailText">
+
+                                <EditText
+                                    android:id="@+id/etEmailId"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="45dp"
+                                    android:layout_margin="@dimen/dimen5dp"
+                                    android:hint="@string/enter_email_id"
+                                    android:imeOptions="actionUnspecified"
+                                    android:inputType="textEmailAddress"
+                                    android:maxLines="1"
+                                    android:padding="@dimen/dimen5dp"
+                                    android:paddingStart="@dimen/dimen10dp"
+                                    android:paddingEnd="@dimen/dimen10dp"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <TextView
+                                android:id="@+id/tvStreetText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/dimen15dp"
+                                android:text="@string/street"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/etEmailIdLayout" />
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/etStreetLayout"
+                                style="@style/TextInputLayoutStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/dimen5dp"
+                                android:layout_marginBottom="-5dp"
+                                android:paddingStart="@dimen/dimen15dp"
+                                android:paddingEnd="@dimen/dimen15dp"
+                                app:boxStrokeColor="?attr/colorPrimary"
+                                app:boxStrokeWidth="1dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvStreetText">
+
+                                <EditText
+                                    android:id="@+id/etStreet"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="45dp"
+                                    android:layout_margin="@dimen/dimen5dp"
+                                    android:hint="@string/enter_street"
+                                    android:imeOptions="actionUnspecified"
+                                    android:inputType="text"
+                                    android:maxLines="1"
+                                    android:padding="@dimen/dimen5dp"
+                                    android:paddingStart="@dimen/dimen10dp"
+                                    android:paddingEnd="@dimen/dimen10dp"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <TextView
+                                android:id="@+id/tvBlockText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/dimen15dp"
+                                android:text="@string/block"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/etStreetLayout" />
+
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/etBlockLayout"
+                                style="@style/TextInputLayoutStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/dimen5dp"
+                                android:layout_marginBottom="-5dp"
+                                android:paddingStart="@dimen/dimen15dp"
+                                android:paddingEnd="@dimen/dimen15dp"
+                                app:boxStrokeColor="?attr/colorPrimary"
+                                app:boxStrokeWidth="1dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvBlockText">
+
+                                <EditText
+                                    android:id="@+id/etBlock"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="45dp"
+                                    android:layout_margin="@dimen/dimen5dp"
+                                    android:hint="@string/enter_block"
+                                    android:imeOptions="actionUnspecified"
+                                    android:inputType="text"
+                                    android:maxLines="1"
+                                    android:padding="@dimen/dimen5dp"
+                                    android:paddingStart="@dimen/dimen10dp"
+                                    android:paddingEnd="@dimen/dimen10dp"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+
+                            <TextView
+                                android:visibility="gone"
+                                android:id="@+id/tvAddress1Text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/dimen15dp"
+                                android:text="@string/address1"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/etBlockLayout" />
+
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/etAddress1Layout"
+                                style="@style/TextInputLayoutStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/dimen5dp"
+                                android:layout_marginBottom="-5dp"
+                                android:paddingStart="@dimen/dimen15dp"
+                                android:paddingEnd="@dimen/dimen15dp"
+                                app:boxStrokeColor="?attr/colorPrimary"
+                                app:boxStrokeWidth="1dp"
+                                android:visibility="gone"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvAddress1Text">
+
+                                <EditText
+                                    android:id="@+id/etAddress1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="45dp"
+                                    android:layout_margin="@dimen/dimen5dp"
+                                    android:hint="@string/enter_address1"
+                                    android:imeOptions="actionUnspecified"
+                                    android:inputType="text"
+                                    android:maxLines="1"
+                                    android:padding="@dimen/dimen5dp"
+                                    android:paddingStart="@dimen/dimen10dp"
+                                    android:paddingEnd="@dimen/dimen10dp"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+
+                            <TextView
+                                android:id="@+id/tvAddress2Text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/dimen15dp"
+                                android:text="@string/address2"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/etAddress1Layout" />
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/etAddress2Layout"
+                                style="@style/TextInputLayoutStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/dimen5dp"
+                                android:layout_marginBottom="-5dp"
+                                android:paddingStart="@dimen/dimen15dp"
+                                android:paddingEnd="@dimen/dimen15dp"
+                                app:boxStrokeColor="?attr/colorPrimary"
+                                app:boxStrokeWidth="1dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvAddress2Text">
+
+                                <EditText
+                                    android:id="@+id/etAddress2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="45dp"
+                                    android:layout_margin="@dimen/dimen5dp"
+                                    android:hint="@string/enter_address2"
+                                    android:imeOptions="actionUnspecified"
+                                    android:inputType="text"
+                                    android:maxLines="1"
+                                    android:padding="@dimen/dimen5dp"
+                                    android:paddingStart="@dimen/dimen10dp"
+                                    android:paddingEnd="@dimen/dimen10dp"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <TextView
+                                android:id="@+id/tvCountryText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/dimen15dp"
+                                android:text="@string/country"
+                                android:visibility="gone"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/stateLayout" />
+
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/etCountryLayout"
+                                style="@style/TextInputLayoutStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/dimen5dp"
+                                android:layout_marginBottom="-5dp"
+                                android:paddingStart="@dimen/dimen15dp"
+                                android:paddingEnd="@dimen/dimen15dp"
+                                android:visibility="gone"
+                                app:boxStrokeColor="?attr/colorPrimary"
+                                app:boxStrokeWidth="1dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvCountryText">
+
+                                <EditText
+                                    android:id="@+id/etCountry"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="45dp"
+                                    android:layout_margin="@dimen/dimen5dp"
+                                    android:hint="@string/enter_country"
+                                    android:imeOptions="actionUnspecified"
+                                    android:inputType="text"
+                                    android:maxLines="1"
+                                    android:padding="@dimen/dimen5dp"
+                                    android:paddingStart="@dimen/dimen10dp"
+                                    android:paddingEnd="@dimen/dimen10dp"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <TextView
+                                android:id="@+id/tvPinCodeText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/dimen15dp"
+                                android:text="@string/pincode"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/etAddress2Layout" />
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/etPinCodeLayout"
+                                style="@style/TextInputLayoutStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/dimen5dp"
+                                android:layout_marginBottom="-5dp"
+                                android:paddingStart="@dimen/dimen15dp"
+                                android:paddingEnd="@dimen/dimen15dp"
+                                app:boxStrokeColor="?attr/colorPrimary"
+                                app:boxStrokeWidth="1dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvPinCodeText">
+
+                                <EditText
+                                    android:id="@+id/etPinCode"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="45dp"
+                                    android:layout_margin="@dimen/dimen5dp"
+                                    android:hint="@string/enter_pincode"
+                                    android:imeOptions="actionUnspecified"
+                                    android:inputType="number"
+                                    android:maxLines="1"
+                                    android:padding="@dimen/dimen5dp"
+                                    android:paddingStart="@dimen/dimen10dp"
+                                    android:paddingEnd="@dimen/dimen10dp"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <TextView
+                                android:id="@+id/tvStateText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/dimen15dp"
+                                android:text="@string/state"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/etPinCodeLayout" />
+
+                            <RelativeLayout
+                                android:id="@+id/stateLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dimen45dp"
+                                android:layout_marginHorizontal="@dimen/dimen20dp"
+                                android:layout_marginTop="@dimen/dimen5dp"
+                                android:layout_marginBottom="-5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/spinner_bg"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvStateText">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:contentDescription="@string/drop_down_menu"
+                                    android:src="@drawable/ic_drop_down" />
+
+                                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                                    android:id="@+id/spState"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:background="@android:color/transparent"
+                                    android:gravity="center"
+                                    android:spinnerMode="dropdown"
+                                    tools:layout_editor_absoluteX="0dp"
+                                    tools:layout_editor_absoluteY="75dp" />
+                            </RelativeLayout>
+
+                            <TextView
+                                android:id="@+id/tvLocationText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/dimen15dp"
+                                android:text="@string/geo_location"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/stateLayout" />
+
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/etLocationLayout"
+                                style="@style/TextInputLayoutStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/dimen5dp"
+                                android:layout_marginBottom="-5dp"
+                                android:paddingStart="@dimen/dimen15dp"
+                                android:paddingEnd="@dimen/dimen15dp"
+                                app:boxStrokeColor="?attr/colorPrimary"
+                                app:boxStrokeWidth="1dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvLocationText">
+
+                                <EditText
+                                    android:id="@+id/etLocation"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="45dp"
+                                    android:layout_margin="@dimen/dimen5dp"
+                                    android:focusable="false"
+                                    android:hint="@string/select_location"
+                                    android:imeOptions="actionUnspecified"
+                                    android:inputType="text"
+                                    android:maxLines="1"
+                                    android:padding="@dimen/dimen5dp"
+                                    android:paddingStart="@dimen/dimen10dp"
+                                    android:paddingEnd="@dimen/dimen10dp"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <TextView
+                                android:id="@+id/tvGstTypeText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/dimen15dp"
+                                android:text="@string/gst_type"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/etLocationLayout" />
+
+                            <RelativeLayout
+                                android:id="@+id/gstTypeLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dimen45dp"
+                                android:layout_marginHorizontal="@dimen/dimen20dp"
+                                android:layout_marginTop="@dimen/dimen5dp"
+                                android:layout_marginBottom="-5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/spinner_bg"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvGstTypeText">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:contentDescription="@string/drop_down_menu"
+                                    android:src="@drawable/ic_drop_down" />
+
+                                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                                    android:id="@+id/spGstType"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:background="@android:color/transparent"
+                                    android:gravity="center"
+                                    android:spinnerMode="dropdown"
+                                    tools:layout_editor_absoluteX="0dp"
+                                    tools:layout_editor_absoluteY="75dp" />
+
+                            </RelativeLayout>
+
+                            <TextView
+                                android:id="@+id/tvGstInNoText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/dimen15dp"
+                                android:text="@string/gst_in"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/gstTypeLayout" />
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/etGstInNoLayout"
+                                style="@style/TextInputLayoutStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/dimen5dp"
+                                android:layout_marginBottom="-5dp"
+                                android:paddingStart="@dimen/dimen15dp"
+                                android:paddingEnd="@dimen/dimen15dp"
+                                app:boxStrokeColor="?attr/colorPrimary"
+                                app:boxStrokeWidth="1dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvGstInNoText">
+
+                                <EditText
+                                    android:id="@+id/etGstInNo"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="45dp"
+                                    android:layout_margin="@dimen/dimen5dp"
+                                    android:hint="@string/enter_gst_in"
+                                    android:imeOptions="actionUnspecified"
+                                    android:inputType="text"
+                                    android:maxLines="1"
+                                    android:maxLength="15"
+                                    android:padding="@dimen/dimen5dp"
+                                    android:paddingStart="@dimen/dimen10dp"
+                                    android:paddingEnd="@dimen/dimen10dp"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+
+                            <TextView
+                                android:id="@+id/tvAdharNoText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/dimen15dp"
+                                android:text="@string/adhar"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/etGstInNoLayout" />
+
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/etAdharNoLayout"
+                                style="@style/TextInputLayoutStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/dimen5dp"
+                                android:layout_marginBottom="-5dp"
+                                android:paddingStart="@dimen/dimen15dp"
+                                android:paddingEnd="@dimen/dimen15dp"
+                                app:boxStrokeColor="?attr/colorPrimary"
+                                app:boxStrokeWidth="1dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvAdharNoText">
+
+                                <EditText
+                                    android:id="@+id/etAdharNo"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="45dp"
+                                    android:layout_margin="@dimen/dimen5dp"
+                                    android:hint="@string/enter_adhar"
+                                    android:imeOptions="actionUnspecified"
+                                    android:inputType="number"
+                                    android:maxLines="1"
+                                    android:maxLength="12"
+                                    android:padding="@dimen/dimen5dp"
+                                    android:paddingStart="@dimen/dimen10dp"
+                                    android:paddingEnd="@dimen/dimen10dp"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <TextView
+                                android:id="@+id/tvPanNoText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/dimen15dp"
+                                android:text="@string/pan"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/etAdharNoLayout" />
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/etPanNoLayout"
+                                style="@style/TextInputLayoutStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/dimen5dp"
+                                android:layout_marginBottom="-5dp"
+                                android:paddingStart="@dimen/dimen15dp"
+                                android:paddingEnd="@dimen/dimen15dp"
+                                app:boxStrokeColor="?attr/colorPrimary"
+                                app:boxStrokeWidth="1dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvPanNoText">
+
+                                <EditText
+                                    android:id="@+id/etPanNo"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="45dp"
+                                    android:layout_margin="@dimen/dimen5dp"
+                                    android:hint="@string/enter_pan"
+                                    android:imeOptions="actionUnspecified"
+                                    android:inputType="text"
+                                    android:maxLines="1"
+                                    android:maxLength="10"
+                                    android:padding="@dimen/dimen5dp"
+                                    android:paddingStart="@dimen/dimen10dp"
+                                    android:paddingEnd="@dimen/dimen10dp"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <TextView
+                                android:id="@+id/tvRemarksText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/dimen15dp"
+                                android:text="@string/remarks"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/etPanNoLayout" />
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/etRemarksLayout"
+                                style="@style/TextInputLayoutStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/dimen5dp"
+                                android:layout_marginBottom="-5dp"
+                                android:paddingStart="@dimen/dimen15dp"
+                                android:paddingEnd="@dimen/dimen15dp"
+                                app:boxStrokeColor="?attr/colorPrimary"
+                                app:boxStrokeWidth="1dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvRemarksText">
+
+                                <EditText
+                                    android:id="@+id/etRemarks"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="70dp"
+                                    android:layout_margin="@dimen/dimen5dp"
+                                    android:gravity="top|start"
+                                    android:hint="@string/enter_remarks"
+                                    android:imeOptions="actionUnspecified"
+                                    android:inputType="textMultiLine"
+                                    android:padding="@dimen/dimen5dp"
+                                    android:paddingStart="@dimen/dimen10dp"
+                                    android:paddingEnd="@dimen/dimen10dp"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+
+                            <TextView
+                                android:id="@+id/tvAttachmentText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/dimen15dp"
+                                android:text="@string/attachment"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/etRemarksLayout" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                app:layout_constraintTop_toBottomOf="@+id/tvAttachmentText">
+
+                                <ImageView
+                                    android:id="@+id/imageView"
+                                    android:layout_width="0dp"
+                                    android:layout_height="150dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginTop="@dimen/dimen5dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_weight="1.5"
+                                    android:background="@color/white"
+                                    android:paddingStart="@dimen/dimen15dp"
+                                    android:paddingEnd="@dimen/dimen15dp"
+                                    android:scaleType="centerInside"
+                                    android:src="@drawable/add_image"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/tvAttachmentText" />
+
+
+                                <ImageView
+                                    android:id="@+id/addImage"
+                                    android:layout_width="0dp"
+                                    android:layout_height="50dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginTop="@dimen/dimen5dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_weight="0.3"
+                                    android:paddingStart="@dimen/dimen15dp"
+                                    android:paddingEnd="@dimen/dimen15dp"
+                                    android:src="@drawable/ic_add_image"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/tvAttachmentText" />
+
+                            </LinearLayout>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    </androidx.cardview.widget.CardView>
+
+
+                    <Button
+                        android:id="@+id/submit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/dimen30dp"
+                        android:layout_marginTop="@dimen/dimen50dp"
+                        android:layout_marginBottom="@dimen/dimen50dp"
+                        android:background="@drawable/cart_button_bg"
+                        android:text="@string/submit"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+         

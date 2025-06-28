@@ -1,0 +1,8 @@
+package com.cbs.snb.ui.reports.complaints;
+
+/**
+ * Created by Venkatesh on 20-08-2020.
+ */
+public interface ComplaintsReportNavigator {
+
+}

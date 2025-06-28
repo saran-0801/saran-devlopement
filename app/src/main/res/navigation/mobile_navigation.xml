@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.covalsys.ttss_barcode.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_nav_home_to_nav_change_psw"
+            app:destination="@id/nav_change_psw"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/nav_home"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_nav_home_to_nav_inv"
+            app:destination="@id/nav_inv" />
+
+        <action
+            android:id="@+id/action_nav_home_to_nav_asset"
+            app:destination="@id/nav_asset" />
+
+        <action
+            android:id="@+id/action_nav_home_to_nav_check_in"
+            app:destination="@id/nav_check_in" />
+
+        <action
+            android:id="@+id/action_nav_home_to_nav_check_out"
+            app:destination="@id/nav_check_out" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_check_in"
+        android:name="com.covalsys.ttss_barcode.ui.inward.InwardFragment"
+        android:label="@string/menu_inward"
+        tools:layout="@layout/fragment_inward">
+
+        <action
+            android:id="@+id/action_nav_check_in_to_nav_home"
+            app:destination="@id/nav_home" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_check_out"
+        android:name="com.covalsys.ttss_barcode.ui.outward.OutwardFragment"
+        android:label="@string/menu_outward"
+        tools:layout="@layout/fragment_outward">
+
+        <action
+            android:id="@+id/action_nav_check_out_to_nav_home"
+            app:destination="@id/nav_home" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_inv"
+        android:name="com.covalsys.ttss_barcode.ui.stock_counting.StockCountingFragment"
+        android:label="@string/menu_inv"
+        tools:layout="@layout/fragment_stock_count">
+
+        <action
+            android:id="@+id/action_nav_inv_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_asset"
+        android:name="com.covalsys.ttss_barcode.ui.asset_tag.AssetCountingFragment"
+        android:label="@string/menu_asset"
+        tools:layout="@layout/fragment_asset_tag">
+
+        <action
+            android:id="@+id/action_nav_asset_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+
+</navigation>

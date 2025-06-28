@@ -1,0 +1,78 @@
+package com.cbs.snb.ui.attendance.checkin;
+
+import android.util.Log;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.ApiService;
+import com.cbs.snb.data.network.Resource;
+import com.cbs.snb.data.network.models.post.BasePostResponse;
+import com.cbs.snb.data.network.models.post.CheckInOut;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+import com.cbs.snb.utils.rx.SchedulerProvider;
+
+import javax.inject.Inject;
+
+/**
+ * Created by Venkatesh on 19-08-2020.
+ */
+public class CheckInViewModel extends BaseViewModel<CheckInNavigator> {
+
+    public static final String TAG = CheckInViewModel.class.getSimpleName();
+    public MutableLiveData<Boolean> progressBar;
+    public MutableLiveData<String> error;
+    public MutableLiveData<Resource<BasePostResponse>> checkInResponse;
+    public MutableLiveData<CheckInOut> checkInModel;
+
+    @Inject
+    public CheckInViewModel(Repository repository, SchedulerProvider schedulerProvider,
+                            PreferenceHelper preferenceHelper, AppDatabase database, ApiService service) {
+        super(repository, schedulerProvider, preferenceHelper, database, service);
+        progressBar = new MutableLiveData<>(false);
+        error = new MutableLiveData<>();
+        checkInModel = new MutableLiveData<>();
+        checkInResponse = new MutableLiveData<>();
+    }
+
+    public void setData(CheckInOut checkInOut) {
+        checkInModel.setValue(checkInOut);
+    }
+
+    public String slpCode() {
+        return getPreferenceHelper().getSalesEmpCode();
+    }
+
+    public String empName() {
+        return getPreferenceHelper().getFirstName();
+    }
+
+    public LiveData<Boolean> isLoading(){
+        return getRepository().getIsLoading();
+    }
+
+    public LiveData<Resource<BasePostResponse>> checkIn() {
+        return getRepository().checkInOut(checkInModel.getValue());
+    }
+
+
+    /*public void checkInOut(){
+        progressBar.setValue(true);
+        getCompositeDisposable().add(getApiService()
+                .checkInOut(checkInModel.getValue())
+                .subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(basePostResponse -> {
+                    progressBar.setValue(false);
+                    checkInResponse.postValue(Resource.success(basePostResponse));
+                }, throwable -> {
+                    progressBar.setValue(false);
+                    Log.e(TAG, throwable.toString());
+                    checkInResponse.postValue(Resource.error(throwable.toString(), null));
+                }));
+    }*/
+
+}

@@ -1,0 +1,381 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="actionMenuTextColor">@color/white</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="statusBarColor">@color/colorPrimaryDark</item>
+        <item name="colorFocusedHighlight">@color/colorPrimary</item>
+        <item name="colorControlNormal">@color/colorAccent</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="themedMenuStoryDrawable">@color/colorPrimary</item>
+        <item name="themedMenuCommentDrawable">@color/colorPrimary</item>
+        <item name="iconColor">@color/icon</item>
+        <item name="buttonTextColor">@color/buttonText</item>
+        <item name="primaryTextColor">@color/colorPrimaryDark</item>
+        <item name="actionBarTheme">@drawable/toolbar_bg</item>
+        <item name="primaryEditTextTheme">@color/colorPrimary</item>
+        <item name="lightTextColor">@color/md_yellow_800</item>
+        <item name="startColor">@color/buttonStartColor</item>
+        <item name="centerColor">@color/buttonStartColor</item>
+        <item name="endColor">@color/colorPrimaryDark</item>
+        <item name="btnBackground">@drawable/toolbar_bg</item>
+        <item name="background">@drawable/layout_bg</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+    </style>
+
+    <style name="AppTheme.Yellow" parent="AppTheme">
+        <item name="colorPrimary">@color/md_yellow_500</item>
+        <item name="colorPrimaryDark">@color/md_yellow_700</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="statusBarColor">@color/md_yellow_700</item>
+        <item name="colorFocusedHighlight">@color/md_yellow_500</item>
+        <item name="colorControlNormal">@color/md_yellow_300</item>
+        <item name="colorControlActivated">@color/md_yellow_300</item>
+        <item name="themedMenuStoryDrawable">@color/md_yellow_300</item>
+        <item name="themedMenuCommentDrawable">@color/md_yellow_300</item>
+        <item name="iconColor">@color/md_yellow_500</item>
+        <item name="buttonTextColor">@color/buttonText</item>
+        <item name="primaryTextColor">@color/md_yellow_700</item>
+        <item name="actionBarTheme">@drawable/toolbar_bg</item>
+        <item name="primaryEditTextTheme">@color/md_yellow_300</item>
+        <item name="lightTextColor">@color/md_yellow_300</item>
+        <item name="startColor">@color/md_yellow_500</item>
+        <item name="centerColor">@color/md_yellow_300</item>
+        <item name="endColor">@color/md_yellow_700</item>
+        <item name="btnBackground">@drawable/toolbar_bg</item>
+        <item name="background">@drawable/layout_bg</item>
+    </style>
+
+
+    <style name="AppTheme.Green" parent="AppTheme">
+        <item name="colorPrimary">@color/md_green_500</item>
+        <item name="colorPrimaryDark">@color/md_green_700</item>
+        <item name="colorAccent">@color/md_green_300</item>
+        <item name="statusBarColor">@color/md_green_700</item>
+        <item name="colorFocusedHighlight">@color/md_green_500</item>
+        <item name="colorControlNormal">@color/md_green_300</item>
+        <item name="colorControlActivated">@color/md_green_300</item>
+        <item name="themedMenuStoryDrawable">@color/md_green_300</item>
+        <item name="themedMenuCommentDrawable">@color/md_green_300</item>
+        <item name="iconColor">@color/md_green_500</item>
+        <item name="buttonTextColor">@color/buttonText</item>
+        <item name="primaryTextColor">@color/md_green_700</item>
+        <item name="actionBarTheme">@drawable/toolbar_bg</item>
+        <item name="primaryEditTextTheme">@color/md_green_300</item>
+        <item name="lightTextColor">@color/md_green_300</item>
+        <item name="startColor">@color/md_green_500</item>
+        <item name="centerColor">@color/md_green_300</item>
+        <item name="endColor">@color/md_green_700</item>
+        <item name="btnBackground">@drawable/toolbar_bg</item>
+        <item name="background">@drawable/layout_bg</item>
+
+    </style>
+
+
+    <style name="AppTheme.Red" parent="AppTheme">
+        <item name="colorPrimary">@color/md_red_500</item>
+        <item name="colorPrimaryDark">@color/md_red_700</item>
+        <item name="colorAccent">@color/md_red_300</item>
+        <item name="statusBarColor">@color/md_red_700</item>
+        <item name="colorFocusedHighlight">@color/md_red_500</item>
+        <item name="colorControlNormal">@color/md_red_300</item>
+        <item name="colorControlActivated">@color/md_red_300</item>
+        <item name="themedMenuStoryDrawable">@color/md_red_300</item>
+        <item name="themedMenuCommentDrawable">@color/md_red_300</item>
+        <item name="iconColor">@color/md_red_500</item>
+        <item name="buttonTextColor">@color/buttonText</item>
+        <item name="primaryTextColor">@color/md_red_700</item>
+        <item name="actionBarTheme">@drawable/toolbar_bg</item>
+        <item name="primaryEditTextTheme">@color/md_red_300</item>
+        <item name="lightTextColor">@color/md_red_300</item>
+        <item name="startColor">@color/md_red_500</item>
+        <item name="centerColor">@color/md_red_300</item>
+        <item name="endColor">@color/md_red_700</item>
+        <item name="btnBackground">@drawable/toolbar_bg</item>
+        <item name="background">@drawable/layout_bg</item>
+
+
+    </style>
+
+
+    <style name="AppTheme.Purple" parent="AppTheme">
+        <item name="colorPrimary">@color/md_purple_500</item>
+        <item name="colorPrimaryDark">@color/md_purple_700</item>
+        <item name="colorAccent">@color/md_purple_accent</item>
+        <item name="statusBarColor">@color/md_purple_700</item>
+        <item name="colorFocusedHighlight">@color/md_purple_500</item>
+        <item name="colorControlNormal">@color/md_purple_300</item>
+        <item name="colorControlActivated">@color/md_purple_300</item>
+        <item name="themedMenuStoryDrawable">@color/md_purple_300</item>
+        <item name="themedMenuCommentDrawable">@color/md_purple_300</item>
+        <item name="iconColor">@color/md_purple_500</item>
+        <item name="buttonTextColor">@color/buttonText</item>
+        <item name="primaryTextColor">@color/md_purple_700</item>
+        <item name="actionBarTheme">@drawable/toolbar_bg</item>
+        <item name="primaryEditTextTheme">@color/md_purple_300</item>
+        <item name="lightTextColor">@color/md_purple_300</item>
+        <item name="startColor">@color/md_purple_400</item>
+        <item name="centerColor">@color/md_purple_500</item>
+        <item name="endColor">@color/md_purple_700</item>
+        <item name="btnBackground">@drawable/toolbar_bg</item>
+        <item name="background">@drawable/layout_bg</item>
+
+
+    </style>
+
+    <style name="AppTheme.Pink" parent="AppTheme">
+        <item name="colorPrimary">@color/md_pink_500</item>
+        <item name="colorPrimaryDark">@color/md_pink_700</item>
+        <item name="colorAccent">@color/md_pink_300</item>
+        <item name="statusBarColor">@color/md_pink_700</item>
+        <item name="colorFocusedHighlight">@color/md_pink_500</item>
+        <item name="colorControlNormal">@color/md_pink_300</item>
+        <item name="colorControlActivated">@color/md_pink_300</item>
+        <item name="themedMenuStoryDrawable">@color/md_pink_300</item>
+        <item name="themedMenuCommentDrawable">@color/md_pink_300</item>
+        <item name="iconColor">@color/md_pink_500</item>
+        <item name="buttonTextColor">@color/buttonText</item>
+        <item name="primaryTextColor">@color/md_pink_700</item>
+        <item name="actionBarTheme">@drawable/toolbar_bg</item>
+        <item name="primaryEditTextTheme">@color/md_pink_300</item>
+        <item name="lightTextColor">@color/md_pink_300</item>
+        <item name="startColor">@color/md_pink_400</item>
+        <item name="centerColor">@color/md_pink_500</item>
+        <item name="endColor">@color/md_pink_700</item>
+        <item name="btnBackground">@drawable/toolbar_bg</item>
+        <item name="background">@drawable/layout_bg</item>
+
+
+    </style>
+
+
+    <style name="AppTheme.Deep.Orange" parent="AppTheme">
+        <item name="colorPrimary">@color/md_deep_orange_500</item>
+        <item name="colorPrimaryDark">@color/md_deep_orange_700</item>
+        <item name="colorAccent">@color/md_deep_orange_300</item>
+        <item name="statusBarColor">@color/md_deep_orange_700</item>
+        <item name="colorFocusedHighlight">@color/md_deep_orange_500</item>
+        <item name="colorControlNormal">@color/md_deep_orange_300</item>
+        <item name="colorControlActivated">@color/md_deep_orange_300</item>
+        <item name="themedMenuStoryDrawable">@color/md_deep_orange_300</item>
+        <item name="themedMenuCommentDrawable">@color/md_deep_orange_300</item>
+        <item name="iconColor">@color/md_deep_orange_500</item>
+        <item name="buttonTextColor">@color/buttonText</item>
+        <item name="primaryTextColor">@color/md_deep_orange_700</item>
+        <item name="actionBarTheme">@drawable/toolbar_bg</item>
+        <item name="primaryEditTextTheme">@color/md_deep_orange_300</item>
+        <item name="lightTextColor">@color/md_deep_orange_300</item>
+        <item name="startColor">@color/md_deep_orange_400</item>
+        <item name="centerColor">@color/md_deep_orange_500</item>
+        <item name="endColor">@color/md_deep_orange_700</item>
+        <item name="btnBackground">@drawable/toolbar_bg</item>
+        <item name="background">@drawable/layout_bg</item>
+
+
+    </style>
+
+
+    <style name="AppTheme.Indigo" parent="AppTheme">
+        <item name="colorPrimary">@color/md_indigo_500</item>
+        <item name="colorPrimaryDark">@color/md_indigo_700</item>
+        <item name="colorAccent">@color/md_indigo_300</item>
+        <item name="statusBarColor">@color/md_indigo_700</item>
+        <item name="colorFocusedHighlight">@color/md_indigo_500</item>
+        <item name="colorControlNormal">@color/md_indigo_300</item>
+        <item name="colorControlActivated">@color/md_indigo_300</item>
+        <item name="themedMenuStoryDrawable">@color/md_indigo_300</item>
+        <item name="themedMenuCommentDrawable">@color/md_indigo_300</item>
+        <item name="iconColor">@color/md_indigo_500</item>
+        <item name="buttonTextColor">@color/buttonText</item>
+        <item name="primaryTextColor">@color/md_indigo_700</item>
+        <item name="actionBarTheme">@drawable/toolbar_bg</item>
+        <item name="primaryEditTextTheme">@color/md_indigo_300</item>
+        <item name="lightTextColor">@color/md_indigo_300</item>
+        <item name="startColor">@color/md_indigo_400</item>
+        <item name="centerColor">@color/md_indigo_500</item>
+        <item name="endColor">@color/md_indigo_700</item>
+        <item name="btnBackground">@drawable/toolbar_bg</item>
+        <item name="background">@drawable/layout_bg</item>
+
+
+    </style>
+
+
+    <style name="AppTheme.Blue" parent="AppTheme">
+        <item name="colorPrimary">@color/md_blue_500</item>
+        <item name="colorPrimaryDark">@color/md_blue_700</item>
+        <item name="colorAccent">@color/md_blue_300</item>
+        <item name="statusBarColor">@color/md_blue_700</item>
+        <item name="colorFocusedHighlight">@color/md_blue_500</item>
+        <item name="colorControlNormal">@color/md_blue_300</item>
+        <item name="colorControlActivated">@color/md_blue_300</item>
+        <item name="themedMenuStoryDrawable">@color/md_blue_300</item>
+        <item name="themedMenuCommentDrawable">@color/md_blue_300</item>
+        <item name="iconColor">@color/md_blue_500</item>
+        <item name="buttonTextColor">@color/buttonText</item>
+        <item name="primaryTextColor">@color/md_blue_700</item>
+        <item name="actionBarTheme">@drawable/toolbar_bg</item>
+        <item name="primaryEditTextTheme">@color/md_blue_300</item>
+        <item name="lightTextColor">@color/md_blue_300</item>
+        <item name="startColor">@color/md_blue_400</item>
+        <item name="centerColor">@color/md_blue_500</item>
+        <item name="endColor">@color/md_blue_700</item>
+        <item name="btnBackground">@drawable/toolbar_bg</item>
+        <item name="background">@drawable/layout_bg</item>
+
+
+    </style>
+
+
+    <style name="Widget.App.Toolbar" parent="Widget.AppCompat.Toolbar">
+       <item name="android:gravity">center_vertical</item>
+       <item name="contentInsetStart">0dp</item>
+
+   </style>
+
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@android:color/white</item>
+    </style>
+
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <style name="TextStyle.Heading" parent="TextStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAppearance">@style/TextAppearance.Text.Bold</item>
+    </style>
+
+    <style name="TextStyle.Comment" parent="TextStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAppearance">@style/TextAppearance.Text.Italic</item>
+    </style>
+
+    <style name="TextStyle">
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:layout_marginLeft">2dp</item>
+        <item name="android:layout_marginRight">2dp</item>
+        <item name="android:textColor">@color/black_effective</item>
+    </style>
+
+    <style name="TextStyle.Title" parent="TextStyle">
+        <item name="android:textAppearance">@style/TextAppearance.Text.Regular</item>
+    </style>
+
+    <style name="TextStyle.Title.Sub" parent="TextStyle.Title">
+        <item name="android:textAppearance">@style/TextAppearance.Text.Light</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextStyle.Heading.Forgot" parent="TextStyle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textAppearance">@style/TextAppearance.Text.Bold</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Text.Regular" parent="android:TextAppearance">
+        <item name="fontPath">fonts/SourceSansPro-Regular.ttf</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextAppearance.Text.Bold" parent="android:TextAppearance">
+        <item name="fontPath">fonts/SourceSansPro-Bold.ttf</item>
+    </style>
+
+
+    <style name="TextAppearance.Text.Light" parent="android:TextAppearance">
+        <item name="fontPath">fonts/SourceSansPro-Light.ttf</item>
+    </style>
+
+    <style name="TextAppearance.Text.Italic" parent="android:TextAppearance">
+        <item name="fontPath">fonts/SourceSansPro-Italic.ttf</item>
+    </style>
+
+    <style name="TextAppearence.App.TextInputLayout" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="TextStyle.EditText" parent="TextStyle">
+        <item name="android:textAppearance">@style/TextAppearance.Text.Regular</item>
+    </style>
+
+
+    <style name="Button.Primary" parent="Button">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/button_primary_bg</item>
+    </style>
+
+    <style name="Button.Secondary" parent="Button">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/button_secondary_bg</item>
+    </style>
+
+    <style name="Button" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@color/black_effective</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:background">@drawable/button_bg</item>
+        <item name="android:foreground">?selectableItemBackground</item>
+    </style>
+
+    <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">#FFFFFF</item>
+    </style>
+
+    <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/colorPrimary</item>
+        <item name="boxStrokeWidth">1dp</item>
+    </style>
+
+    <style name="DialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:datePickerStyle">@style/DatePickerStyle</item>
+    </style>
+
+    <style name="DatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">
+        <item name="android:headerBackground">@drawable/toolbar_bg</item>
+        <item name="android:yearListSelectorColor">@color/grey_text</item>
+        <item name="android:datePickerMode">calendar</item>
+        <item name="android:minDate">01/01/2000</item>
+    </style>
+
+    <style name="CustomDropDownTilStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColorHint">#9797A2</item>
+        <item name="hintTextColor">@color/colorAccent</item>
+        <item name="boxStrokeColor">@color/colorAccent</item>
+        <item name="colorControlNormal">@color/colorAccent</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="colorControlHighlight">@color/colorAccent</item>
+        <item name="boxCornerRadiusBottomEnd">3dp</item>
+        <item name="boxCornerRadiusBottomStart">3dp</item>
+        <item name="boxCornerRadiusTopEnd">3dp</item>
+        <item name="boxCornerRadiusTopStart">3dp</item>
+    </style>
+
+</resources>

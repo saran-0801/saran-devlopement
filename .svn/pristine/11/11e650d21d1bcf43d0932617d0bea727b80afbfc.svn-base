@@ -1,0 +1,13 @@
+package com.cbs.snb.ui.home;
+
+import com.cbs.snb.data.network.models.get.ItemsModel;
+
+import java.util.List;
+
+/**
+ * Created by Venkatesh on 09-07-2020.
+ */
+public interface HomeNavigator {
+
+    void addItems(List<ItemsModel> models);
+}

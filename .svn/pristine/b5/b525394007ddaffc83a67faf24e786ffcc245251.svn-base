@@ -1,0 +1,113 @@
+package com.cbs.snb.ui.home.adapter;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.cbs.snb.R;
+import com.cbs.snb.data.network.models.get.ItemsModel;
+import com.cbs.snb.databinding.ItemsAdapterLayoutBinding;
+import com.cbs.snb.ui.base.BaseViewHolder;
+import com.cbs.snb.ui.productdetails.ProductDetailsActivity;
+
+import java.util.List;
+
+/**
+ * Created by Venkatesh on 10-07-2020.
+ */
+public class ItemsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+
+    private List<ItemsModel> itemsModels = null;
+    private Context mContext;
+
+    public ItemsAdapter(List<ItemsModel> itemsModels, Context context) {
+        this.itemsModels = itemsModels;
+        this.mContext = context;
+    }
+
+    @NonNull
+    @Override
+    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        ItemsAdapterLayoutBinding viewBinding = ItemsAdapterLayoutBinding.inflate(LayoutInflater.from(parent.getContext()),
+                parent, false);
+        return new ViewHolder(viewBinding);
+        //View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.items_adapter_layout, parent, false);
+        // return new ViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
+        holder.onBind(position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return itemsModels.size();
+    }
+
+    public void addItems(List<ItemsModel> list) {
+        itemsModels.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public void clearList() {
+        itemsModels.clear();
+    }
+
+    public class ViewHolder extends BaseViewHolder {
+
+        ItemsAdapterLayoutBinding mBinding;
+
+
+        public ViewHolder(ItemsAdapterLayoutBinding binding) {
+            super(binding.getRoot());
+            this.mBinding = binding;
+        }
+
+        @Override
+        public void onBind(int position) {
+            ItemsModel model = itemsModels.get(position);
+            // homeViewModel = new HomeViewModel(blog, this);
+            // mBinding.setViewModel(mBlogItemViewModel);
+            Log.e("sss", model.getTitle());
+            //   if (model.getTitle() != null){
+            mBinding.textTitle.setText("Maida 5KG");
+            // }
+            Glide.with(mContext).load(R.drawable.maida)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .placeholder(R.drawable.maida)
+                    .into(mBinding.imageMoviePoster);
+
+            //  if (model.getImageUrl() != null){
+            /*Picasso.get()
+                    .load(R.drawable.maida)
+                    .centerCrop()
+                    .fit()
+                    .into(mBinding.imageMoviePoster);*/
+            //  }else{
+            // mBinding.imageMoviePoster.setImageResource(R.drawable.ic_place_holder);
+            //   }
+
+            //if (model.getPrice() != null){
+            mBinding.textPrice.setText("\u20B9 500");
+            // }
+
+            mBinding.productCardView.setOnClickListener(v -> {
+                Bundle bundle = new Bundle();
+                bundle.putString("title", mBinding.textTitle.getText().toString());
+                bundle.putString("price", mBinding.textPrice.getText().toString());
+                mContext.startActivity(ProductDetailsActivity.getStartIntent(mContext, bundle));
+            });
+        }
+
+    }
+
+}

@@ -1,0 +1,19 @@
+package com.cbs.snb.ui.splash;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+
+import javax.inject.Inject;
+
+/**
+ * Created by Venkatesh on 21-08-2020.
+ */
+public class SplashScreenViewModel extends BaseViewModel<SplashScreenNavigator> {
+
+    @Inject
+    public SplashScreenViewModel(Repository repository, PreferenceHelper preferenceHelper, AppDatabase database) {
+        super(repository, preferenceHelper,database);
+    }
+}

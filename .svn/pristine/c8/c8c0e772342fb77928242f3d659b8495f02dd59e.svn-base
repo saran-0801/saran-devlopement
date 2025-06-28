@@ -1,0 +1,84 @@
+package com.cbs.snb.ui.login;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.text.TextUtils;
+
+import androidx.lifecycle.MutableLiveData;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.Resource;
+import com.cbs.snb.data.network.models.get.LoginModel;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+import com.cbs.snb.utils.Constants;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+/**
+ * Created by Venkatesh on 11-07-2020.
+ */
+public class LoginViewModel extends BaseViewModel<LoginNavigator> {
+
+    public MutableLiveData<String> EmailAddress = new MutableLiveData<>();
+    public MutableLiveData<String> Password = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isBoolean;
+
+    @Inject
+    public LoginViewModel(Repository repository, PreferenceHelper preferenceHelper, AppDatabase database) {
+        super(repository, preferenceHelper,database);
+        isBoolean = repository.getIsLoading();
+    }
+
+    public boolean isEmailAndPasswordValid(String email, String password) {
+        // validate email and password
+        if (TextUtils.isEmpty(email)) {
+            return false;
+        }
+       /* if (!CommonUtils.isEmailValid(email)) {
+            return false;
+        }*/
+        if (TextUtils.isEmpty(password)) {
+            return false;
+        }
+        return true;
+    }
+
+
+    public MutableLiveData<Resource<LoginModel>> getLogin(String email,String password){
+        return getRepository().doLogin(email,password);
+    }
+
+
+
+    public void saveDetails(List<LoginModel.ResponseObject> loginModels,Context context) {
+        for (LoginModel.ResponseObject model : loginModels) {
+            getPreferenceHelper().setSalesEmpCode(String.valueOf(model.getSalesEmpCode()));
+            getPreferenceHelper().setFirstName(model.getFirstName());
+            getPreferenceHelper().setLastName(model.getLastName());
+            getPreferenceHelper().setEmpId(String.valueOf(model.getEmpID()));
+            SharedPreferences myprefs = context.getSharedPreferences(Constants.PREF_NAME, Context.MODE_PRIVATE);
+            myprefs.edit().putString("name",model.getFirstName()).apply();
+            myprefs.edit().putString("slpCode",String.valueOf(model.getSalesEmpCode())).apply();
+
+//            getPreferenceHelper().setMobileNo(model.getMobile());
+           // getPreferenceHelper().setUserEmail(model.getEmail());
+        }
+    }
+
+    public MutableLiveData<Boolean> isLoading(){
+        return isBoolean;
+    }
+
+    public void forgotPassword() {
+        getNavigator().openForgotPassword();
+    }
+
+//    public void onServerLoginClick() {
+//        getNavigator().login();
+//    }
+
+}

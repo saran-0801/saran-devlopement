@@ -1,0 +1,42 @@
+package com.cbs.snb.ui.attendance;
+
+import androidx.lifecycle.LiveData;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.Resource;
+import com.cbs.snb.data.network.models.post.BasePostResponse;
+import com.cbs.snb.data.network.models.post.CheckInOut;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+
+import javax.inject.Inject;
+
+/**
+ * Created by Venkatesh on 15-07-2020.
+ */
+public class UserCheckOutViewModel extends BaseViewModel<UserCheckOutNavigator> {
+
+    @Inject
+    public UserCheckOutViewModel(Repository repository, PreferenceHelper preferenceHelper, AppDatabase database) {
+        super(repository, preferenceHelper,database);
+    }
+
+
+    public String slpCode(){
+        return getPreferenceHelper().getSalesEmpCode();
+    }
+
+    public String empName(){
+        return getPreferenceHelper().getFirstName();
+    }
+
+    public LiveData<Boolean> isLoading(){
+        return getRepository().getIsLoading();
+    }
+
+    public LiveData<Resource<BasePostResponse>> checkOut(CheckInOut checkInOut){
+        return getRepository().checkInOut(checkInOut);
+    }
+
+}

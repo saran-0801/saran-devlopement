@@ -1,0 +1,32 @@
+package com.cbs.snb.ui.reports.inventory;
+
+import androidx.lifecycle.LiveData;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.Resource;
+import com.cbs.snb.data.network.models.get.InventoryModel;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+
+import javax.inject.Inject;
+
+/**
+ * Created by Venkatesh on 19-08-2020.
+ */
+public class InventoryReportViewModel extends BaseViewModel<InventoryReportNavigator> {
+
+    @Inject
+    public InventoryReportViewModel(Repository repository, PreferenceHelper preferenceHelper, AppDatabase database) {
+        super(repository, preferenceHelper,database);
+    }
+
+    public LiveData<Boolean> isLoading(){
+        return getRepository().getIsLoading();
+    }
+
+    public LiveData<Resource<InventoryModel>> getInventory(){
+        return getRepository().getInventory(getPreferenceHelper().getSalesEmpCode());
+    }
+
+}

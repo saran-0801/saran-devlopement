@@ -1,0 +1,204 @@
+package com.cbs.snb.ui.productdetails;
+
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.cbs.snb.BR;
+import com.cbs.snb.BuildConfig;
+import com.cbs.snb.R;
+import com.cbs.snb.data.database.entities.ProductDetails;
+import com.cbs.snb.data.network.models.get.ProductsModel;
+import com.cbs.snb.databinding.ActivityItemDetailsBinding;
+import com.cbs.snb.ui.ViewModelProviderFactory;
+import com.cbs.snb.ui.base.BaseActivity;
+import com.cbs.snb.ui.cart.CartActivity;
+
+import java.text.DecimalFormat;
+
+import javax.inject.Inject;
+
+public class ProductDetailsActivity extends BaseActivity<ProductDetailsViewModel, ActivityItemDetailsBinding>
+        implements ProductDetailsNavigator {
+
+    @Inject
+    ViewModelProviderFactory factory;
+
+    private int count = 0;
+    private int totQty = 0;
+    private double totPrice = 0;
+    private ProductDetailsViewModel mItemDetailsViewModel;
+    private String itemName, itemCode, price, uom, inStock, pCode, pName,sCode,sName,remarks, url,cardCode;
+    private ProductDetails productDetails;
+    private TextView textCartItemCount;
+
+    public static Intent newIntent(Context context, ProductsModel.ResponseObject model) {
+        return new Intent(context, ProductDetailsActivity.class);
+    }
+
+    public static Intent getStartIntent(Context context, Bundle bundle) {
+        Intent intent = new Intent(context, ProductDetailsActivity.class);
+        intent.putExtras(bundle);
+        return intent;
+    }
+
+    @Override
+    public int getBindingVariable() {
+        return BR.itemDetailsViewModel;
+    }
+
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.activity_item_details;
+    }
+
+    @Override
+    protected ProductDetailsViewModel getViewModel() {
+        mItemDetailsViewModel = new ViewModelProvider(this, factory).get(ProductDetailsViewModel.class);
+        return mItemDetailsViewModel;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mItemDetailsViewModel.setNavigator(this);
+        setUp();
+    }
+
+    private void setUp() {
+        setSupportActionBar(dataBinding.toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Product Details");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        dataBinding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        dataBinding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            itemName = bundle.getString("itemName");
+            price = bundle.getString("price");
+            itemCode = bundle.getString("itemCode");
+            inStock = String.valueOf(bundle.getDouble("inStock"));
+            uom = bundle.getString("uom");
+            remarks = bundle.getString("remarks");
+            url = bundle.getString("url");
+            pCode = bundle.getString("pCode");
+            pName = bundle.getString("pName");
+            sCode = bundle.getString("sCode");
+            sName = bundle.getString("sName");
+
+        }
+
+        count = 1;
+        //   price = "100";
+        dataBinding.tvItemName.setText(itemName);
+        dataBinding.tvItemCode.setText(itemCode);
+        StringBuilder sb = new StringBuilder(getResources().getString(R.string.rupee));
+        sb.append(price);
+        dataBinding.tvPriceVal.setText(sb);
+        dataBinding.tvUomVal.setText(uom);
+        dataBinding.description.setText(remarks);
+        dataBinding.tvQtyVal.setText("1");
+       // dataBinding.totQtyVal.setText("5");
+        totPrice = count * Double.parseDouble(price);
+        StringBuilder tot = new StringBuilder(getResources().getString(R.string.rupee));
+        tot.append( new DecimalFormat("##.00").format(totPrice));
+        dataBinding.totalVal.setText(tot);
+
+        Glide.with(this).load(BuildConfig.BASE_URL+""+url)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .centerCrop()
+                .placeholder(R.drawable.ic_404_image).error(R.drawable.ic_404_image)
+                .into(dataBinding.imageMoviePoster);
+
+    }
+
+    @Override
+    public void addItemsToCart() {
+        showSnackBar("Item added to cart");
+        mItemDetailsViewModel.updateCart(new ProductDetails(itemName, itemCode, Double.parseDouble(price), Double.parseDouble(inStock),
+                "", uom, count, 0, totPrice));
+
+        mItemDetailsViewModel.getItemCount().observe(this, integer -> {
+            Log.e("count", integer.toString());
+            textCartItemCount.setText(String.valueOf(integer));
+        });
+    }
+
+    @Override
+    public void addItemCount() {
+        count = Integer.parseInt(String.valueOf(dataBinding.tvQtyVal.getText()));
+        count++;
+        dataBinding.tvQtyVal.setText(String.valueOf(count));
+        totPrice = count * Double.parseDouble(price);
+        StringBuilder tot = new StringBuilder(getResources().getString(R.string.rupee));
+        tot.append( new DecimalFormat("##.00").format(totPrice));
+        dataBinding.totalVal.setText(tot);
+    }
+
+    @Override
+    public void removeItemCount() {
+        count = Integer.parseInt(String.valueOf(dataBinding.tvQtyVal.getText()));
+        if (count == 1) {
+            dataBinding.tvQtyVal.setText("1");
+        } else {
+            count -= 1;
+            dataBinding.tvQtyVal.setText(String.valueOf(count));
+            totPrice = count * Double.parseDouble(price);
+            StringBuilder tot = new StringBuilder(getResources().getString(R.string.rupee));
+            tot.append( new DecimalFormat("##.00").format(totPrice));
+            dataBinding.totalVal.setText(tot);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        final MenuItem menuItem = menu.findItem(R.id.action_cart);
+
+        View actionView = menuItem.getActionView();
+        textCartItemCount = actionView.findViewById(R.id.cart_badge);
+
+        actionView.setOnClickListener(v -> onOptionsItemSelected(menuItem));
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_cart:
+                Bundle bundle = new Bundle();
+                bundle.putString("pCode",pCode);
+                bundle.putString("pName",pName);
+                bundle.putString("sCode",sCode);
+                bundle.putString("sName",sName);
+                bundle.putString("url",url);
+                startActivity(CartActivity.getStartIntent(this,bundle));
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+}

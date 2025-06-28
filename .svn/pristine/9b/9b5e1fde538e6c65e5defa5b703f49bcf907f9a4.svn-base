@@ -1,0 +1,272 @@
+package com.cbs.snb.ui.activity;
+
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.content.Context;
+import androidx.databinding.ObservableField;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import com.cbs.snb.R;
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.ApiService;
+import com.cbs.snb.data.network.Resource;
+import com.cbs.snb.data.network.models.get.ActivityTypeModel;
+import com.cbs.snb.data.network.models.get.CustomerDetailsModel;
+import com.cbs.snb.data.network.models.post.BasePostResponse;
+import com.cbs.snb.data.network.models.post.CreateActivityModel;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+import com.cbs.snb.utils.DateUtils;
+import com.cbs.snb.utils.rx.SchedulerProvider;
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
+import javax.inject.Inject;
+import okhttp3.MultipartBody;
+
+/**
+ * Created by Venkatesh on 19-08-2020.
+ */
+public class CreateActivityViewModel extends BaseViewModel<CreateActivityNavigator> {
+
+    public static final String TAG = CreateActivityViewModel.class.getSimpleName();
+    public ObservableField<SearchableSpinner> cardCode;
+    public ObservableField<SearchableSpinner> typeCode;
+    public MutableLiveData<String> error;
+    public MutableLiveData<Resource<BasePostResponse>> baseResponse;
+    //public MutableLiveData<Resource<ActivityTypeModel>> type;
+    public MutableLiveData<Boolean> progressBar;
+    public MutableLiveData<Resource<CustomerDetailsModel>> primaryCustomers;
+    public MutableLiveData<Resource<CustomerDetailsModel>> secondaryCustomers;
+    public MutableLiveData<Context> mContext;
+    public MutableLiveData<String> nextDate;
+    public MutableLiveData<String> nextTime;
+    public MutableLiveData<CreateActivityModel> modelData;
+    public MutableLiveData<MultipartBody.Part> imageFile;
+    public MutableLiveData<List<String>> priorityData;
+    public MutableLiveData<List<String>> typeData;
+    public MutableLiveData<String> type;
+
+    @Inject
+    public CreateActivityViewModel(Repository repository, SchedulerProvider schedulerProvider,
+                                   PreferenceHelper preferenceHelper, AppDatabase database, ApiService service) {
+        super(repository, schedulerProvider, preferenceHelper, database, service);
+        typeData = new MutableLiveData<>();
+        cardCode = new ObservableField<>();
+        typeCode = new ObservableField<>();
+        error = new MutableLiveData<>();
+        primaryCustomers = new MutableLiveData<>();
+        secondaryCustomers = new MutableLiveData<>();
+        progressBar = new MutableLiveData<>();
+        mContext = new MutableLiveData<>();
+        nextDate = new MutableLiveData<>();
+        nextTime = new MutableLiveData<>();
+        modelData = new MutableLiveData<>();
+        imageFile = new MutableLiveData<>();
+        baseResponse = new MutableLiveData<>();
+        priorityData = new MutableLiveData<>();
+        type = new MutableLiveData<>();
+        init();
+    }
+
+    public boolean isTypeCodeValid() {
+        return typeCode.get() == null;
+    }
+
+    public boolean isCardCodeValid() {
+        return cardCode.get() == null;
+    }
+
+    public void setContext(Context context) {
+        mContext.setValue(context);
+    }
+
+    public void setModelData(CreateActivityModel data) {
+        modelData.setValue(data);
+    }
+
+    public void setType(String types) {
+        type.setValue(types);
+        init2();
+    }
+
+    public void setImageFile(MultipartBody.Part image) {
+        imageFile.setValue(image);
+    }
+
+    public void init() {
+        getActivityType();
+        getPriority();
+    }
+
+    public void init2() {
+        if (type.getValue().equalsIgnoreCase("P")){
+            getPCustomersDetails();
+        }else {
+            getSCustomersDetails();
+        }
+    }
+
+
+    public void nextVisitDate() {
+        Calendar myCalendar = Calendar.getInstance();
+        DatePickerDialog.OnDateSetListener date = (view, year, month, dayOfMonth) -> {
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, month);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            nextDate.postValue(DateUtils.dateFormat().format(myCalendar.getTime()));
+
+        };
+
+        DatePickerDialog datePicker = new DatePickerDialog(mContext.getValue(), R.style.DialogTheme, date, myCalendar
+                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH));
+        datePicker.getDatePicker().setMinDate(System.currentTimeMillis());
+        datePicker.show();
+    }
+
+
+    public void nextVisitTime() {
+        final Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minutes = calendar.get(Calendar.MINUTE);
+        int sec = calendar.get(Calendar.SECOND);
+        TimePickerDialog picker = new TimePickerDialog(mContext.getValue(),
+                (tp, sHour, sMinute) ->
+                        nextTime.postValue(String.format(Locale.getDefault(), "%02d:%02d:%02d", sHour, sMinute, sec)),
+                hour, minutes, true);
+        picker.show();
+    }
+
+    public LiveData<String> nextDate() {
+        return nextDate;
+    }
+
+    public LiveData<String> nextTime() {
+        return nextTime;
+    }
+
+    public LiveData<List<String>> getType() {
+        return typeData;
+    }
+
+    public LiveData<Resource<CustomerDetailsModel>> getPCustomers() {
+        return primaryCustomers;
+    }
+
+    public LiveData<Resource<CustomerDetailsModel>> getSCustomers() {
+        return secondaryCustomers;
+    }
+
+    public LiveData<List<String>> getPriorityData() {
+        return priorityData;
+    }
+
+    public LiveData<Boolean> isLoading(){
+        return getRepository().getIsLoading();
+    }
+
+    public LiveData<Resource<BasePostResponse>> addActivity(CreateActivityModel createActivityModel, MultipartBody.Part mImageFile){
+        baseResponse = getRepository().addActivity(createActivityModel,mImageFile);
+        return baseResponse;
+    }
+
+   /* public LiveData<Resource<BasePostResponse>> addActivity() {
+        return baseResponse;
+    }
+*/
+
+
+    private void getPCustomersDetails() {
+        progressBar.setValue(true);
+        getCompositeDisposable().add(getApiService()
+                .getPrimaryCustomers("C", getPreferenceHelper().getSalesEmpCode(),getPreferenceHelper().getEmpTypeCode())
+                .subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(customerDetailsModel1 -> {
+                    progressBar.setValue(false);
+                    if (customerDetailsModel1.getStatusCode() == 0){
+                        primaryCustomers.postValue(Resource.success(customerDetailsModel1));
+                    }else {
+                        primaryCustomers.postValue(Resource.error(customerDetailsModel1.getStatusMessage(),null));
+                    }
+                }, throwable -> {
+                    progressBar.setValue(false);
+                    primaryCustomers.postValue(Resource.error(throwable.toString(),null));
+                }));
+    }
+
+    private void getSCustomersDetails() {
+        progressBar.setValue(true);
+        getCompositeDisposable().add(getApiService()
+                .getSecondaryCustomers("C", getPreferenceHelper().getSalesEmpCode(),getPreferenceHelper().getEmpTypeCode())
+                .subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(customerDetailsModel1 -> {
+                    progressBar.setValue(false);
+                    if (customerDetailsModel1.getStatusCode() == 0){
+                        secondaryCustomers.postValue(Resource.success(customerDetailsModel1));
+                    }else {
+                        secondaryCustomers.postValue(Resource.error(customerDetailsModel1.getStatusMessage(),null));
+                    }
+                }, throwable -> {
+                    progressBar.setValue(false);
+                    secondaryCustomers.postValue(Resource.error(throwable.toString(),null));
+                }));
+    }
+
+
+    private void getActivityType() {
+       List<String> type = new ArrayList<>();
+        type.add("Phone Call");
+        type.add("Meeting");
+        type.add("Task");
+        type.add("Note");
+        type.add("Campaign");
+        type.add("Other");
+        typeData.setValue(type);
+
+    }
+
+
+    private void getPriority(){
+        List<String> priority = new ArrayList<>();
+        priority.add("High");
+        priority.add("Normal");
+        priority.add("Low");
+        priorityData.setValue(priority);
+    }
+
+
+
+   /* public void postActivity() {
+       *//* if (isCardCodeValid()) {
+            error.setValue("Please select dealer");
+        } else if (isTypeCodeValid()) {
+            error.setValue("Please select type");
+        }  else {*//*
+            progressBar.setValue(true);
+            getCompositeDisposable().add(getApiService()
+                    .addActivity(modelData.getValue(),imageFile.getValue())
+                    .subscribeOn(getSchedulerProvider().io())
+                    .observeOn(getSchedulerProvider().ui())
+                    .subscribe(basePostResponse -> {
+                        progressBar.setValue(false);
+                        if (basePostResponse.getStatusCode() == 0) {
+                            baseResponse.postValue(Resource.success(basePostResponse));
+                        } else {
+                            baseResponse.postValue(Resource.error(basePostResponse.getStatusMessage(), null));
+                        }
+                    }, throwable -> {
+                        progressBar.setValue(false);
+                        baseResponse.postValue(Resource.error(throwable.toString(), null));
+                    }));
+      //  }
+
+    }*/
+
+}

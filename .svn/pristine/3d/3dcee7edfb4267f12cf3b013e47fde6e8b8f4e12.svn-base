@@ -1,0 +1,26 @@
+package com.cbs.snb.di.builder;
+
+import com.cbs.snb.ui.product_list.ProductsListActivity;
+import dagger.Binds;
+import dagger.Module;
+import dagger.Subcomponent;
+import dagger.android.AndroidInjector;
+import dagger.multibindings.ClassKey;
+import dagger.multibindings.IntoMap;
+
+@Module(subcomponents = ActivityBuilder_ProductsListActivity.ProductsListActivitySubcomponent.class)
+public abstract class ActivityBuilder_ProductsListActivity {
+  private ActivityBuilder_ProductsListActivity() {}
+
+  @Binds
+  @IntoMap
+  @ClassKey(ProductsListActivity.class)
+  abstract AndroidInjector.Factory<?> bindAndroidInjectorFactory(
+      ProductsListActivitySubcomponent.Factory builder);
+
+  @Subcomponent
+  public interface ProductsListActivitySubcomponent extends AndroidInjector<ProductsListActivity> {
+    @Subcomponent.Factory
+    interface Factory extends AndroidInjector.Factory<ProductsListActivity> {}
+  }
+}

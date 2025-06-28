@@ -1,0 +1,39 @@
+package com.cbs.snb.ui.home;
+
+import androidx.lifecycle.LiveData;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.Resource;
+import com.cbs.snb.data.network.models.get.CustomerDetailsModel;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+
+import javax.inject.Inject;
+
+public class HomeViewModel extends BaseViewModel<HomeNavigator> {
+
+
+    //LiveData<Resource<ProductsModel>> productsResponse;
+    LiveData<Resource<CustomerDetailsModel>> resourceLiveData;
+
+
+    @Inject
+    public HomeViewModel(Repository repository, PreferenceHelper preferenceHelper, AppDatabase database) {
+        super(repository, preferenceHelper,database);
+       // productsResponse = repository.getProducts();
+    }
+
+    public LiveData<Resource<CustomerDetailsModel>> getCustomers(String type){
+        return getRepository().getCustomer(type,getPreferenceHelper().getSalesEmpCode());
+    }
+
+    public void delete(){
+        getRepository().delete(getDatabase());
+    }
+   /* public LiveData<Resource<ProductsModel>> getLimitedProducts(){
+        return productsResponse;
+    }*/
+
+
+}

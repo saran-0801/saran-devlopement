@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+                                                        
+
+    
+
+                                           
+
+                 
+                           
+                                                                             
+           
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray" android:tag="layout/invoice_list_adapter_layout_0" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/invoiceCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="@dimen/dimen2dp"
+            android:layout_marginBottom="@dimen/dimen1dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardCornerRadius="3dp"
+            app:cardElevation="3dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/invoiceNum"
+                        style="@style/TextStyle.Heading"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.4"
+                        android:paddingHorizontal="5dp"
+                        android:paddingTop="2dp"
+                        android:text="@string/invoice_num"
+                        android:textAlignment="viewStart" />
+
+                    <TextView
+                        android:id="@+id/status"
+                        style="@style/TextAppearance.Text.Regular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="15dp"
+                        android:layout_weight="0.6"
+                        android:paddingTop="2dp"
+                        android:text="@string/status"
+                        android:textAlignment="center"
+                        android:textColor="@color/green_dark"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/invoiceAmountTxt"
+                            style="@style/TextStyle.Title"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.4"
+                            android:paddingHorizontal="5dp"
+                            android:paddingTop="2dp"
+                            android:text="@string/amount"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/grey_text"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/space1"
+                            style="@style/TextStyle.Title.Sub"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.1"
+                            android:text="@string/space"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/grey_text" />
+
+
+                        <TextView
+                            android:id="@+id/invoiceAmount"
+                            style="@style/TextStyle.Title"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingHorizontal="5dp"
+                            android:paddingTop="2dp"
+                            android:text="@string/amount"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/grey_text"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/invoiceOpenAmountTxt"
+                            style="@style/TextStyle.Title.Sub"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.4"
+                            android:paddingHorizontal="5dp"
+                            android:paddingTop="2dp"
+                            android:text="@string/open_amount"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/grey_text"
+                            android:textStyle="bold" />
+
+
+                        <TextView
+                            android:id="@+id/space2"
+                            style="@style/TextStyle.Title.Sub"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.1"
+                            android:text="@string/space"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/grey_text" />
+
+                        <TextView
+                            android:id="@+id/invoiceOpenAmount"
+                            style="@style/TextStyle.Title.Sub"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingHorizontal="5dp"
+                            android:paddingTop="2dp"
+                            android:text="@string/open_amount"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/grey_text"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/docDateTxt"
+                            style="@style/TextStyle.Title.Sub"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.4"
+                            android:paddingHorizontal="5dp"
+                            android:paddingTop="2dp"
+                            android:text="@string/doc_date"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/grey_text" />
+
+                        <TextView
+                            android:id="@+id/space3"
+                            style="@style/TextStyle.Title.Sub"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.1"
+                            android:text="@string/space"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/grey_text" />
+
+                        <TextView
+                            android:id="@+id/docDate"
+                            style="@style/TextStyle.Title.Sub"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingHorizontal="5dp"
+                            android:paddingTop="2dp"
+                            android:text="@string/doc_date"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/grey_text" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/dueDateTxt"
+                            style="@style/TextStyle.Title.Sub"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.4"
+                            android:paddingHorizontal="5dp"
+                            android:paddingTop="2dp"
+                            android:text="@string/due_date"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/grey_text" />
+
+                        <TextView
+                            android:id="@+id/space4"
+                            style="@style/TextStyle.Title.Sub"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.1"
+                            android:text="@string/space"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/grey_text" />
+
+                        <TextView
+                            android:id="@+id/dueDate"
+                            style="@style/TextStyle.Title.Sub"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingHorizontal="5dp"
+                            android:paddingTop="2dp"
+                            android:text="@string/due_date"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/grey_text" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+         

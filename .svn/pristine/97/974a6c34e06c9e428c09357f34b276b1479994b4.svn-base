@@ -1,0 +1,213 @@
+package com.cbs.snb.ui.cart;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+
+import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.cbs.snb.BR;
+import com.cbs.snb.R;
+import com.cbs.snb.data.database.entities.CartItem;
+import com.cbs.snb.data.database.entities.ProductDetails;
+import com.cbs.snb.databinding.ActivityCartLayoutBinding;
+import com.cbs.snb.ui.ViewModelProviderFactory;
+import com.cbs.snb.ui.base.BaseActivity;
+import com.cbs.snb.ui.checkout.CheckOutActivity;
+
+import java.text.DecimalFormat;
+import java.util.List;
+
+import javax.inject.Inject;
+
+/**
+ * Created by Venkatesh on 13-07-2020.
+ */
+public class CartActivity extends BaseActivity<CartViewModel, ActivityCartLayoutBinding> implements
+        CartNavigator, CartAdapter.Callback {
+
+    @Inject
+    ViewModelProviderFactory factory;
+
+    @Inject
+    CartAdapter cartListAdapter;
+
+    private CartViewModel mCartViewModel;
+    Observer<Double> costObserver;
+    private String customerCode, customerName, url;
+    Observer<List<CartItem>> cartObserver;
+    private int totCount = 0;
+    private int totQty = 0;
+    private double totPrice = 0.0;
+    private String itemName, itemCode, price, uom, inStock, pCode, pName,sCode,sName;
+
+    public static Intent newIntent(Context context) {
+        return new Intent(context, CartActivity.class);
+    }
+
+    public static Intent getStartIntent(Context context, Bundle bundle) {
+        Intent intent = new Intent(context, CartActivity.class);
+        intent.putExtras(bundle);
+        return intent;
+    }
+
+
+    @Override
+    public int getBindingVariable() {
+        return BR.cartViewModel;
+    }
+
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.activity_cart_layout;
+    }
+
+    @Override
+    protected CartViewModel getViewModel() {
+        mCartViewModel = new ViewModelProvider(this, factory).get(CartViewModel.class);
+        return mCartViewModel;
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mCartViewModel.setNavigator(this);
+        cartListAdapter.setOnClick(this);
+        setUp();
+    }
+
+    public void setUp() {
+        setSupportActionBar(dataBinding.toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Cart");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        dataBinding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        dataBinding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            pCode = bundle.getString("pCode");
+            pName = bundle.getString("pName");
+            sCode = bundle.getString("sCode");
+            sName = bundle.getString("sName");
+            url = bundle.getString("url");
+
+        }
+
+       /* if (count>0){
+             dataBinding.cartLayout.setVisibility(View.VISIBLE);
+             dataBinding.totLayout.setVisibility(View.GONE);
+        }else{
+            dataBinding.cartLayout.setVisibility(View.GONE);
+            dataBinding.totLayout.setVisibility(View.VISIBLE);
+        }*/
+
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(CartActivity.this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        dataBinding.productsInCart.setLayoutManager(linearLayoutManager);
+        dataBinding.productsInCart.setItemAnimator(new DefaultItemAnimator());
+        dataBinding.productsInCart.setAdapter(cartListAdapter);
+
+         mCartViewModel.getCartItemsLiveData().observe(this, cartItems -> {
+            cartListAdapter.clearList();
+            cartListAdapter.addItems(cartItems, url);
+            cartListAdapter.notifyDataSetChanged();
+        });
+
+      /*  mCartViewModel.getCartItems().observe(this, cartItems -> {
+            cartListAdapter.clearList();
+            cartListAdapter.addItems(cartItems, url);
+            cartListAdapter.notifyDataSetChanged();
+        });*/
+
+
+        mCartViewModel.getGrandTotal().observe(this, aDouble -> {
+            dataBinding.subTotalVal.setText(new StringBuilder().append(getString(R.string.rupee)).append(" ").append(String.valueOf(aDouble)).toString());
+        });
+
+    }
+
+
+    @Override
+    public void onProductDelete(CartItem models) {
+        mCartViewModel.removeItem(models.getName());
+        cartListAdapter.notifyDataSetChanged();
+
+        showSnackBar("Product deleted");
+
+        mCartViewModel.getCount().observe(this, integer -> {
+            if (integer > 0) {
+                mCartViewModel.getGrandTotal().observe(this, aDouble -> {
+                    StringBuilder sb = new StringBuilder(getResources().getString(R.string.rupee));
+                    sb.append(new DecimalFormat("##.00").format(aDouble));
+                    dataBinding.subTotalVal.setText(sb);
+                });
+            } else {
+
+                dataBinding.cartLayout.setVisibility(View.VISIBLE);
+                dataBinding.totLayout.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    @Override
+    public void onProductAdd(double tot, int count, CartItem models) {
+        Log.e("tot",String.valueOf(tot));
+        Log.e("count",String.valueOf(count));
+        totPrice = tot;
+        totCount = count;
+        mCartViewModel.updateCart(new ProductDetails(models.getName(), models.getCode(), models.getPrice(), 0.0,
+                "", "", count, 0, tot));
+
+     /*   mCartViewModel.getGrandTotal().observe(this, aDouble -> {
+            Log.e("aDouble",String.valueOf(aDouble));
+            StringBuilder sb = new StringBuilder(getResources().getString(R.string.rupee));
+            sb.append(new DecimalFormat("##.00").format(aDouble));
+            dataBinding.subTotalVal.setText(sb);
+        });*/
+    }
+
+    @Override
+    public void onProductRemove(double tot, int count, CartItem models) {
+        Log.e("tot",String.valueOf(tot));
+        Log.e("count",String.valueOf(count));
+        totPrice = tot;
+        totCount = count;
+        mCartViewModel.updateCart(new ProductDetails(models.getName(), models.getCode(), models.getPrice(), 0.0,
+                "", "", count, 0, tot));
+
+      /*  mCartViewModel.getGrandTotal().observe(this, aDouble -> {
+           // Log.e("aDouble",String.valueOf(aDouble));
+            StringBuilder sb = new StringBuilder(getResources().getString(R.string.rupee));
+            sb.append(new DecimalFormat("##.00").format(aDouble));
+            dataBinding.subTotalVal.setText(sb);
+        });*/
+    }
+
+
+    @Override
+    public void checkOutClicked() {
+        Bundle bundle = new Bundle();
+        bundle.putString("pCode",pCode);
+        bundle.putString("pName",pName);
+        bundle.putString("sCode",sCode);
+        bundle.putString("sName",sName);
+        bundle.putString("totalPrice", dataBinding.subTotalVal.getText().toString());
+        startActivity(CheckOutActivity.getStartIntent(this, bundle));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+}

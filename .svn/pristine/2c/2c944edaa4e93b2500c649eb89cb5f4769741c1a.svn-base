@@ -1,0 +1,126 @@
+package com.cbs.snb.ui.cart;
+
+import android.content.Intent;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.database.entities.CartItem;
+import com.cbs.snb.data.database.entities.ProductDetails;
+import com.cbs.snb.data.network.models.get.ItemsModel;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.base.BaseViewModel;
+import com.cbs.snb.utils.ObservableObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import static com.cbs.snb.utils.Constants.INTENT_UPDATE_LIST;
+
+/**
+ * Created by Venkatesh on 13-07-2020.
+ */
+public class CartViewModel extends BaseViewModel<CartNavigator> {
+
+    List<ItemsModel> list = new ArrayList<ItemsModel>();
+    private Double totalCost = 0.0, discount = 0.0, deliveryCost = 0.0;
+    private MutableLiveData<Double> grandTotal = new MutableLiveData<>();
+    private MediatorLiveData<List<CartItem>> mediatorLiveData = new MediatorLiveData<>();
+    private MutableLiveData<String> errorString = new MutableLiveData<>();
+    private LiveData<List<CartItem>> cartItems;
+
+    @Inject
+    public CartViewModel(Repository repository, PreferenceHelper preferenceHelper, AppDatabase database) {
+        super(repository, preferenceHelper, database);
+        cartItems = repository.getCartData(database);
+        subscribeToCartChanges();
+
+    }
+
+    public LiveData<List<CartItem>> getCartItems(){
+        return cartItems;
+    }
+
+    private void subscribeToCartChanges() {
+        LiveData<List<CartItem>> cartItemsLiveData = getRepository().getCartData(getDatabase());
+        mediatorLiveData.addSource(cartItemsLiveData, cartItems -> {
+            mediatorLiveData.setValue(cartItems);
+            calculateGrandTotalCost();
+        });
+    }
+
+    private void calculateGrandTotalCost() {
+        List<CartItem> cartItemList = mediatorLiveData.getValue();
+        totalCost = 0.0;
+        if (cartItemList != null) {
+            for (CartItem cartItem : cartItemList) {
+                totalCost = totalCost + (cartItem.getPrice() * cartItem.getQuantity());
+            }
+            // discount = calculateDiscount(couponApplied);
+            // deliveryCost = calculateDeliveryCost(couponApplied);
+            grandTotal.setValue(totalCost);
+            //grandTotal.setValue(totalCost - discount + deliveryCost);
+        }
+    }
+
+    public Double getTotalCost() {
+        return totalCost;
+    }
+
+    public MutableLiveData<Double> getGrandTotal() {
+        return grandTotal;
+    }
+
+    public void removeItem(String name) {
+        getDatabase().cartItemDao().deleteCartItem(name);
+        ObservableObject.getInstance().updateValue(new Intent(INTENT_UPDATE_LIST));
+    }
+
+    public MutableLiveData<String> getErrorString() {
+        return errorString;
+    }
+
+    public LiveData<Integer> getCount() {
+        return getDatabase().cartItemDao().getRowCount();
+    }
+
+
+    private Double calculateDeliveryCost(String couponApplied) {
+        if (couponApplied.equals("FREEDEL") && totalCost > 100) {
+            errorString.setValue("");
+            return 0.0;
+        } else if (couponApplied.equals("FREEDEL")) {
+            errorString.setValue("Cart value should be > 100");
+        }
+        return 30.0;
+    }
+
+    private Double calculateDiscount(String couponApplied) {
+        if (couponApplied.equals("F22LABS") && totalCost > 400) {
+            errorString.setValue("");
+            return (totalCost * 20) / 100;
+        } else if (couponApplied.equals("F22LABS")) {
+            errorString.setValue("Cart value should be > 400");
+        }
+        return 0.0;
+    }
+
+    public void checkOut() {
+        getNavigator().checkOutClicked();
+    }
+
+    public MediatorLiveData<List<CartItem>> getCartItemsLiveData() {
+        return mediatorLiveData;
+    }
+
+    public void updateCart(ProductDetails productDetails){
+        getRepository().updateCart(getDatabase(),productDetails);
+        getDatabase().ProductDetailsDao().save(productDetails);
+    }
+
+}

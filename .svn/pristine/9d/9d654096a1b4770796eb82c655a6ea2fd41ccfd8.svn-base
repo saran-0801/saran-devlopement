@@ -1,0 +1,92 @@
+package com.cbs.snb.ui.home;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import com.cbs.snb.data.database.AppDatabase;
+import com.cbs.snb.data.network.ApiService;
+import com.cbs.snb.data.network.Resource;
+import com.cbs.snb.data.network.models.get.CustomerDetailsModel;
+import com.cbs.snb.data.network.models.post.BasePostResponse;
+import com.cbs.snb.data.network.models.post.CheckInOut;
+import com.cbs.snb.data.network.repository.Repository;
+import com.cbs.snb.data.preferences.PreferenceHelper;
+import com.cbs.snb.ui.attendance.checkin.CheckInViewModel;
+import com.cbs.snb.ui.base.BaseViewModel;
+import com.cbs.snb.utils.rx.SchedulerProvider;
+
+import javax.inject.Inject;
+
+public class HomeViewModel extends BaseViewModel<HomeNavigator> {
+
+    public static final String TAG = HomeViewModel.class.getSimpleName();
+    public MutableLiveData<Boolean> progressBar;
+    public MutableLiveData<Resource<CustomerDetailsModel>> primaryCustomerDetailsModel;
+    public MutableLiveData<Resource<CustomerDetailsModel>> secondaryCustomerDetailsModel;
+
+    @Inject
+    public HomeViewModel(Repository repository, SchedulerProvider schedulerProvider,
+                         PreferenceHelper preferenceHelper, AppDatabase database, ApiService service) {
+        super(repository, schedulerProvider, preferenceHelper, database, service);
+        primaryCustomerDetailsModel = new MutableLiveData<>();
+        secondaryCustomerDetailsModel = new MutableLiveData<>();
+        progressBar = new MutableLiveData<>();
+        init();
+    }
+
+    public void init(){
+        getPCustomersDetails();
+        getSCustomersDetails();
+    }
+
+    public LiveData<Resource<CustomerDetailsModel>> getPCustomers() {
+        return primaryCustomerDetailsModel;
+    }
+
+    public LiveData<Resource<CustomerDetailsModel>> getSCustomers() {
+        return secondaryCustomerDetailsModel;
+    }
+
+    public void delete() {
+        getDatabase().cartItemDao().deleteAllItem();
+    }
+
+    private void getPCustomersDetails() {
+        progressBar.setValue(true);
+        getCompositeDisposable().add(getApiService()
+                .getPrimaryCustomers("C", getPreferenceHelper().getSalesEmpCode(),getPreferenceHelper().getEmpTypeCode())
+                .subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(customerDetailsModel1 -> {
+                    progressBar.setValue(false);
+                    if (customerDetailsModel1.getStatusCode() == 0){
+                        primaryCustomerDetailsModel.postValue(Resource.success(customerDetailsModel1));
+                    }else {
+                        primaryCustomerDetailsModel.postValue(Resource.error(customerDetailsModel1.getStatusMessage(),null));
+                    }
+                }, throwable -> {
+                    progressBar.setValue(false);
+                    primaryCustomerDetailsModel.postValue(Resource.error(throwable.toString(),null));
+                }));
+    }
+
+    private void getSCustomersDetails() {
+        progressBar.setValue(true);
+        getCompositeDisposable().add(getApiService()
+                .getSecondaryCustomers("C", getPreferenceHelper().getSalesEmpCode(),getPreferenceHelper().getEmpTypeCode())
+                .subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(customerDetailsModel1 -> {
+                    progressBar.setValue(false);
+                    if (customerDetailsModel1.getStatusCode() == 0){
+                        secondaryCustomerDetailsModel.postValue(Resource.success(customerDetailsModel1));
+                    }else {
+                        secondaryCustomerDetailsModel.postValue(Resource.error(customerDetailsModel1.getStatusMessage(),null));
+                    }
+                }, throwable -> {
+                    progressBar.setValue(false);
+                    secondaryCustomerDetailsModel.postValue(Resource.error(throwable.toString(),null));
+                }));
+    }
+
+}

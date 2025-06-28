@@ -1,0 +1,22 @@
+package com.cbs.snb.ui.expense;
+
+/**
+ * Created by Venkatesh on 15-07-2020.
+ */
+public interface ExpenseNavigator {
+
+    void setDate1(String date);
+
+    void setDate2(String date);
+
+    void setDate3(String date);
+
+    void setDate4(String date);
+
+    void setDate5(String date);
+
+    void setDate6(String date);
+
+    void setDate7(String date);
+
+}
