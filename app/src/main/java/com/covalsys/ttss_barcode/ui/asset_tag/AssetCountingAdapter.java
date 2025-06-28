@@ -24,6 +24,8 @@ public class AssetCountingAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     public static final int VIEW_TYPE_EMPTY = 0;
     public static final int VIEW_TYPE_NORMAL = 1;
 
+    public String _UserCode;
+
     public interface Callback {
         void onPCustomerClick(int position , AssetCountLine models);
     }
@@ -60,6 +62,8 @@ public class AssetCountingAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             return 1;
         }
     }
+
+
 
     public void addList(List<AssetCountLine> list, String status) {
         this.inList = list;
